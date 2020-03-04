@@ -3,21 +3,79 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: {
+    Username: {
         type: String,
-        required: true,
-        minlength: 1
+    
     },
-    password: {
+    
+    Email: {
         type: String,
-        required: true,
-        minlength: 1
+    
     },
-    email: {
+    
+    Password: {
         type: String,
-        required: true,
-        unique: true
-    }
+    
+    },
+    
+    Bio: {
+        type: String,
+    
+    },
+    
+    BooksCreated: {
+        type: [String],
+    
+    },
+    
+    Contributions: {
+        type: [String],
+    
+    },
+    
+    Followings: {
+        type: [String],
+    
+    },
+    
+    IsVerified: {
+        type: Boolean,
+    
+    },
+    
+    IsPremium: {
+        type: Boolean,
+    
+    },
+    
+    IsBanned: {
+        type: Boolean,
+    
+    },
+    
+    IsModerator: {
+        type: Boolean,
+    
+    },
+
+    // Might be unecessary as mongodb carries info of
+    // Updates and Creations
+    DateCreated: {
+        type: Date,
+        default: Date.now,
+    
+    },
+    
+    UpvoteTotal: {
+        type: Number,
+    
+    },
+    
+    ProfilePic: {
+        type: String,
+    
+    },    
+    
 
 });
 
