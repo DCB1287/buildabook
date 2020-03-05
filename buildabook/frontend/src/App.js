@@ -4,19 +4,15 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword'
 import Navbar from './components/navbar'
+import Books from './pages/Books'
+import Book from './pages/Book'
+
 
 function App() {
   return (
     <>
-    <style>
-      {`
-        html, body {
-          background-color: #252839 !important
-        }
-
-      `}
-    </style>
     <Navbar />
     <Router >
       <Switch>
@@ -25,19 +21,29 @@ function App() {
           <Homepage />
         </Route>
 
-        <Route path="/Login" exact >
+        <Route path="/login" exact >
           <Login />
         </Route>
+
         <Route path="/signup" exact>
           <Signup />
+        </Route>
+
+        <Route path="/forgotpassword" exact>
+          <ForgotPassword />
+        </Route>
+
+        <Route path="/books" exact>
+          <Books />
+        </Route>
+        <Route path="/books/:_id">
+          <Book />
         </Route>
 
         <Redirect to="/" />        
       </Switch>  
     </Router>
-    
     </>
-    
   );
   
 }

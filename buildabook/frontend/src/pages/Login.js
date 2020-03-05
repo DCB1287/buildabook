@@ -68,8 +68,8 @@ function Login() {
     try {
       setLoading(true)
       setError('')
-      // "https://contactboss.herokuapp.com/"
-      const url = "https://contactboss.herokuapp.com/api/users/login"                      //This URL will need to be changed 
+      // "${process.env.BASE_URL}/"
+      const url = `${process.env.BASE_URL}/api/users/login`                      //This URL will need to be changed 
       const payload = { ...user}
       console.log(user)
       const response = await axios.post(url, payload)
@@ -84,6 +84,7 @@ function Login() {
   return (
     <>
     <Container style={{'padding-top':'10px'}}>
+      
     <Message 
       attached
       icon="privacy"
@@ -131,8 +132,8 @@ function Login() {
     </Form>
     <Message attached="bottom" warning>
       <Icon name="help" />
-      New user?{" "}
-      <a href="/signup">Sign up here</a>
+      Forgot Password?{" "}
+      <a href="/forgotpassword">Click here</a>
     </Message>
     </Container>
     </>

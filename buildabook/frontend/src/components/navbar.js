@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Menu, Container, Segment, Visibility} from 'semantic-ui-react'
 import cookie from 'js-cookie'
 
-var id = cookie.get('token')
+var loggedIn = cookie.get('token')
 
 function handleLogout() {
     cookie.remove("token");
@@ -17,7 +17,7 @@ function Navbar() {
     const path = window.location.pathname
 
     function showLoginOrLogout() {
-        if (!id) { 
+        if (!loggedIn) { 
           return (
             <>
             <Button as='a' inverted={!fixed} href='/login'>
@@ -56,13 +56,17 @@ function Navbar() {
               pointing
               secondary={!fixed}
               size='large'
+              color='green'
             >
               <Container>
                 <Menu.Item as='h1'>
-                  ContactBoss
+                  BuildABook
                 </Menu.Item>
                 <Menu.Item as='a' active={path === '/'} href='/'>
                   Home
+                </Menu.Item>
+                <Menu.Item as='a' active={path === '/books'} href='/books'>
+                  Books
                 </Menu.Item>
                 <Menu.Item position='right'>
                     {showLoginOrLogout()}
