@@ -28,7 +28,7 @@ var bookData = [
         "inProgress": 1,
         "comments": [],
         "isPremium": true,
-        "experationDate": new Date(2020, 3, 10, 13, 2),
+        "experationDate": new Date(2020, 2, 8, 8, 2),
         "duration": ""
     },
     {

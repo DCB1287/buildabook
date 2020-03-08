@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import Navbar from './components/navbar'
 import Books from './pages/Books'
 import Book from './pages/Book'
+import User from './pages/User'
 
 
 function App() {
@@ -38,6 +39,10 @@ function App() {
         </Route>
         <Route path="/books/:_id">
           <Book />
+        </Route>
+
+        <Route path="/user/:_id">
+          <User />
         </Route>
 
         <Redirect to="/" />        

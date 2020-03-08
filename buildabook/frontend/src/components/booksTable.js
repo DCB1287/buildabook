@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Table, Image, Pagination } from 'semantic-ui-react'
+import { Divider, Table, Image, Pagination, Statistic } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 function BooksTable(props) {
@@ -38,7 +38,44 @@ function BooksTable(props) {
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        return days + " Days " + hours + " Hours " +  minutes + " Minutes " + seconds + " Seconds "  
+
+        if (days > 0) {
+            return  (
+                <Statistic.Group size='mini'>
+                    <Statistic>
+                        <Statistic.Value>{days}</Statistic.Value>
+                        <Statistic.Label>Days</Statistic.Label>
+                    </Statistic>
+                </Statistic.Group>
+            )
+        } else if (hours > 0) {
+            return ( 
+                <Statistic.Group size='mini'>
+                    <Statistic>
+                        <Statistic.Value>{hours}</Statistic.Value>
+                        <Statistic.Label>Hours</Statistic.Label>
+                    </Statistic>
+                </Statistic.Group>
+            )
+        } else if (minutes > 0) {
+            return (
+                <Statistic.Group size='mini'>
+                    <Statistic>
+                            <Statistic.Value>{minutes}</Statistic.Value>
+                            <Statistic.Label>Minutes</Statistic.Label>
+                        </Statistic>
+                </Statistic.Group>
+            )
+        } else if (seconds > 0) {
+            return (
+                <Statistic.Group size='mini'>
+                    <Statistic>
+                        <Statistic.Value>{seconds}</Statistic.Value>
+                        <Statistic.Label>Seconds</Statistic.Label>
+                    </Statistic>
+                </Statistic.Group>
+            )
+        }
     }
 
     //Get indexes to render pagination
