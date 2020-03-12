@@ -12,7 +12,7 @@ var userData = [
         "isBanned": false,
         "isModerator": true,
         "upvoteTotal": 3,
-        "profilePic": ""
+        "profilePic": "https://images.theconversation.com/files/196042/original/file-20171123-6020-aa3n9n.jpg?ixlib=rb-1.1.0&rect=0%2C0%2C6720%2C3611&q=45&auto=format&w=496&fit=clip"
     },
     {
         "_id": 2,
@@ -27,7 +27,7 @@ var userData = [
         "isBanned": false,
         "isModerator": true,
         "upvoteTotal": 4,
-        "profilePic": ""
+        "profilePic": "https://i0.wp.com/cdn-prod.medicalnewstoday.com/content/images/articles/325/325984/person-taking-a-selfie.jpg?w=1155&h=1734"
     },
     {
         "_id": 3,
@@ -42,7 +42,7 @@ var userData = [
         "isBanned": false,
         "isModerator": false,
         "upvoteTotal": 2,
-        "profilePic": ""
+        "profilePic": "https://www.familyandmedia.eu/wp-content/uploads/2018/10/529382-4386816-selfie-psicologia-725x545.jpg"
     },
     {
         "_id": 4,
@@ -57,7 +57,7 @@ var userData = [
         "isBanned": false,
         "isModerator": false,
         "upvoteTotal": 3000,
-        "profilePic": ""
+        "profilePic": "https://image.freepik.com/free-photo/smiling-young-man-wearing-sunglasses-taking-selfie-showing-thumb-up-gesture_23-2148203116.jpg"
     },
     {
         "_id": 5,
@@ -72,7 +72,7 @@ var userData = [
         "isBanned": false,
         "isModerator": false,
         "upvoteTotal": 252,
-        "profilePic": ""
+        "profilePic": "https://media.kasperskydaily.com/wp-content/uploads/sites/85/2019/08/12075337/selfie-with-id-card-scam-featured.jpg"
     },
     {
         "_id": 6,
@@ -87,7 +87,7 @@ var userData = [
         "isBanned": false,
         "isModerator": false,
         "upvoteTotal": 0,
-        "profilePic": ""
+        "profilePic": "https://ichef.bbci.co.uk/news/976/cpsprodpb/2DE0/production/_106544711_e4922507-673a-4f2f-b91d-3479994a870b.jpg"
     }
 ]
 

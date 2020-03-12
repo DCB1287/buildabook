@@ -5,6 +5,7 @@ var bookData = [
         "writingPrompt": "About a boy who kept crying wolf until...",
         "image": "https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/g/gray-wolf_thumb.ngsversion.1474903828879.adapt.1900.1.JPG",
         "chapterArray": [1, 2],
+        "contenders": [1, 2, 3],
         "numberOfChapters": 2,
         "dateCreated": new Date(2020, 1, 20, 11, 0),
         "views": 20,
