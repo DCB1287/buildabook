@@ -17,7 +17,8 @@ const INITIAL_BOOK = {
     title: "",
     numberOfChapters: 0,
     duration: 0,
-    media: ""
+    media: "",
+    prompt: ""
 }
 
 function CreateNewBook() {
@@ -96,10 +97,9 @@ function CreateNewBook() {
         <>
             <Modal 
                 trigger={<Button color='green' floated='right' onClick={ () => setModalOpen(true)}>+BuildABook</Button>} 
-                
-                closeIcon
+                open={modalOpen}
             >
-            {isLoggedIn ?  
+            {!isLoggedIn ?  
                 (
                 <Segment>
                     <Message 
@@ -174,7 +174,11 @@ function CreateNewBook() {
                                 content="Submit"
                             />
                             <Button
-                                onClick={ () => setModalOpen(false)}
+                                onClick={ () => { 
+                                        setModalOpen(false);
+                                        setBook(INITIAL_BOOK);
+                                    }
+                                }   
                                 icon="window close outline"
                                 color="red"
                                 content="Cancel"

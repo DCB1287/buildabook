@@ -44,7 +44,7 @@ function CreateNewChapter() {
 
             const payload = {...chapter}
             //post chapter to database
-            
+
             setSuccess("Your submission has been posted")
         } catch (error) {
             setError(error)
@@ -65,7 +65,7 @@ function CreateNewChapter() {
                                     onClick={ () => setModalOpen(true)}
                                 />
                             }
-                    closeIcon
+                    open={modalOpen}
             >
             
                 {!isLoggedIn ?
@@ -107,7 +107,11 @@ function CreateNewChapter() {
                                     content="Submit"
                                 />
                                 <Button
-                                    onClick={ () => setModalOpen(false)}
+                                    onClick={ () => {
+                                            setModalOpen(false)
+                                            setChapter(INITIAL_CHAPTER)
+                                        }
+                                    }
                                     icon="window close outline"
                                     color="red"
                                     content="Cancel"
