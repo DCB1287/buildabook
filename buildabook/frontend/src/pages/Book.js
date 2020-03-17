@@ -3,10 +3,11 @@ import { useRouteMatch } from 'react-router-dom'
 import axios from 'axios'
 import _ from 'lodash'
 import Chapter from '../components/chapter'
+import CreateNewChapter from '../components/createNewChapter'
 
 import bookData from '../placeholder data/book'
 import chapterData from '../placeholder data/chapter'
-import { Icon, Image, Card, Label, Tab, Header } from 'semantic-ui-react'
+import { Icon, Image, Card, Label, Tab, Header, Modal, Button } from 'semantic-ui-react'
 
 
 function Book() {
@@ -70,7 +71,6 @@ function Book() {
     return (
         <>
         <h1>This is {book.title}'s Book Page</h1>
-        
             <Card>
                 <Card.Content>
                     <Image src={book.image} />
@@ -96,6 +96,8 @@ function Book() {
                 Contenders for Chapter {contendersArrayLength}
             </Header>
             <Tab panes={contendersPane} />
+            <br />
+            <CreateNewChapter />
         </>
     )   
 
