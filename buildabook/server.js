@@ -30,7 +30,19 @@ connection.once('open', () => {
 // Allows router files to be accessed via a URL
 // i.e https://buildabook.herokuapp.com/contacts/add
 const userConnection = require('./routers/usersAPI');
-app.use('/api/users', userConnection);
+app.use('/api/user', userConnection);
+
+const bookConnection = require('./routers/bookAPI');
+app.use('/api/book', bookConnection);
+
+const chapterConnection = require('./routers/chapterAPI.js');
+app.use('/api/chapter', chapterConnection);
+
+const commentConnection = require('./routers/commentAPI.js');
+app.use('/api/comment', commentConnection);
+
+
+
 
 if (process.env.NODE_ENV === 'production') {
     // Set static folder

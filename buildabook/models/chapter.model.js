@@ -3,45 +3,54 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    Title: {
+    title: {
         type: String,
-    
+        required: true
     },
     
-    Text: {
+    text: {
         type: String,
-    
+        required: true
     },
     
-    Author: {
+    author: {
         type: String,
-    
+        required: true
     },
     
-    Expiration: {
-        type: String,
-    
+    expirationDate: {
+        type: Date,
+        required
     },
     
-    Comments: {
-        type: String,
+    comments: [
+        {
+            comment: {
+                type: ObjectId,
+                ref: Comment
+            }
+        }
+            
+    ],
     
+    upvoteCount: {
+        type: Number,
+        default: 1
     },
     
-    UpvoteCount: {
-        type: String,
-    
+    dateCreated: {
+        type: Date,
+        default: Date.now
     },
     
-    DateCreated: {
-        type: String,
-    
-    },
-    
-    Contenders: {
-        type: String,
-    
-    },    
+    contenders: [
+        {
+            contender: {
+                type: ObjectId,
+                ref: Chapter
+            }
+        }
+    ],    
     
 
 });

@@ -5,27 +5,28 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     Text: {
         type: String,
-    
+        required
     },
     
-    Author: {
-        type: String,
-    
+    author: {
+        type: ObjectId,
+        ref: User,
+        required
     },
     
-    DateCreated: {
-        type: String,
-    
+    dateCreated: {
+        type: Date,
+        default: Date.now
     },
     
     LastEdit: {
-        type: String,
-    
+        type: Date,
+        
     },
     
-    Upvot: {
-        type: String,
-    
+    Upvotes: {
+        type: Number,
+        default: 1
     },
     
     

@@ -3,75 +3,89 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    Username: {
+    username: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    
+    password: {
+        type: String,
+        required: true
+    },
+    
+    bio: {
         type: String,
     
     },
     
-    Email: {
-        type: String,
+    booksCreated: [
+        {
+            book: {
+                type: ObjectId,
+                ref: Book
+            }
+        }
+    ],
     
-    },
+    contributions: [
+        {
+            book: {
+                type: ObjectId,
+                ref: Book
+            }
+        }
+    ],
     
-    Password: {
-        type: String,
+    followings: [
+        {
+            book: {
+                type: ObjectId,
+                ref: Book
+            }
+        }
+    ],
     
-    },
-    
-    Bio: {
-        type: String,
-    
-    },
-    
-    BooksCreated: {
-        type: [String],
-    
-    },
-    
-    Contributions: {
-        type: [String],
-    
-    },
-    
-    Followings: {
-        type: [String],
-    
-    },
-    
-    IsVerified: {
+    isVerified: {
         type: Boolean,
-    
+        default: false
     },
     
-    IsPremium: {
+    isPremium: {
         type: Boolean,
-    
+        default: false
     },
     
-    IsBanned: {
+    isBanned: {
         type: Boolean,
-    
+        default: false
     },
     
-    IsModerator: {
+    isModerator: {
         type: Boolean,
-    
+        default: false
     },
 
     // Might be unecessary as mongodb carries info of
     // Updates and Creations
-    DateCreated: {
+    dateCreated: {
         type: Date,
         default: Date.now,
     
     },
     
-    UpvoteTotal: {
+    upvoteTotal: {
         type: Number,
-    
+        default: 1
     },
     
-    ProfilePic: {
+    profilePic: {
         type: String,
     
     },    

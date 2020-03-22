@@ -4,48 +4,53 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     NumberOfChapters: {
-        type: String,
+        type: Number,
+        required: true
     
     },
     
-    DateCreated: {
-        type: String,
-    
+    dateCreated: {
+        type: Date,
+        default: Date.now
     },
     
-    Views: {
-        type: String,
-    
+    views: {
+        type: Number,
+        default: 1
     },
     
-    AuthorArray: {
-        type: String,
+    authorArray: [
+        {
+            author: {
+                type: ObjectId,
+                ref: User
+            }
+        }          
+    ],
     
+    inProgressFlag: {
+        type: Boolean,
+        default: true
     },
     
-    InProgressFlag: {
-        type: String,
+    comments: [
+        {
+            comment: {
+                type: ObjectId,
+                ref: Comment
+            }
+        }
+            
+    ],
     
+    expirationDate: {
+        type: Date,
+        
     },
     
-    Comments: {
-        type: String,
-    
-    },
-    
-    IsPremium: {
-        type: String,
-    
-    },
-    
-    ExpirationDate: {
-        type: String,
-    
-    },
-    
-    Duration: {
-        type: String,
-    
+    duration: {
+        type: Date,
+        required: true
     },
     
 
