@@ -28,8 +28,7 @@ const userSchema = new Schema({
     booksCreated: [
         {
             book: {
-                type: ObjectId,
-                ref: Book
+                type: String,
             }
         }
     ],
@@ -37,8 +36,7 @@ const userSchema = new Schema({
     contributions: [
         {
             book: {
-                type: ObjectId,
-                ref: Book
+                type: String,
             }
         }
     ],
@@ -46,8 +44,7 @@ const userSchema = new Schema({
     followings: [
         {
             book: {
-                type: ObjectId,
-                ref: Book
+                type: String,
             }
         }
     ],

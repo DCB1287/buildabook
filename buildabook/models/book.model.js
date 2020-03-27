@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const bookSchema = new Schema({
     NumberOfChapters: {
         type: Number,
         required: true
@@ -22,8 +22,7 @@ const userSchema = new Schema({
     authorArray: [
         {
             author: {
-                type: ObjectId,
-                ref: User
+                type: String,
             }
         }          
     ],
@@ -36,8 +35,7 @@ const userSchema = new Schema({
     comments: [
         {
             comment: {
-                type: ObjectId,
-                ref: Comment
+                type: String,
             }
         }
             
@@ -56,5 +54,5 @@ const userSchema = new Schema({
 
 });
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Book = mongoose.model('Book', bookSchema);
+module.exports = Book;

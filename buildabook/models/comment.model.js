@@ -2,16 +2,15 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const commentSchema = new Schema({
     Text: {
         type: String,
-        required
+        required: true
     },
     
     author: {
-        type: ObjectId,
-        ref: User,
-        required
+        type: String,
+        required: true
     },
     
     dateCreated: {
@@ -34,5 +33,5 @@ const userSchema = new Schema({
 
 });
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Comment = mongoose.model('Comment', commentSchema);
+module.exports = Comment;

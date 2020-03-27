@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const chapterSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -20,14 +20,13 @@ const userSchema = new Schema({
     
     expirationDate: {
         type: Date,
-        required
+        required: true
     },
     
     comments: [
         {
             comment: {
-                type: ObjectId,
-                ref: Comment
+                type: String,
             }
         }
             
@@ -46,8 +45,7 @@ const userSchema = new Schema({
     contenders: [
         {
             contender: {
-                type: ObjectId,
-                ref: Chapter
+                type: String,
             }
         }
     ],    
@@ -55,5 +53,5 @@ const userSchema = new Schema({
 
 });
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Chapter = mongoose.model('Chapter', chapterSchema);
+module.exports = Chapter;
