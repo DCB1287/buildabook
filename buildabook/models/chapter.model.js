@@ -14,7 +14,7 @@ const chapterSchema = new Schema({
     },
     
     author: {
-        type: String,
+        type: mongoose.Types.ObjectId,
         required: true
     },
     
@@ -50,12 +50,11 @@ const chapterSchema = new Schema({
     contenders: [
         {
             contender: {
-                type: String,
+                type: mongoose.Types.ObjectId,
             }
         }
     ],    
     
-
 });
 
 const Chapter = mongoose.model('Chapter', chapterSchema);

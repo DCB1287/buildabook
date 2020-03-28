@@ -18,12 +18,12 @@ const commentSchema = new Schema({
         default: Date.now
     },
     
-    LastEdit: {
+    lastEdit: {
         type: Date,
         
     },
     
-    Upvotes: {
+    upvotes: {
         type: Number,
         default: 1
     },

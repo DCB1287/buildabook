@@ -28,7 +28,7 @@ const userSchema = new Schema({
     booksCreated: [
         {
             book: {
-                type: String,
+                type: mongoose.Types.ObjectId,
             }
         }
     ],
@@ -36,7 +36,7 @@ const userSchema = new Schema({
     contributions: [
         {
             book: {
-                type: String,
+                type: mongoose.Types.ObjectId,
             }
         }
     ],
@@ -44,7 +44,7 @@ const userSchema = new Schema({
     followings: [
         {
             book: {
-                type: String,
+                type: mongoose.Types.ObjectId,
             }
         }
     ],

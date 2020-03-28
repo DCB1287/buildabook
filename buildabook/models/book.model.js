@@ -3,7 +3,29 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
-    NumberOfChapters: {
+    
+    title: {
+        type: String,
+        required: true
+    },
+
+    writingPrompt: {
+        type: String,
+        required: true
+    },
+
+    image: {
+        type: String,
+    },
+
+    chaptersArray: 
+    [
+        {
+            type: mongoose.Types.ObjectId,
+        }
+    ],
+    
+    numberOfChapters: {
         type: Number,
         required: true
     
@@ -19,10 +41,11 @@ const bookSchema = new Schema({
         default: 1
     },
     
-    authorArray: [
+    authorArray: 
+    [
         {
             author: {
-                type: String,
+                type: mongoose.Types.ObjectId,
             }
         }          
     ],
@@ -35,7 +58,7 @@ const bookSchema = new Schema({
     comments: [
         {
             comment: {
-                type: String,
+                type: mongoose.Types.ObjectId,
             }
         }
             
@@ -47,9 +70,10 @@ const bookSchema = new Schema({
     },
     
     duration: {
-        type: Date,
-        required: true
+        type: Number,
+        default: 7
     },
+    
     
 
 });
