@@ -22,6 +22,11 @@ const chapterSchema = new Schema({
         type: Date,
         required: true
     },
+
+    startDate: {
+        type: Date,
+        required: true
+    },
     
     comments: [
         {
