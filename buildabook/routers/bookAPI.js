@@ -2,7 +2,8 @@ const Router = require('express').Router();
 
 let Book = require('../models/book.model');
 
-// Get all the Books
+// Get all the Books for the books table.  Just include image, title, authors, writingPrompt, inProgress, expirationDate
+// to save space.
 
 // Get Books from array of IDs
 
