@@ -17,4 +17,20 @@ module.exports = {
         email: "dcb1287@gmail.com",
         password: "123dfgdsaaaB3#$"
     }
+     testNewPassword: {
+        email: "dcb128 7@gmail.com@",
+        password: "123dfgdsaaaB3#$"
+    }
+     testNewPassword: {
+        email: "dcb1287gmail.com",
+        password: "123dfgdsaaaB3#$"
+    }
+     testNewPassword: {
+        email: "@gmail.com",
+        password: "123dfgdsaaaB3#$"
+    }
+     testNewPassword: {
+        email: "d@.com",
+        password: "123dfgdsaaaB3#$"
+    }
 }
