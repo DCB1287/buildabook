@@ -8,8 +8,6 @@ const INITIAL_USER = {
   email: ""
 }
 
-
-
 //This will give the user a token we can track and navigate to the contacts page
 function handleLogin(token) {
   cookie.set("token", token);
@@ -74,6 +72,8 @@ function Login() {
       console.log(user)
       const response = await axios.post(url, payload)
       handleLogin(response.data)
+      console.log(response.data)
+
     } catch (error) {
       catchErrors(error, setError)
     } finally {
@@ -96,7 +96,7 @@ function Login() {
       <Message 
         error
         header="Error!"
-        content={error}
+        content={"Incorrect Username or Password"}
       />
       <Segment>
         <Form.Input 

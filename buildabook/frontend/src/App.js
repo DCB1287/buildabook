@@ -9,7 +9,8 @@ import Navbar from './components/navbar'
 import Books from './pages/Books'
 import Book from './pages/Book'
 import User from './pages/User'
-
+//import Resend from './pages/Resend'
+//import Confirmation from './pages/Confirmation'
 
 function App() {
   return (
