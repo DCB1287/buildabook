@@ -9,6 +9,7 @@ import Navbar from './components/navbar'
 import Books from './pages/Books'
 import Book from './pages/Book'
 import User from './pages/User'
+import EmailVerification from './pages/EmailVerification'
 
 
 function App() {
@@ -43,6 +44,10 @@ function App() {
 
         <Route path="/user/:_id">
           <User />
+        </Route>
+
+        <Route path="/verify" exact>
+          <EmailVerification />
         </Route>
 
         <Redirect to="/" />        

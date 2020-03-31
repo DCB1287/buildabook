@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button,  Message, Segment } from 'semantic-ui-react'
+import { Form, Button,  Message } from 'semantic-ui-react'
 import axios from 'axios'
 
 const INITIAL_USER = {
@@ -64,15 +64,15 @@ function SetPasswordForm() {
         <Message success content={message} />
             <Form.Input 
                 icon="mail"
-                iconPosition='left'
+                iconposition='left'
                 label='Email'
                 placeholder="Email"
-                value={user.username}
+                value={user.email}
                 onChange={handleFormChange}
             />
             <Form.Input 
                 icon="lock"
-                iconPosition='left'
+                iconposition='left'
                 label='Password'
                 type="password"
                 placeholder="Password"
@@ -81,7 +81,7 @@ function SetPasswordForm() {
             />
             <Form.Input 
                 icon="lock"
-                iconPosition='left'
+                iconposition='left'
                 label='Password'
                 type="password"
                 placeholder="Retype your password"
@@ -92,7 +92,7 @@ function SetPasswordForm() {
                 disabled={disabled || loading}
                 color='green' 
                 icon='send'
-                iconPosition='left'
+                iconposition='left'
                 type='submit'
                 content="Submit"
             />

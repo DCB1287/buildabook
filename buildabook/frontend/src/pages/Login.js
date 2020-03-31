@@ -102,7 +102,7 @@ function Login() {
         <Form.Input 
           fluid
           icon="envelope"
-          iconPosition="left"
+          iconposition="left"
           label="Email"
           type="email"
           placeholder="Email"
@@ -113,7 +113,7 @@ function Login() {
         <Form.Input 
           fluid
           icon="lock"
-          iconPosition="left"
+          iconposition="left"
           placeholder="Password"
           label="Password"
           name="password"

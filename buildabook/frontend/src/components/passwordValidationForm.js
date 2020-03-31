@@ -53,7 +53,7 @@ function PasswordValidationForm() {
                 <Message error content={message}/>
                 <Form.Input 
                     icon="lock"
-                    iconPosition='left'
+                    iconposition='left'
                     label='Validate'
                     placeholder='Enter code here'
                     value={validate}
@@ -64,7 +64,7 @@ function PasswordValidationForm() {
                     disabled={disabled || loading}
                     color='green' 
                     icon='send'
-                    iconPosition='left'
+                    iconposition='left'
                     type='submit'
                     content="Submit"
                 />

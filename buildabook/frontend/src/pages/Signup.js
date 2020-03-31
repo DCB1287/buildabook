@@ -95,7 +95,7 @@ function Signup() {
         <Form.Input 
           fluid
           icon="user"
-          iconPosition="left"
+          iconposition="left"
           label="Name"
           placeholder="Name"
           name="username"
@@ -105,7 +105,7 @@ function Signup() {
         <Form.Input 
           fluid
           icon="envelope"
-          iconPosition="left"
+          iconposition="left"
           label="Email"
           type="email"
           placeholder="Email"
@@ -116,7 +116,7 @@ function Signup() {
         <Form.Input 
           fluid
           icon="lock"
-          iconPosition="left"
+          iconposition="left"
           placeholder="Password"
           label="Password"
           name="password"
@@ -127,7 +127,7 @@ function Signup() {
           <Form.Input 
           fluid
           icon="lock"
-          iconPosition="left"
+          iconposition="left"
           placeholder="Re-Type Password"
           label="Re-Type Password"
           name="passwordVerify"
