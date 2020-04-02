@@ -19,7 +19,7 @@ testChapterWrong = data.testChapterWrong
 //Config Chai
 chai.use(chaiHttp)
 //address of local host server
-const server = 'http://localhost:3000'
+let server = require('../server')
 
 
 //Chapter Tests

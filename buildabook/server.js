@@ -16,8 +16,11 @@ app.use(cors());
 app.use(express.json());
 
 // Need a file in the same dir called ".env"
-const uri = process.env.ATLAS_URI;
-
+let uri = process.env.ATLAS_URI
+if (process.env.NODE_ENV === 'test') {
+  uri = process.env.ATLAS_URI_TEST
+}
+console.log(uri)
 // Allows us to connect to mongodb. Flags are to allow
 // use of updated functions.
 mongoose.connect(uri, { useNewUrlParser: true,
@@ -56,3 +59,5 @@ if (process.env.NODE_ENV === 'production') {
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
 });
+
+module.exports = app

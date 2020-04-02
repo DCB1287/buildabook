@@ -21,7 +21,7 @@ testNewPassword = data.testNewPassword
 //Config Chai
 chai.use(chaiHttp)
 //address of local host server
-const server = 'http://localhost:3000'
+let server = require('../server')
 
 describe('UserAPI', function() {
     //This will dump the contents of the user collection

@@ -15,7 +15,7 @@ testComment2 = data.testComment2
 //Config Chai
 chai.use(chaiHttp)
 //address of local host server
-const server = 'http://localhost:3000'
+let server = require('../server')
 
 describe('CommentAPI', function(){
     beforeEach((done) => {

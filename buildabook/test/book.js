@@ -1,13 +1,14 @@
 
 //switch node to test?
 process.env.NODE_ENV = 'test'
-
+console.log(process.env.NODE_ENV)
 let mongoose = require('mongoose')
 let Book = require('../models/book.model')
 
 let chai = require('chai')
 let chaiHttp = require('chai-http')
 let should = chai.should()
+let server = require('../server')
 
 //Test data
 const data = require('./testDataBook')
@@ -17,7 +18,6 @@ testBookArray = data.testBookArray
 //Config Chai
 chai.use(chaiHttp)
 //address of local host server
-const server = 'http://localhost:3000'
 
 
 //Book Tests
@@ -25,7 +25,7 @@ const server = 'http://localhost:3000'
 //This will dump the contents of the book collection
 // describe('EmptyBookDB', function (){
 describe('BookAPI', function() {
-    //Remove each Book before each test
+    // Remove each Book before each test
     beforeEach((done) => {
         Book.remove({}, (err) => {
             done()
