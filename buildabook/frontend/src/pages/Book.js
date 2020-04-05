@@ -25,29 +25,35 @@ function Book() {
         
         //Get Book data
         const fetchBook = async () => {
-        //const response = await axios.get(`${process.env.BASE_URL}/api/book?=${match.params._id}`)
-        //setBook(response.data)
-        setBook(bookData[0])
-        
-        //On first load, React renders undefined objects.
-        //This sets the length of the chapter array to show
-        if (Object.keys(book).length) {
-            setContendersArrayLength(book.contenders.length)
-        }
+            //const response = await axios.get(`${process.env.BASE_URL}/api/book?=${match.params._id}`)
+            //setBook(response.data)
+            setBook(bookData[0])
+            
+            //On first load, React renders undefined objects.
+            //This sets the length of the chapter array to show
+            console.log(book)
 
-        //Placeholder data. Will need to call API.
-        setChapters(chapterData)
-        setContenders(chapterData)
+            
+            if (Object.keys(book).length) {
+                setContendersArrayLength(chapterData[0].length)
+            }
+            //Get contenders
+            //const response = await axios.get(`${process.env.BASE_URL}/api/chapter?=`)
+            //Get chapters
+            //const response = await axios.get(`${process.env.BASE_URL}/api/chapter?=`)
+            //Placeholder data. Will need to call API.
+            setChapters(chapterData)
+            setContenders(chapterData)
 
-        //Build the tabs for each chapter in the chapter list
-        function getChapterPane () {
-            const pane = _.map(chapters, (chapter, i) => (
-                {
-                    menuItem: `Chapter ${i+1}`,
-                    render: () => <Tab.Pane key={chapter._id}><Chapter chapter={chapter}/></Tab.Pane>
-                }
-            ))
-            return pane
+            //Build the tabs for each chapter in the chapter list
+            function getChapterPane () {
+                const pane = _.map(chapters, (chapter, i) => (
+                    {
+                        menuItem: `Chapter ${i+1}`,
+                        render: () => <Tab.Pane key={chapter._id}><Chapter chapter={chapter}/></Tab.Pane>
+                    }
+                ))
+                return pane
         }
         setChapterPane(getChapterPane)    
 
@@ -90,12 +96,12 @@ function Book() {
                 </Card.Description>
             </Card>
 
-            <Tab panes={chapterPane} />
+            <Tab menu={{fluid: true, vertical: true }} panes={chapterPane} />
             
             <Header as='h3'>
                 Contenders for Chapter {contendersArrayLength}
             </Header>
-            <Tab panes={contendersPane} />
+            <Tab menu={{fluid: true, vertical: true }} panes={contendersPane} />
             <br />
             <CreateNewChapter />
         </>

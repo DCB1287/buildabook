@@ -50,7 +50,7 @@ function Signup() {
         setLoading(true)
         setError('');
         // "${process.env.BASE_URL}/"
-        const url = `${process.env.BASE_URL}/api/users/add`               //This URL will need to be changed         
+        const url = `${process.env.REACT_APP_BASE_URL}/api/user/add`               //This URL will need to be changed         
         const payload = { ...user} 
         console.log(payload)
         const response = await axios.post(url, payload)          //Call the API to post the user data from the form.

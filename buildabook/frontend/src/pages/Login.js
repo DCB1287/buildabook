@@ -67,7 +67,7 @@ function Login() {
       setLoading(true)
       setError('')
       // "${process.env.BASE_URL}/"
-      const url = `${process.env.BASE_URL}/api/users/login`                      //This URL will need to be changed 
+      const url = `${process.env.REACT_APP_BASE_URL}/api/user/login`                      //This URL will need to be changed 
       const payload = { ...user}
       console.log(user)
       const response = await axios.post(url, payload)
