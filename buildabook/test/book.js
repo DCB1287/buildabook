@@ -49,20 +49,23 @@ describe('BookAPI', function() {
     // Add a Book
     describe('AddBook', function() {
         it('should not add a book without a title, writingPrompt, and numberOfChapters', (done) => {
-            let testBook = new Book({
+            let Book = {
                 title: "",
                 writingPrompt: "",
                 image: "",
                 numberOfChapters: "",
                 duration: ""
-            })
+            }
+
             chai.request(server)
                 // May have to change name because we haven't named it yet
                 .post(`/api/book/add`)
-                .send(testBook)
+                .send(Book)
                 .end((err, res) => {
-                    res.should.have.status(400)
-                    res.body.should.be.a('string')
+                    res.should.have.status(400);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('error')
+                    .eql("Missing fields: title writingPrompt numberOfChapters");
                     done()
                 })
         })
