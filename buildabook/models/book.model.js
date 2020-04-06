@@ -19,11 +19,7 @@ const bookSchema = new Schema({
     },
 
     chaptersArray: 
-    [
-        {
-            type: mongoose.Types.ObjectId,
-        }
-    ],
+    [String],
     
     numberOfChapters: {
         type: Number,
@@ -42,27 +38,15 @@ const bookSchema = new Schema({
     },
     
     authorArray: 
-    [
-        {
-            author: {
-                type: mongoose.Types.ObjectId,
-            }
-        }          
-    ],
+    [String],
     
     inProgressFlag: {
         type: Boolean,
         default: true
     },
     
-    comments: [
-        {
-            comment: {
-                type: mongoose.Types.ObjectId,
-            }
-        }
-            
-    ],
+    comments: 
+    [String],
     
     expirationDate: {
         type: Date,

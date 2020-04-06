@@ -13,6 +13,31 @@ Router.route('/getAll').get((req, res) =>
     });
 });
 
+// Get books by Id
+Router.route('/getById').get((req, res) =>
+{
+    const targets = [...req.body.books];
+
+    let query = Book.findMany ({id: targets});
+    query.exec((err, books) => {
+        if(err) res.send(err);
+        res.json(books);
+    });
+});
+
+// Get books by Author
+Router.route('/getByAuthor').get((req, res) =>
+{
+    const targets = req.body.authors;
+
+    let query = Book.findMany ();
+    query.exec((err, books) => {
+        if(err) res.send(err);
+        res.json(books);
+    });
+});
+
+
 // to save space.
 
 // Get Books from array of IDs
@@ -31,15 +56,18 @@ Router.route('/getAll').get((req, res) =>
         const image = req.body.image;
         const numberOfChapters = req.body.numberOfChapters;
         const duration = req.body.duration;
-        const author = req.body.author;
+        var author = Object.assign( req.body.author, mongoose.Types.ObjectId);
+        var authorArray = [];
         
+        authorArray.push(author);
+
         const newBook = new Book({
             title,
             writingPrompt,
             image,
             numberOfChapters,
             duration,
-            author
+            authorArray
         })
 
         if(title == ""|| writingPrompt  == "" || numberOfChapters  == "") {
@@ -88,8 +116,24 @@ Router.route('/delete').delete((req, res) => {
                 
                 if(chapters != null && chapters != [])
                 chapters.forEach(String => {
-                    Chapter.findByIdAndRemove(String);
+                   let query = Chapter.findByIdAndRemove(String);
+                   query.exec((err, chapters) => 
+                   {
+                       if(err) return res.send(err);
+                       
+                       if (chapters != null && chapters.contenders != null)
+                       {
+                        contenders = [...chapters.contenders];
+                        contenders.forEach(String2 => 
+                         {
+                             let query = Chapter.findByIdAndRemove(String2);
+                             query.exec();
+                         });
+                       }
+                       
+                   });
                 });
+
                 return res.status(200).json({message: "Book " + id + " deleted!"});
             }
            
@@ -107,7 +151,7 @@ Router.route('/deleteAll').delete((req, res) => {
     let query2 = Chapter.deleteMany({});
     query2.exec((err, chapters) =>
     {
-        
+        // do nothing
     });
 
     query.exec((err, books) => {
