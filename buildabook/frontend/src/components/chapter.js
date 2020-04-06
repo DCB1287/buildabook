@@ -1,16 +1,20 @@
 import React from 'react'
 import { Label, Header, Icon, Container } from 'semantic-ui-react'
+import UpVoteButton from './upVoteButton'
 
 function Chapter(props) {
+    const [chapter, setChapter] = React.useState(props.chapter)
+
     return (
         <>
         <Container text>
-            <Label as='a' href={`/user/${props.chapter._id}`} ribbon color='blue' >
+            <Label as='a' href={`/user/${chapter._id}`} ribbon color='blue' >
                 <Icon name='user' />
-                Author: {props.chapter.author}
+                Author: {chapter.author}
             </Label>
-            <Header as='h2' content={props.chapter.title} />
-            {props.chapter.text}
+            <UpVoteButton chapter={chapter} />
+            <Header as='h2' content={chapter.title} />
+            {chapter.text}
         </Container>
        </>
     )

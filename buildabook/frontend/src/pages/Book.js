@@ -50,29 +50,27 @@ function Book() {
                 const pane = _.map(chapters, (chapter, i) => (
                     {
                         menuItem: `Chapter ${i+1}`,
-                        render: () => <Tab.Pane key={chapter._id}><Chapter chapter={chapter}/></Tab.Pane>
+                        render: () => <Tab.Pane key={chapter._id}><Chapter chapter={chapter} /></Tab.Pane>
                     }
                 ))
                 return pane
-        }
-        setChapterPane(getChapterPane)    
+            }
+            setChapterPane(getChapterPane)    
 
-        //Build the tabs for the contenders of the latest chapter
-        function getContendersPane () {
-            const pane = _.map(contenders, (contender, i) => (
-                {
-                    menuItem: ` ${contender.author}`, 
-                    render: () => <Tab.Pane key={contender._id}><Chapter chapter={contender}/></Tab.Pane>
-                }
-            ))
+            //Build the tabs for the contenders of the latest chapter
+            function getContendersPane () {
+                const pane = _.map(contenders, (contender, i) => (
+                    {
+                        menuItem: ` ${contender.author}`, 
+                        render: () => <Tab.Pane key={contender._id}><Chapter chapter={contender}/></Tab.Pane>
+                    }
+                ))
                 return pane
             }
             setContendersPane(getContendersPane)
         }
         fetchBook();
     },[book])
-
-
     
     return (
         <>

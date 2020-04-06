@@ -34,7 +34,8 @@ function CreateNewChapter() {
     }
 
     //handles submitting the chapter entry
-    function handleSubmit () {
+    function handleSubmit (event) {
+        event.preventDefault()
         try {
             setLoading(true)
             setDisabled(true)
