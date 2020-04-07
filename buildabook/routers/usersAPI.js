@@ -60,6 +60,7 @@ Router.route('/add').post((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
+    const currentDate = new Date();
 
     // Simple validation
   if(!username || !email || !password) {
@@ -74,7 +75,19 @@ Router.route('/add').post((req, res) => {
       const newUser = new User({
         username,
         email,
-        password
+        password,
+        bio: "",
+        booksCreated: [],
+        contributions: [],
+        upvotes: [],
+        followings: [],
+        isVerified: false,
+        isPremium: false,
+        isBanned: false,
+        isModerator: false,
+        dateCreated: currentDate.toString(),
+        upvoteTotal: 1,
+        profilePic: "default.jpg"
       });
 
       // Create salt & hash and send a token back with the user's id and username
@@ -106,5 +119,7 @@ Router.route('/add').post((req, res) => {
     })
     
 });
+
+
 
 module.exports = Router;

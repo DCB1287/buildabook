@@ -18,7 +18,7 @@ Router.route('/getById').get((req, res) =>
 {
     const targets = [...req.body.books];
 
-    let query = Book.findMany ({id: targets});
+    let query = Book.find ({_id: targets});
     query.exec((err, books) => {
         if(err) res.send(err);
         res.json(books);
@@ -30,7 +30,7 @@ Router.route('/getByAuthor').get((req, res) =>
 {
     const targets = req.body.authors;
 
-    let query = Book.findMany ();
+    let query = Book.find ({authorArray: targets} );
     query.exec((err, books) => {
         if(err) res.send(err);
         res.json(books);

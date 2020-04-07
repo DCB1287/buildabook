@@ -25,29 +25,18 @@ const userSchema = new Schema({
     
     },
     
-    booksCreated: [
-        {
-            book: {
-                type: mongoose.Types.ObjectId,
-            }
-        }
-    ],
+    booksCreated:
+    [String],
     
-    contributions: [
-        {
-            book: {
-                type: mongoose.Types.ObjectId,
-            }
-        }
-    ],
+    contributions:
+    [String],
     
-    followings: [
-        {
-            book: {
-                type: mongoose.Types.ObjectId,
-            }
-        }
-    ],
+    upvotes:
+    [String],
+
+    followings: 
+    [String],
+
     
     isVerified: {
         type: Boolean,
@@ -85,7 +74,9 @@ const userSchema = new Schema({
     profilePic: {
         type: String,
     
-    },    
+    },
+
+    
     
 
 });
