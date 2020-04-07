@@ -7,14 +7,19 @@ import CreateNewChapter from '../components/createNewChapter'
 
 import bookData from '../placeholder data/book'
 import chapterData from '../placeholder data/chapter'
-import { Icon, Image, Card, Label, Tab, Header, Modal, Button } from 'semantic-ui-react'
+import { Icon, Image, Card, Label, Tab, Header, Modal, Button, Placeholder, Segment } from 'semantic-ui-react'
 
-
+const INITAL_BOOK = {
+    chaptersArray: []
+}
+const INITIAL_CHAPTER = {
+    contenders: []
+}
 function Book() {
     const match = useRouteMatch()
 
-    const [book, setBook] = useState({})
-    const [chapters, setChapters] = useState([])
+    const [book, setBook] = useState(INITAL_BOOK)
+    const [chapters, setChapters] = useState(INITIAL_CHAPTER)
     const [chapterPane, setChapterPane] = useState([])
     const [contenders, setContenders] = useState([])
     const [contendersPane, setContendersPane] = useState([])
@@ -31,7 +36,6 @@ function Book() {
             
             //On first load, React renders undefined objects.
             //This sets the length of the chapter array to show
-            console.log(book)
 
             
             if (Object.keys(book).length) {
@@ -44,7 +48,7 @@ function Book() {
             //Placeholder data. Will need to call API.
             setChapters(chapterData)
             setContenders(chapterData)
-
+            
             //Build the tabs for each chapter in the chapter list
             function getChapterPane () {
                 const pane = _.map(chapters, (chapter, i) => (
@@ -93,13 +97,29 @@ function Book() {
                     {book.writingPrompt}
                 </Card.Description>
             </Card>
-
-            <Tab menu={{fluid: true, vertical: true }} panes={chapterPane} />
+            <Header as='h3'>
+                The story so far...
+            </Header>
             
+            {    
+                book.chapters ?          
+                    <Tab menu={{fluid: true, vertical: true }} panes={chapterPane} />
+                    :
+                    <Segment placeholder>
+                        No Winners yet!  Check back soon.
+                    </Segment>
+            }
             <Header as='h3'>
                 Contenders for Chapter {contendersArrayLength}
             </Header>
-            <Tab menu={{fluid: true, vertical: true }} panes={contendersPane} />
+            { 
+                chapters.contenders ? 
+                    <Tab menu={{fluid: true, vertical: true }} panes={contendersPane} /> 
+                    :
+                    <Segment placeholder>
+                        No Contenders yet!  Be the first to submit your chapter.
+                    </Segment>
+            }
             <br />
             <CreateNewChapter />
         </>

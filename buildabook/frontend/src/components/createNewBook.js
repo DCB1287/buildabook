@@ -15,16 +15,17 @@ const isLoggedIn = cookie.get("token")
 
 const INITIAL_BOOK = {
     title: "",
+    author: "",
     numberOfChapters: 0,
     duration: 0,
-    media: "",
-    prompt: ""
+    image: "",
+    writingPrompt: ""
 }
 
 function CreateNewBook() {
     const [modalOpen, setModalOpen] = React.useState(false)
-    const [error, setError] = React.useState(false)
-    const [success, setSuccess] = React.useState(false)
+    const [error, setError] = React.useState("")
+    const [success, setSuccess] = React.useState("")
     const [loading, setLoading] = React.useState(false)
     const [disabled, setDisabled] = React.useState(false)
     const [mediaPreview, setMediaPreview] = React.useState("");
@@ -75,11 +76,25 @@ function CreateNewBook() {
       }
 
     async function handleSubmit(event) {
+        const author = JSON.parse(cookie.get('token')).user.id
+        console.log(author)
         try {
             event.preventDefault()
             setLoading(true)
-            //const mediaUrl = await handleImageUpload()
-            //const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/book/create)
+            //Upload the image to cloudinary or if one does not exist, use default book picture
+            let image;
+            if (book.image) {
+                image = await handleImageUpload()
+            } else {
+                image = "https://png.pngtree.com/png-vector/20190307/ourlarge/pngtree-vector-open-book-icon-png-image_782619.jpg"
+            }
+            //Create the payload
+            const {title, numberOfChapters, duration, writingPrompt} = book
+            const payload = {title, numberOfChapters, duration, writingPrompt, author, image}
+            //Call the API
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/book/add`, payload)
+
+            //Set Messages and reset the book state
             setSuccess("Your book has been added!")
             setError("")
             setModalOpen(false)
@@ -96,10 +111,10 @@ function CreateNewBook() {
     return (
         <>
             <Modal 
-                trigger={<Button color='green' floated='right' onClick={ () => setModalOpen(true)}>+BuildABook</Button>} 
-                open={modalOpen}
+                trigger={<Button color='green' floated='right' onClick={ () => {setModalOpen(true); setBook(INITIAL_BOOK)}}>+BuildABook</Button>} 
+                closeOnDimmerClick={true}
             >
-            {!isLoggedIn ?  
+            {isLoggedIn ?  
                 (
                 <Segment>
                     <Message 
@@ -109,9 +124,9 @@ function CreateNewBook() {
                         color='green'  
                     />
                     <br />
-                        <Form error={Boolean(error)} success={success} loading={loading} onSubmit={handleSubmit} disabled={loading}>
+                        <Form error={Boolean(error)} success={Boolean(success)} loading={loading} onSubmit={handleSubmit} disabled={loading}>
                             <Message success header="Success" content={success} />
-                            <Message error header="Oops!" content={error} />
+                            
                             <Form.Group>
                                 <Form.Field
                                     width={8}
@@ -149,7 +164,7 @@ function CreateNewBook() {
                             </Form.Group>
                             <Form.Field
                                 control={Input}
-                                name="media"
+                                name="image"
                                 type="file"
                                 label="Media"
                                 accept="image/*"
@@ -172,16 +187,6 @@ function CreateNewBook() {
                                 type="submit"
                                 color="green"
                                 content="Submit"
-                            />
-                            <Button
-                                onClick={ () => { 
-                                        setModalOpen(false);
-                                        setBook(INITIAL_BOOK);
-                                    }
-                                }   
-                                icon="window close outline"
-                                color="red"
-                                content="Cancel"
                             />
                         </Form>
                     </Segment>
