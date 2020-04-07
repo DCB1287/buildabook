@@ -50,13 +50,13 @@ describe('BookAPI', function() {
     describe('AddBook', function() {
         it('should not add a book without a title, writingPrompt, and numberOfChapters', (done) => {
             let Book = {
-                title: "",
-                writingPrompt: "",
-                image: "",
-                numberOfChapters: "",
-                duration: ""
+                "title": "",
+                "writingPrompt": "",
+                "image": "",
+                "numberOfChapters": "",
+                "duration": "",
+                "author": ""
             }
-
             chai.request(server)
                 // May have to change name because we haven't named it yet
                 .post(`/api/book/add`)
