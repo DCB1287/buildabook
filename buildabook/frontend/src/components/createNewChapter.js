@@ -19,13 +19,21 @@ const INITIAL_CHAPTER = {
     upvoteCount: 1
 }
 
-function CreateNewChapter() {
+function CreateNewChapter(props) {
     const [modalOpen, setModalOpen] = React.useState(false)
     const [error, setError] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
     const [disabled, setDisabled] = React.useState(false)
     const [chapter, setChapter] = React.useState(INITIAL_CHAPTER)
+
+    React.useEffect(() => { 
+        setError(false)
+        setSuccess(false)
+        setLoading(false)
+        setDisabled(false)
+        setChapter(INITIAL_CHAPTER)
+    },[modalOpen])
 
     //handles change in the form to populate chapter fields
     function handleChange (event) {
@@ -42,11 +50,17 @@ function CreateNewChapter() {
             setSuccess(false)
             setError(false)
             //set Author to chapter
-
-            const payload = {...chapter}
+            const {title, text} = chapter
+            const author = JSON.parse(cookie.get('token')).user.id
+            const bookID = props.book._id
+            const payload = {title, text, author, bookID}
+            console.log(payload)
             //post chapter to database
-
+            //const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chapter/add`, payload)
             setSuccess("Your submission has been posted")
+            setTimeout(() => {setModalOpen(false)}, 2000)
+            
+            setChapter(INITIAL_CHAPTER)
         } catch (error) {
             setError(error)
         } finally {
@@ -67,9 +81,11 @@ function CreateNewChapter() {
                                 />
                             }
                     open={modalOpen}
+                    onClose={() => setChapter(INITIAL_CHAPTER)}
+                    closeOnDimmerClick={() => setModalOpen(false)}
             >
             
-                {!isLoggedIn ?
+                {isLoggedIn ?
                     (
                         <>
                         <Segment>
@@ -80,7 +96,7 @@ function CreateNewChapter() {
                                 color='green'
                             />
                             <br />
-                            <Form error={Boolean(error)} success={success} loading={loading} onSubmit={handleSubmit} disabled={loading}>
+                            <Form error={Boolean(error)} success={Boolean(success)} loading={loading} onSubmit={handleSubmit} disabled={loading}>
                                 <Message success header="Success: " content={success} />
                                 <Message error header="Oops! " content={error} />
                                 <Form.Input 

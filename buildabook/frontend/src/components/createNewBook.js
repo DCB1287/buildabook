@@ -97,6 +97,7 @@ function CreateNewBook() {
             //Set Messages and reset the book state
             setSuccess("Your book has been added!")
             setError("")
+            setTimeout(() => {setModalOpen(false)}, 2000)
             setModalOpen(false)
             setBook(INITIAL_BOOK)
         } catch(error) {
@@ -112,7 +113,7 @@ function CreateNewBook() {
         <>
             <Modal 
                 trigger={<Button color='green' floated='right' onClick={ () => {setModalOpen(true); setBook(INITIAL_BOOK)}}>+BuildABook</Button>} 
-                closeOnDimmerClick={true}
+                open={modalOpen}
             >
             {isLoggedIn ?  
                 (

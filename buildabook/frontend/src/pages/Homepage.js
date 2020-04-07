@@ -7,25 +7,25 @@ const HomepageHeading = ({ mobile }) => (
   <Container text>
     <Header
       as='h4'
-      color="green"
-      content='Build A Book'
-      inverted
+      content='BuildABook'
+      
       style={{
         fontSize: mobile ? '2em' : '4em',
         fontWeight: 'normal',
         marginBottom: 0,
         marginTop: mobile ? '1.5em' : '3em',
+        color: '#ffffff'
       }}
     />
     <Header
       as='h1'
-      color="green"
       content=' An Intuitive Way to Crowdsource the Writing process and to Collectively Be Able to Contribute to the Publication of a Book with Other Users '
-      inverted
+      
       style={{
         fontSize: mobile ? '1.5em' : '1.7em',
         fontWeight: 'normal',
         marginTop: mobile ? '0.5em' : '1.5em',
+        color: '#ffffff'
       }}
     />
 
@@ -56,9 +56,9 @@ class DesktopContainer extends Component {
           onBottomPassedReverse={this.hideFixedMenu}
         >
           <Segment
-            inverted
+            
             textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em' }}
+            style={{ minHeight: 700, padding: '1em 0em', background: 'green' }}
             vertical
           >
             <Menu

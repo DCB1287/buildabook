@@ -33,7 +33,7 @@ function Book() {
             //const response = await axios.get(`${process.env.BASE_URL}/api/book?=${match.params._id}`)
             //setBook(response.data)
             setBook(bookData[0])
-            
+            console.log(book.chaptersArray)
             //On first load, React renders undefined objects.
             //This sets the length of the chapter array to show
 
@@ -100,9 +100,9 @@ function Book() {
             <Header as='h3'>
                 The story so far...
             </Header>
-            
+            {console.log(book.chapters)}
             {    
-                book.chapters ?          
+                book.chaptersArray ?          
                     <Tab menu={{fluid: true, vertical: true }} panes={chapterPane} />
                     :
                     <Segment placeholder>
@@ -113,7 +113,7 @@ function Book() {
                 Contenders for Chapter {contendersArrayLength}
             </Header>
             { 
-                chapters.contenders ? 
+                chapters ? 
                     <Tab menu={{fluid: true, vertical: true }} panes={contendersPane} /> 
                     :
                     <Segment placeholder>
@@ -121,7 +121,7 @@ function Book() {
                     </Segment>
             }
             <br />
-            <CreateNewChapter />
+            <CreateNewChapter book={book} />
         </>
     )   
 
