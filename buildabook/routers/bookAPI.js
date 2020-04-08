@@ -1,5 +1,6 @@
 const Router = require('express').Router();
 const mongoose = require('mongoose');
+const timer = require('timers');
 let Book = require('../models/book.model');
 let Chapter = require('../models/chapter.model')
 
@@ -14,6 +15,7 @@ Router.route('/getAll').get((req, res) =>
 });
 
 // Get books by Id
+// can be multiple ids
 Router.route('/getById').get((req, res) =>
 {
     const targets = [...req.body.books];

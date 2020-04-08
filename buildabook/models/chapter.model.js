@@ -14,7 +14,7 @@ const chapterSchema = new Schema({
     },
     
     author: {
-        type: mongoose.Types.ObjectId,
+        type: String,
         required: true
     },
     
@@ -28,14 +28,8 @@ const chapterSchema = new Schema({
         required: true
     },
     
-    comments: [
-        {
-            comment: {
-                type: String,
-            }
-        }
-            
-    ],
+    comments: 
+    [String],
     
     upvoteCount: {
         type: Number,
@@ -47,13 +41,8 @@ const chapterSchema = new Schema({
         default: Date.now
     },
     
-    contenders: [
-        {
-            contender: {
-                type: mongoose.Types.ObjectId,
-            }
-        }
-    ],    
+    contenders: 
+    [String],    
     
 });
 
