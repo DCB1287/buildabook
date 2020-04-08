@@ -5,9 +5,7 @@ import { Modal,
     Form, 
     Message,
     Segment,
-    Select, 
-    Input,
-    Image } from 'semantic-ui-react'
+} from 'semantic-ui-react'
 import cookie from 'js-cookie'
 import Login from '../pages/Login'
 
@@ -27,6 +25,7 @@ function CreateNewChapter(props) {
     const [disabled, setDisabled] = React.useState(false)
     const [chapter, setChapter] = React.useState(INITIAL_CHAPTER)
 
+    //If modal is opened or closed, it resets the state of the form
     React.useEffect(() => { 
         setError(false)
         setSuccess(false)
@@ -35,6 +34,15 @@ function CreateNewChapter(props) {
         setChapter(INITIAL_CHAPTER)
     },[modalOpen])
 
+
+    //Creates a timer on form success
+    React.useEffect(() => {
+        if (Boolean(success)) {
+            const timer = setTimeout(() => { setModalOpen(false) }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [success]);
+
     //handles change in the form to populate chapter fields
     function handleChange (event) {
         const {name, value} = event.target
@@ -42,7 +50,7 @@ function CreateNewChapter(props) {
     }
 
     //handles submitting the chapter entry
-    function handleSubmit (event) {
+    async function handleSubmit (event) {
         event.preventDefault()
         try {
             setLoading(true)
@@ -52,14 +60,12 @@ function CreateNewChapter(props) {
             //set Author to chapter
             const {title, text} = chapter
             const author = JSON.parse(cookie.get('token')).user.id
-            const bookID = props.book._id
-            const payload = {title, text, author, bookID}
+            const chapter = props.book.chaptersArray[props.book.chaptersArray.length - 1]
+            const payload = {title, text, author, chapter}
             console.log(payload)
             //post chapter to database
-            //const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chapter/add`, payload)
-            setSuccess("Your submission has been posted")
-            setTimeout(() => {setModalOpen(false)}, 2000)
-            
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chapter/add`, payload)
+            setSuccess(response.message)
             setChapter(INITIAL_CHAPTER)
         } catch (error) {
             setError(error)
@@ -77,7 +83,11 @@ function CreateNewChapter(props) {
                                     content='Add Chapter' 
                                     color='green'
                                     floated='right'
-                                    onClick={ () => setModalOpen(true)}
+                                    onClick={ () => {
+                                        setModalOpen(true)
+                                        setError("")
+                                        setSuccess("")
+                                    }}
                                 />
                             }
                     open={modalOpen}

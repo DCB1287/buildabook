@@ -31,6 +31,13 @@ function CreateNewBook() {
     const [mediaPreview, setMediaPreview] = React.useState("");
     const [book, setBook] = React.useState(INITIAL_BOOK)
 
+    React.useEffect(() => {
+        if (Boolean(success)) {
+            const timer = setTimeout(() => { setModalOpen(false) }, 2000);
+            return () => clearTimeout(timer);
+        }
+      }, [success]);
+
     const durationOptions = [
         {key: 's', text: "30 Seconds", value: 30 },
         {key: 'm', text: "5 minutes", value: 300 },
@@ -63,10 +70,10 @@ function CreateNewBook() {
 
 
     //Get Cloudinary Url
-    async function handleImageUpload() {
+    async function handleImageUpload(media) {
         setLoading(true)
         const data = new FormData();
-        data.append("file", book.media);
+        data.append("file", media);
         data.append("upload_preset", "buildabook");
         data.append("api_key", "915379326722133");
         console.log(book.media)
@@ -84,7 +91,7 @@ function CreateNewBook() {
             //Upload the image to cloudinary or if one does not exist, use default book picture
             let image;
             if (book.image) {
-                image = await handleImageUpload()
+                image = await handleImageUpload(book.image)
             } else {
                 image = "https://png.pngtree.com/png-vector/20190307/ourlarge/pngtree-vector-open-book-icon-png-image_782619.jpg"
             }
@@ -95,14 +102,11 @@ function CreateNewBook() {
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/book/add`, payload)
 
             //Set Messages and reset the book state
-            setSuccess("Your book has been added!")
+            setSuccess(response.message)
             setError("")
-            setTimeout(() => {setModalOpen(false)}, 2000)
-            setModalOpen(false)
             setBook(INITIAL_BOOK)
         } catch(error) {
             setError(error)
-            setSuccess("")
         } finally {
             setLoading(false)
             setDisabled(false)
@@ -112,7 +116,13 @@ function CreateNewBook() {
     return (
         <>
             <Modal 
-                trigger={<Button color='green' floated='right' onClick={ () => {setModalOpen(true); setBook(INITIAL_BOOK)}}>+BuildABook</Button>} 
+                trigger={<Button color='green' floated='right' onClick={ () => 
+                    {
+                        setModalOpen(true); 
+                        setBook(INITIAL_BOOK);
+                        setSuccess("")
+                        setError("")
+                    }}>+BuildABook</Button>} 
                 open={modalOpen}
             >
             {isLoggedIn ?  
@@ -188,6 +198,13 @@ function CreateNewBook() {
                                 type="submit"
                                 color="green"
                                 content="Submit"
+                            />
+                            <Button 
+                                disabled={disabled || loading}
+                                icon='cancel'
+                                color='red'
+                                content='Cancel'
+                                onClick={() => {setModalOpen(false); setBook(INITIAL_BOOK);}}
                             />
                         </Form>
                     </Segment>

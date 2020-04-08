@@ -86,10 +86,10 @@ Router.route('/getByAuthor').get((req, res) =>
        // see if any book has the same title
        Book.findOne({ title })
        .then(book => {
-         if(book) return res.status(400).json({ msg: 'Book with same name already exists' });
+         if(book) return res.status(400).json({ error: 'Book with same name already exists' });
            newBook.save()
-            .then(() => res.status(200).json('Book added!'))
-            .catch(err => res.status(400).json('Error: ' + err));
+            .then(() => res.status(200).json({message: 'Book added!'}))
+            .catch(err => res.status(400).json({error: 'Error: ' + err));
         })
         
     });
@@ -110,7 +110,7 @@ Router.route('/delete').delete((req, res) => {
             else if(book == null)
             {
                 return res.status(404)
-                .json({message: "can't find " + id + " in the database!"});
+                .json({error: "can't find " + id + " in the database!"});
             }
             else {
                 if(book != null && book.chaptersArray != [])

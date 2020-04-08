@@ -10,12 +10,13 @@ function UpVoteButton(props) {
     const [active, setActive] = React.useState(false)
     const [disabled, setDisabled] = React.useState(false)
     const [upvoteCount, setUpvoteCount] = React.useState(props.chapter.upvoteCount)
-    const [userID, setUserID] = React.useState(JSON.parse(cookies.get('token')).user.id)
+    const [userID, setUserID] = React.useState(cookies.get('token'))
     const [upvoteList, setUpvoteList] = React.useState([])
 
     // React.useEffect(() => {
            //if the user is logged in, get upVoteList
         //   if (userID) {
+        //      setUserID(userID.user.id)
         //     //get user's upvote list
         //     const fetchUpVoteList = async () => {
         //         const response = await axios.get(`${process.env.BASE_URL}/api/user/upvoteList?=${userID}`)
