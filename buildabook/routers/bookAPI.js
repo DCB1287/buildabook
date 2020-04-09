@@ -103,49 +103,50 @@ Router.route('/getByAuthor').get((req, res) =>
         // all chapters associated with book is deleted
 Router.route('/delete').delete((req, res) => {
     const id = req.body._id;
+    var temp;
     var chapters = [];
     var contenders = [];
-    Book.findByIdAndDelete(id, (err, book) =>
+    
+    
+    
+    // delete chapters associated with the book
+
+    var query = Book.findOne({_id: id});
+    query.exec((err, book) => {
+        if(book != null && book.chaptersArray != null)
+        {
+            chapters = [...book.chaptersArray];
+            temp = [...chapters];
+            chapters.forEach(String => {
+               let query = Chapter.deleteOne({_id: String});
+               query.exec((err, chapter) => 
+               {
+                   if(err) return res.send(err);
+                   
+                   if (chapter != null && chapter.contenders != null)
+                   {
+                    contenders = [...chapter.contenders];
+                    contenders.forEach(String2 => 
+                     {
+                         let query = Chapter.deleteOne({_id: String2});
+                         query.exec();
+                     });
+                   }
+                   
+               });
+            });  
+        }
+    });
+    
+    // delete the book
+    Book.deleteOne({_id: id}, (err, book) =>
         {
             if(err) return res.send(err);
             
-            else if(book == null)
-            {
-                return res.status(404)
-                .json({error: "can't find " + id + " in the database!"});
-            }
-            else {
-                if(book != null && book.chaptersArray != [])
-                chapters = [...book.chaptersArray];
-                
-                if(chapters != null && chapters != [])
-                chapters.forEach(String => {
-                   let query = Chapter.findByIdAndRemove(String);
-                   query.exec((err, chapters) => 
-                   {
-                       if(err) return res.send(err);
-                       
-                       if (chapters != null && chapters.contenders != null)
-                       {
-                        contenders = [...chapters.contenders];
-                        contenders.forEach(String2 => 
-                         {
-                             let query = Chapter.findByIdAndRemove(String2);
-                             query.exec();
-                         });
-                       }
-                       
-                   });
-                });
-
-                return res.status(200).json({message: "Book " + id + " deleted!"});
-            }
-           
+            return res.status(200).json({message: "Book " + id + " deleted! " + temp});
         }
     );
 
-    
-   
 });
 
 // Delete all Books and chapters
@@ -162,7 +163,6 @@ Router.route('/deleteAll').delete((req, res) => {
         if(err) res.send(err);
         res.json({message: "all books and chapters deleted!"});
     });
-
     
 });
 
