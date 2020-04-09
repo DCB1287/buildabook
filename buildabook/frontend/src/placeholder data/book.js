@@ -13,7 +13,8 @@ var bookData = [
         "comments": [],
         "isPremium": false,
         "experationDate": new Date(2020, 1, 20, 11, 0),
-        "duration": ""
+        "duration": "",
+        "genre": "Comedy"
     },
     {
         "_id": 2,
@@ -29,7 +30,8 @@ var bookData = [
         "comments": [],
         "isPremium": true,
         "experationDate": new Date(2020, 2, 8, 8, 2),
-        "duration": ""
+        "duration": "",
+        "genre": "Horror"
     },
     {
         "_id": 3,
@@ -45,7 +47,8 @@ var bookData = [
         "comments": [],
         "isPremium": false,
         "experationDate": new Date(2020, 1, 4, 12, 0),
-        "duration": ""
+        "duration": "",
+        "genre": "Realistic Fiction"
     },
     {
         "_id": 4,
@@ -61,7 +64,8 @@ var bookData = [
         "comments": [],
         "isPremium": false,
         "experationDate": new Date(2020, 3, 1, 11, 1),
-        "duration": ""
+        "duration": "",
+        "genre": "Contemporary"
     }
 ]
 

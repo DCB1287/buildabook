@@ -105,6 +105,13 @@ function BooksTable(props) {
                         Author(s)
                     </Table.HeaderCell>
                     <Table.HeaderCell
+                        sorted={column === 'genre' ? direction : null}
+                        onClick={() => handleSort('genre')}
+                        width={2}
+                    >
+                        Genre
+                    </Table.HeaderCell>
+                    <Table.HeaderCell
                         sorted={column === 'writingPrompt' ? direction : null}
                         onClick={() => handleSort('writingPrompt')}
                         width={5}
@@ -129,7 +136,7 @@ function BooksTable(props) {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ _id, image, title, authorArray, writingPrompt, inProgress, experationDate }) => (
+                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ _id, image, title, authorArray, genre, writingPrompt, inProgress, experationDate }) => (
                     <Table.Row key={_id}>
                         <Table.Cell>
                             <Image src={image} size='tiny' centered />
@@ -138,6 +145,7 @@ function BooksTable(props) {
                             <Link to={`/books/${_id}`}>{title}</Link>
                         </Table.Cell>
                         <Table.Cell>{authorArray}</Table.Cell>
+                        <Table.Cell>{genre}</Table.Cell>
                         <Table.Cell>{writingPrompt}</Table.Cell>
                         <Table.Cell textAlign='right'>{inProgress ? 'Yes' : 'No'}</Table.Cell>
                         <Table.Cell textAlign='center'>
