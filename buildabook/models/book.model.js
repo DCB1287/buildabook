@@ -18,6 +18,10 @@ const bookSchema = new Schema({
         type: String,
     },
 
+    genre: {
+        type: String,
+    },
+    
     chaptersArray: 
     [String],
     

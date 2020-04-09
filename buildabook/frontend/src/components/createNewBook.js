@@ -19,7 +19,8 @@ const INITIAL_BOOK = {
     numberOfChapters: 0,
     duration: 0,
     image: "",
-    writingPrompt: ""
+    writingPrompt: "",
+    genre: ""
 }
 
 function CreateNewBook() {
@@ -49,6 +50,19 @@ function CreateNewBook() {
         {key: '3', text: "3", value: 3},
         {key: '4', text: "4", value: 4},
         {key: '5', text: "5", value: 5},
+    ]
+
+    const genreOptions = [
+        {key: 'Adventure', text: 'Adventure', value: 'Adventure'},
+        {key: 'Comedy', text: 'Comedy', value: 'Comedy'},
+        {key: 'Contemporary', text: 'Contemporary', value: 'Contemporary'},
+        {key: 'Fantasy', text: 'Fantasy', value: 'Fantasy'},
+        {key: 'Historic', text: 'Historic', value: 'Historic'},
+        {key: 'Horror', text: 'Horror', value: 'Horror'},
+        {key: 'Realistic Fiction', text: 'Realistic Fiction', value: 'Realistic Fiction'},
+        {key: 'Romance', text: 'Romance', value: 'Romance'},
+        {key: 'Science Fiction', text: 'Science Fiction', value: 'Science Fiction'},
+        {key: 'Thriller', text: 'Thriller', value: 'Thriller'}    
     ]
     
     //Handles the change for the input fields
@@ -96,8 +110,9 @@ function CreateNewBook() {
                 image = "https://png.pngtree.com/png-vector/20190307/ourlarge/pngtree-vector-open-book-icon-png-image_782619.jpg"
             }
             //Create the payload
-            const {title, numberOfChapters, duration, writingPrompt} = book
-            const payload = {title, numberOfChapters, duration, writingPrompt, author, image}
+            const {title, numberOfChapters, duration, writingPrompt, genre} = book
+            const payload = {title, numberOfChapters, duration, writingPrompt, author, image, genre}
+            console.log(payload)
             //Call the API
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/book/add`, payload)
 
@@ -173,6 +188,17 @@ function CreateNewBook() {
                                     onChange={handleSelectChange}
                                 />
                             </Form.Group>
+                            <Form.Field 
+                                width={2}
+                                required
+                                control={Select}
+                                options={genreOptions}
+                                label="Genre"
+                                placeholder="Genre"
+                                name="genre"
+                                value={book.genre} 
+                                onChange={handleSelectChange}
+                            />
                             <Form.Field
                                 control={Input}
                                 name="image"

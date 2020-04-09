@@ -60,6 +60,7 @@ Router.route('/getByAuthor').get((req, res) =>
         const duration = req.body.duration;
         var author = Object.assign( req.body.author, mongoose.Types.ObjectId);
         var authorArray = [];
+        const genre = req.body.genre;
         
         authorArray.push(author);
 
@@ -69,7 +70,8 @@ Router.route('/getByAuthor').get((req, res) =>
             image,
             numberOfChapters,
             duration,
-            authorArray
+            authorArray,
+            genre
         })
 
         if(title == ""|| writingPrompt  == "" || numberOfChapters  == "") {
