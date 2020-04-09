@@ -19,6 +19,7 @@ Router.route('/getAll').get((req, res) =>
 // can be multiple ids
 Router.route('/getById').get((req, res) =>
 {
+    
     const targets = [...req.body.chapters];
 
     let query = Chapter.find ({_id: targets});
@@ -79,7 +80,7 @@ Router.route('/addContender').post((req, res) =>
         // do nothing
     });
 
-    newContender.save().then(() => res.status(200).json('Contender added!'))
+    newContender.save().then(() => res.status(200).json({message: 'Contender added!'}))
     .catch(err => res.status(400).json('Error: ' + err));;
     
 });
@@ -100,10 +101,10 @@ Router.route('/delete').delete((req, res) =>
         );
     
     query.exec((err, chapters) => {
-        // do nothing
+        if(err) res.status(400).json('Error: ' + err)
     });
 
-    res.status(200).json('Contender deleted!');
+    res.status(200).json({message: 'Contender deleted!'});
     
 });
 
