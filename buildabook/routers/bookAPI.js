@@ -89,7 +89,7 @@ Router.route('/getByAuthor').get((req, res) =>
          if(book) return res.status(400).json({ error: 'Book with same name already exists' });
            newBook.save()
             .then(() => res.status(200).json({message: 'Book added!'}))
-            .catch(err => res.status(400).json({error: 'Error: ' + err));
+            .catch(err => res.status(400).json({error: 'Error: ' + err}));
         })
         
     });
