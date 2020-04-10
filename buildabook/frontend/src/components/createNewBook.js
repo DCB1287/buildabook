@@ -97,7 +97,7 @@ function CreateNewBook() {
       }
 
     async function handleSubmit(event) {
-        const author = JSON.parse(cookie.get('token')).user.id
+        const author = JSON.parse(cookie.get('token')).user.username
         console.log(author)
         try {
             event.preventDefault()

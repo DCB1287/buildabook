@@ -1,17 +1,29 @@
 import React from 'react'
 import _ from 'lodash'
-import { Divider, Table, Image, Pagination, Statistic } from 'semantic-ui-react'
+import { Container, Table, Image, Pagination, Statistic } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+
+import bookData from '../placeholder data/book'
 
 function BooksTable(props) {
     const [direction, setDirection] = React.useState(null)
     const [column, setColumn] = React.useState("")
-    const [data, setData] = React.useState(props.books)
+    const [data, setData] = React.useState(bookData)
     const [booksPerPage, setBooksPerPage] = React.useState(3)
     const [paginationPages, setPaginationPages] = React.useState(Math.ceil(data.length / booksPerPage))
     const [activePage, setActivePage] = React.useState(1)
 
     const now = new Date()
+
+    //When there's a change in props.books, setData to props.books
+    React.useEffect(() => {
+        setData(props.books)
+    }, [props.books])
+
+    //When data is changed, set the pagination properties.
+    React.useEffect(() => {
+        setPaginationPages(Math.ceil(data.length / booksPerPage))
+    }, [data])
 
 
     function handleSort(clickedColumn) {
@@ -78,7 +90,6 @@ function BooksTable(props) {
         }
     }
 
-    //Get indexes to render pagination
     const indexOfLastBook = activePage * booksPerPage
     const indexOfFirstBook = indexOfLastBook - booksPerPage
 
@@ -136,13 +147,13 @@ function BooksTable(props) {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ _id, image, title, authorArray, genre, writingPrompt, inProgress, experationDate }) => (
-                    <Table.Row key={_id}>
+                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ image, title, authorArray, genre, writingPrompt, inProgress, experationDate }) => (
+                    <Table.Row key={title}>
                         <Table.Cell>
                             <Image src={image} size='tiny' centered />
                         </Table.Cell>
                         <Table.Cell>
-                            <Link to={`/books/${_id}`}>{title}</Link>
+                            <Link to={`/books/${title}`}>{title}</Link>
                         </Table.Cell>
                         <Table.Cell>{authorArray}</Table.Cell>
                         <Table.Cell>{genre}</Table.Cell>
