@@ -18,8 +18,7 @@ Router.route('/getAll').get((req, res) =>
 // can be multiple ids
 Router.route('/getById').get((req, res) =>
 {
-    const targets = [...req.body.books];
-
+    const targets = [...req.query.books];
     let query = Book.find ({_id: targets});
     query.exec((err, books) => {
         if(err) res.send(err);
@@ -30,7 +29,7 @@ Router.route('/getById').get((req, res) =>
 // Get books by Author
 Router.route('/getByAuthor').get((req, res) =>
 {
-    const targets = req.body.authors;
+    const targets = req.query.authors;
 
     let query = Book.find ({authorArray: targets} );
     query.exec((err, books) => {
@@ -111,29 +110,44 @@ Router.route('/delete').delete((req, res) => {
     
     // delete chapters associated with the book
 
+    // query to find the book
     var query = Book.findOne({_id: id});
     query.exec((err, book) => {
+        
+        if(err) return res.send(err);
+
+        //delete contenders then chapters
         if(book != null && book.chaptersArray != null)
         {
+            // get chapter array associated with book
             chapters = [...book.chaptersArray];
             temp = [...chapters];
             chapters.forEach(String => {
-               let query = Chapter.deleteOne({_id: String});
-               query.exec((err, chapter) => 
-               {
-                   if(err) return res.send(err);
-                   
-                   if (chapter != null && chapter.contenders != null)
-                   {
+
+                // for each chapter...
+                let query2 = Chapter.findOne({_id: String})
+                query2.exec((err, chapter) => {
+
+                    // find the list of contenders for the chapter
                     contenders = [...chapter.contenders];
                     contenders.forEach(String2 => 
-                     {
-                         let query = Chapter.deleteOne({_id: String2});
-                         query.exec();
-                     });
-                   }
-                   
-               });
+                    {
+                        // delete the contenders
+                        let query = Chapter.deleteOne({_id: String2});
+                        query.exec((err, chapter) => {
+                            if(err) return res.send(err);
+                        });
+                    });
+
+                });
+
+                // delete the main chapters
+                let query = Chapter.deleteOne({_id: String});
+                query.exec((err, chapter) => 
+                {
+                    if(err) return res.send(err);
+                });
+
             });  
         }
     });

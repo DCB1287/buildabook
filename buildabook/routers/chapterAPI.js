@@ -19,8 +19,7 @@ Router.route('/getAll').get((req, res) =>
 // can be multiple ids
 Router.route('/getById').get((req, res) =>
 {
-    
-    const targets = [...req.body.chapters];
+    const targets = [...req.query.chapters];
 
     let query = Chapter.find ({_id: targets});
     query.exec((err, chapters) => {
@@ -32,7 +31,7 @@ Router.route('/getById').get((req, res) =>
 // Get books by Author
 Router.route('/getByAuthor').get((req, res) =>
 {
-    const targets = req.body.authors;
+    const targets = req.query.authors;
 
     let query = Chapter.find ({authorArray: targets} );
     query.exec((err, chapters) => {
