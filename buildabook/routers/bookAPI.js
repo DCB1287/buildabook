@@ -18,7 +18,11 @@ Router.route('/getAll').get((req, res) =>
 // can be multiple ids
 Router.route('/getById').get((req, res) =>
 {
+<<<<<<< HEAD
     const targets = req.query.books;
+=======
+    const targets = [...req.query.books];
+>>>>>>> master
     let query = Book.find ({_id: targets});
     query.exec((err, books) => {
         if(err) res.send(err);
