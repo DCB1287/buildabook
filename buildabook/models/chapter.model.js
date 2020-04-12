@@ -35,7 +35,11 @@ const chapterSchema = new Schema({
         type: Number,
         default: 1
     },
-    
+
+    inProgressFlag: {
+        type: Boolean,
+    },
+
     dateCreated: {
         type: Date,
         default: Date.now
