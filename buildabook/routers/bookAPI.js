@@ -129,16 +129,18 @@ Router.route('/delete').delete((req, res) => {
                 query2.exec((err, chapter) => {
 
                     // find the list of contenders for the chapter
-                    contenders = [...chapter.contenders];
-                    contenders.forEach(String2 => 
+                    if (chapter.contenders != null)
                     {
-                        // delete the contenders
-                        let query = Chapter.deleteOne({_id: String2});
-                        query.exec((err, chapter) => {
-                            if(err) return res.send(err);
+                        contenders = [...chapter.contenders];
+                        contenders.forEach(String2 => 
+                        {
+                            // delete the contenders
+                            let query = Chapter.deleteOne({_id: String2});
+                            query.exec((err, chapter) => {
+                                if(err) return res.send(err);
+                            });
                         });
-                    });
-
+                    }
                 });
 
                 // delete the main chapters
