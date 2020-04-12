@@ -31,7 +31,7 @@ function Navbar() {
         } else {
           return (
             <>
-            <Button as='a' inverted={!fixed} primary={fixed}  href='/user/:_id'>
+            <Button as='a' inverted={!fixed} primary={fixed}  href='/Account'>
                 Account
             </Button>
             <Button as='a' inverted={!fixed} primary={fixed}  href='/' onClick={handleLogout}>
