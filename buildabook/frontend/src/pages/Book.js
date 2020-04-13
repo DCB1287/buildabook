@@ -8,6 +8,7 @@ import CreateNewChapter from '../components/createNewChapter'
 import bookData from '../placeholder data/book'
 import chapterData from '../placeholder data/chapter'
 import { Divider, Icon, Image, Card, Label, Tab, Header, Modal, Button, Segment } from 'semantic-ui-react'
+import PastContenderTabs from '../components/pastContendersTabs'
 
 
 function Book() {
@@ -67,14 +68,20 @@ function Book() {
         const getContenders = async () => {
             let i = 0;
             let pastChapters = []
+            //loop over the chapters array to search for the contenders
             while (chapters.length > i) {
                 try {
-                    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/chapters/getById`, {
-                        params: {
-                            chapters: chapters[i].contenders
-                        }
-                    })
-                    pastChapters.push(response.data)
+                    // if the contenders is empty, skip over it.
+                    if (!Boolean(chapters[i].contenders[0])) {
+
+                    } else {
+                        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/chapters/getById`, {
+                            params: {
+                                chapters: chapters[i].contenders
+                            }
+                        })
+                        pastChapters.push(response.data)
+                    }
                 } catch (e) {
                     console.log(e)
                 } finally {
@@ -82,7 +89,7 @@ function Book() {
                 }
             }
             //Placeholder data. Will need to call API.
-            setContenders(pastChapters[pastContenders.length - 1])
+            setContenders(pastChapters)
             //Build the tabs for each chapter in the chapter list
             function getChapterPane () {
                 const pane = _.map(chapters, (chapter, i) => (
@@ -95,22 +102,25 @@ function Book() {
             }
             setChapterPane(getChapterPane)    
 
-            //Build the tabs for the contenders of the latest chapter
-            function getContendersPane () {
-                const pane = _.map(contenders, (contender, i) => (
-                    {
-                        menuItem: ` ${contender.author}`, 
-                        render: () => <Tab.Pane key={contender._id}><Chapter chapter={contender}/></Tab.Pane>
-                    }
-                ))
-                    return pane
+            //Build the panes for the contenders of all the chapters
+            function getContendersPane (contenders) {
+                let panes = []
+                for (i = 0; i < contenders.length; i++){
+                    const pane = _.map(contenders[i], (contender) => (
+                        {
+                            menuItem: ` ${contender.author}`, 
+                            render: () => <Tab.Pane key={contender._id}><Chapter chapter={contender}/></Tab.Pane>
+                        }
+                    ))
+                    panes.push(pane)  
+                }
+                return panes
             }
-            setContendersPane(getContendersPane)
-
-            //Build past contenders for past chapters
+            setContendersPane(getContendersPane(pastChapters))
         }
         getContenders()
     },[chapters])
+
     return (
         <>
         <h1>This is {book.title}'s Book Page</h1>
@@ -145,16 +155,18 @@ function Book() {
                     <Header as='h2' content="No winners yet!  Check Back Soon!"/>
                 </Segment>
             }
+
             <Divider horizontal>
                 <Header as='h3'>
                     <Icon name='pencil' />
                     Contenders for Chapter {chapters.length}
                 </Header>
             </Divider>
-            {contenders ?
+
+            {contenders.length ?
                 <>
                 <Header as='h3' content='Conte'>Contenders </Header>
-                <Tab menu={{fluid: true, vertical: true }} panes={contendersPane} />
+                <Tab menu={{fluid: true, vertical: true }} panes={contendersPane[contendersPane.length - 1]} />
                 <br />
                 </>
                 :
@@ -162,15 +174,11 @@ function Book() {
                     <Header as='h2' content="No submissions yet! Click Add Chapter to be the first!"/>
                 </Segment>
             }
-            <CreateNewChapter />
 
+            <CreateNewChapter />
+            <br /><br /><br />
             {Boolean(chapters.length > 1) ?
-                <Divider horizontal>
-                    <Header as='h3'>
-                        <Icon name='pencil' />
-                        Past Contenders
-                    </Header>
-                </Divider>
+                <PastContenderTabs pastContendersPanes={contendersPane}/>
                 :
                 <p></p>
             }
