@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
+const cron = require('node-cron');
+const job1 = require('./jobs/updateDb.js');
 
 // Allows the existence of the ".env" file.
 require('dotenv').config();
@@ -44,9 +46,6 @@ app.use('/api/chapter', chapterConnection);
 const commentConnection = require('./routers/commentAPI.js');
 app.use('/api/comment', commentConnection);
 
-
-
-
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('frontend/build'));
@@ -58,6 +57,11 @@ if (process.env.NODE_ENV === 'production') {
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
+});
+
+job1.timedEvent();
+cron.schedule("* * * * *", () => {
+  job1.timedEvent();
 });
 
 module.exports = app
