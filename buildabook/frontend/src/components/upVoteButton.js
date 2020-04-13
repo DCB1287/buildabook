@@ -9,10 +9,9 @@ import cookies from 'js-cookie'
 function UpVoteButton(props) {
     const [active, setActive] = React.useState(false)
     const [disabled, setDisabled] = React.useState(false)
-    const [upvoteCount, setUpvoteCount] = React.useState(props.chapter.upvoteCount)
+    const [upvoteCount, setUpvoteCount] = React.useState(props.chapter.upvotes)
     const [userID, setUserID] = React.useState(cookies.get('token'))
     const [upvoteList, setUpvoteList] = React.useState([])
-
     // React.useEffect(() => {
            //if the user is logged in, get upVoteList
         //   if (userID) {
@@ -57,8 +56,8 @@ function UpVoteButton(props) {
 
     return (
         <>
-            <Button as='div' labelPosition='right' onClick={handleUpVote} loading={disabled} disabled={disabled}>
-                <Button color='red' inverted={!active}>
+            <Button as='div' labelPosition='right' onClick={handleUpVote} loading={disabled} disabled={!Boolean(userID)}>
+                <Button color='red' inverted={!active}  >
                     <Icon name='heart' />
                     Like
                 </Button>
