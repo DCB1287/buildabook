@@ -79,7 +79,8 @@ function CreateNewChapter(props) {
         <>
             <Modal  trigger={
                                 <Button 
-                                    attached='bottom'  
+                                    attached='bottom'
+                                    icon='pencil'  
                                     content='Add Chapter' 
                                     color='green'
                                     floated='right'

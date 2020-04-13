@@ -147,13 +147,13 @@ function BooksTable(props) {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ image, title, authorArray, genre, writingPrompt, inProgress, experationDate }) => (
+                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ _id, image, title, authorArray, genre, writingPrompt, inProgress, experationDate }) => (
                     <Table.Row key={title}>
                         <Table.Cell>
                             <Image src={image} size='tiny' centered />
                         </Table.Cell>
                         <Table.Cell>
-                            <Link to={`/books/${title}`}>{title}</Link>
+                            <Link to={`/books/${_id}`}>{title}</Link>
                         </Table.Cell>
                         <Table.Cell>{authorArray}</Table.Cell>
                         <Table.Cell>{genre}</Table.Cell>

@@ -8,6 +8,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import Navbar from './components/navbar'
 import Books from './pages/Books'
 import Book from './pages/Book'
+import Account from './pages/Account'
 import User from './pages/User'
 import EmailVerification from './pages/EmailVerification'
 
@@ -33,6 +34,10 @@ function App() {
 
         <Route path="/forgotpassword" exact>
           <ForgotPassword />
+        </Route>
+
+        <Route path="/Account" exact>
+          <Account />
         </Route>
 
         <Route path="/books" exact>

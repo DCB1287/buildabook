@@ -8,11 +8,11 @@ function Chapter(props) {
     return (
         <>
         <Container text>
-            <Label as='a' href={`/user/${chapter._id}`} ribbon color='blue' >
+            <Label as='a' href={`/user/${chapter.author}`}  color='blue' >
                 <Icon name='user' />
                 Author: {chapter.author}
             </Label>
-            <UpVoteButton chapter={chapter} />
+            <UpVoteButton chapter={chapter} latest={props.latest} />
             <Header as='h2' content={chapter.title} />
             {chapter.text}
         </Container>
