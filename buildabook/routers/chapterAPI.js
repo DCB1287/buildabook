@@ -100,17 +100,87 @@ Router.route('/delete').delete((req, res) =>
         );
     
     query.exec((err, chapters) => {
-        if(err) res.status(400).json('Error: ' + err)
+        if(err) res.send.status(400).json('Error: ' + err)
     });
 
     res.status(200).json({message: 'Contender deleted!'});
     
 });
 
+// given a chapter/contender, upvote it
+
+// requires chapter id
+// requires user id
+// returns the new upvote count
+// does not check to see if person already upvoted 
+Router.route('/upvoteInc').post((req, res) => 
+{
+    const userTarget = req.body.userId;
+    const chapterTarget = req.body.chapterId;
+    var upvotes = 0;
+
+    let query = Chapter.findOne({"_id": chapterTarget});    
+    query.exec((err, chapter) => 
+    {        
+        upvotes = chapter.upvoteCount + 1;
+        var query2 = Chapter.updateOne({"_id": chapter.id}, {upvoteCount: upvotes.toString()});
+        query2.exec((err, chapters) => {
+            // nothing
+        });
+
+        var query3 = User.updateOne({"_id": userTarget}, {$push: {upvotes: chapter.id}}) 
+        query3.exec((err, user) => {
+            // nothing
+        });
+
+        res.status(200).json({upvotes: upvotes});
+    });
+});
+
+// given a chapter/contender, undo upvote
+
+// requires chapter id
+// requires user id
+// returns the new upvote count
+// does not check to see if person didn't upvote 
+Router.route('/upvoteDec').post((req, res) => 
+{
+    const userTarget = req.body.userId;
+    const chapterTarget = req.body.chapterId;
+    var upvotes = 0;
+
+    let query = Chapter.findOne({"_id": chapterTarget});
+    query.exec((err, chapter) => 
+    {        
+        upvotes = chapter.upvoteCount - 1;
+        var query2 = Chapter.updateOne({"_id": chapter.id}, {upvoteCount: upvotes});
+        query2.exec((err, chapters) => {
+            // nothing
+        });
+
+        var query3 = User.updateOne({"_id": userTarget}, {$pull: {upvotes: chapter.id}}) 
+        query3.exec((err, user) => {
+            // nothing
+        });
+
+        res.status(200).json({upvotes: upvotes});
+    });
+});
 
 
-// Edit text contents of the Chapter
+// give a chapter id, get an upvote count
+Router.route('/upvoteCount').get((req, res) => 
+{
+    const chapterTarget = req.query.id;
 
+    var query = Chapter.find({id: chapterTarget})
+    query.exec((err, chapter) => {
+        if(err) res.status(400).json('Error: ' + err)
+
+        res.status(200).json({upvotes: chapter.upvotes});
+    });
+
+});
 
 
 

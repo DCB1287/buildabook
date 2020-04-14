@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient;
 module.exports = 
 {
    timedEvent:() => {
-    console.log('The answer to life, the universe, and everything!');
+    console.log('Running timed event No. 1');
 
     const now = new Date();
     now.setSeconds(0);
