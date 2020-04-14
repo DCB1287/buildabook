@@ -12,8 +12,8 @@ let server = require('../server')
 
 //Test data
 const data = require('./testDataBook')
-testBook = data.testBook
-testBookArray = data.testBookArray
+const testBook = data.testBook
+const testBookArray = data.testBookArray
 
 //Config Chai
 chai.use(chaiHttp)
@@ -71,14 +71,18 @@ describe('BookAPI', function() {
         })
 
         it('should add a book to the database', (done) => {
+            
             chai.request(server)
                 // May have to change name because we haven't named it yet
                 .post(`/api/book/add`)
                 .send(testBook)
                 .end((err, res) => {
                     res.should.have.status(200)
-                    res.body.should.be.a('string')
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('message')
+                    .eql('Book added!')
                     done()
+
                 })
         })
     })
