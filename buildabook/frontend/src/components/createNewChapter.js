@@ -60,11 +60,11 @@ function CreateNewChapter(props) {
             //set Author to chapter
             const {title, text} = chapter
             const author = JSON.parse(cookie.get('token')).user.id
-            const chapter = props.book.chaptersArray[props.book.chaptersArray.length - 1]
+            const chapter = props.book.chaptersArray[props.book.chaptersArray.length - 1]._id
             const payload = {title, text, author, chapter}
             console.log(payload)
             //post chapter to database
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chapter/add`, payload)
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chapter/addContender`, payload)
             setSuccess(response.message)
             setChapter(INITIAL_CHAPTER)
         } catch (error) {

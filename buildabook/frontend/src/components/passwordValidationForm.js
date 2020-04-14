@@ -2,6 +2,11 @@ import React from 'react'
 import { Form, Button, Message } from 'semantic-ui-react'
 import axios from 'axios'
 
+const INITIAL_FORM_VALUES = {
+    email: "",
+    code: "",
+}
+
 function PasswordValidationForm() {
     const [disabled, setDisabled] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
@@ -9,6 +14,7 @@ function PasswordValidationForm() {
     const [error, setError] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
     const [validate, setValidate] = React.useState("")
+    const [formValues, setFormValues] = React.useState(INITIAL_FORM_VALUES)
 
     async function handleValidation(event) {
         event.preventDefault()
@@ -17,9 +23,11 @@ function PasswordValidationForm() {
             setDisabled(true)
             setError(false)
             setSuccess(false)
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/`)
+            const payload = {...validate}
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/`, payload)
             setMessage(response.message)
             setSuccess(true)
+            setFormValues(INITIAL_FORM_VALUES)
         } catch (error){
             setError(true)
             setMessage(error)
@@ -60,7 +68,6 @@ function PasswordValidationForm() {
                     onChange={handleValidationFormChange}
                 />
                 <Button 
-                    
                     disabled={disabled || loading}
                     color='green' 
                     icon='send'
