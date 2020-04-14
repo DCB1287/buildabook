@@ -63,6 +63,7 @@ Router.route('/add').post((req, res) => {
     const password = req.body.password;
     const email = req.body.email;
     const currentDate = new Date();
+    const randomVerificationString = randomStr.random(50)
 
     // Simple validation
   if(!username || !email || !password) {
@@ -73,8 +74,6 @@ Router.route('/add').post((req, res) => {
   User.findOne({ email })
     .then(user => {
       if(user) return res.status(400).json({ msg: 'User already exists' });
-
-      const randomVerificationString = randomStr.random(50)
 
       const newUser = new User({
         username,
@@ -89,6 +88,7 @@ Router.route('/add').post((req, res) => {
         isPremium: false,
         isBanned: false,
         isModerator: false,
+        verifyString: randomVerificationString,
         dateCreated: currentDate.toString(),
         upvoteTotal: 1,
         profilePic: "default.jpg"
@@ -121,7 +121,8 @@ Router.route('/add').post((req, res) => {
         })
       })
     })
-    
+
+
     let transport = nodemailer.createTransport({
     service: 'gmail',
     auth:{
@@ -134,7 +135,7 @@ Router.route('/add').post((req, res) => {
     from: 'User_Verification@Buildabook.com',
     to: email,
     subject: 'Verification',
-    text: 'Thank you for registering with Buildabook, your verifcation code is: '+randomVerificationString
+    text: 'Thank you for registering with Buildabook, your verifcation code is: '+ randomVerificationString
   };
 
   transport.sendMail(message,function(err, info){
@@ -147,6 +148,5 @@ Router.route('/add').post((req, res) => {
   });
 
 });
-
 
 module.exports = Router;

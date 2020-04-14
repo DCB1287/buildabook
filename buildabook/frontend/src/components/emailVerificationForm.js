@@ -62,8 +62,8 @@ function EmailVerificationForm() {
                     success={Boolean(success)} 
                     error={Boolean(error)}
                 >
-                <Message error content={message} />
-                <Message success content={message} />
+                <Message error content={"bad"} />
+                <Message success content={"good"} />
                     <Form.Input 
                         icon="mail"
                         iconposition='left'
