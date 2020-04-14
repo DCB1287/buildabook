@@ -100,7 +100,7 @@ Router.route('/delete').delete((req, res) =>
         );
     
     query.exec((err, chapters) => {
-        if(err) res.send.status(400).json('Error: ' + err)
+        if(err) res.status(400).json('Error: ' + err)
     });
 
     res.status(200).json({message: 'Contender deleted!'});
@@ -113,7 +113,7 @@ Router.route('/delete').delete((req, res) =>
 // requires user id
 // returns the new upvote count
 // does not check to see if person already upvoted 
-Router.route('/upvoteInc').post((req, res) => 
+Router.route('/upvoteInc').post((req, res, next) => 
 {
     const userTarget = req.body.userId;
     const chapterTarget = req.body.chapterId;
@@ -121,16 +121,19 @@ Router.route('/upvoteInc').post((req, res) =>
 
     let query = Chapter.findOne({"_id": chapterTarget});    
     query.exec((err, chapter) => 
-    {        
+    {   
+        if (chapter === null)
+        return res.status(404).json({error: "chapter not found"});
+
         upvotes = chapter.upvoteCount + 1;
         var query2 = Chapter.updateOne({"_id": chapter.id}, {upvoteCount: upvotes.toString()});
         query2.exec((err, chapters) => {
-            // nothing
+            
         });
 
         var query3 = User.updateOne({"_id": userTarget}, {$push: {upvotes: chapter.id}}) 
         query3.exec((err, user) => {
-            // nothing
+            
         });
 
         res.status(200).json({upvotes: upvotes});
@@ -151,16 +154,19 @@ Router.route('/upvoteDec').post((req, res) =>
 
     let query = Chapter.findOne({"_id": chapterTarget});
     query.exec((err, chapter) => 
-    {        
+    {    
+        if (chapter === null)
+        return res.status(404).json({error: "chapter not found"});
+    
         upvotes = chapter.upvoteCount - 1;
         var query2 = Chapter.updateOne({"_id": chapter.id}, {upvoteCount: upvotes});
         query2.exec((err, chapters) => {
-            // nothing
+
         });
 
         var query3 = User.updateOne({"_id": userTarget}, {$pull: {upvotes: chapter.id}}) 
         query3.exec((err, user) => {
-            // nothing
+
         });
 
         res.status(200).json({upvotes: upvotes});
@@ -173,7 +179,7 @@ Router.route('/upvoteCount').get((req, res) =>
 {
     const chapterTarget = req.query.id;
 
-    var query = Chapter.find({id: chapterTarget})
+    var query = Chapter.find({"id": chapterTarget})
     query.exec((err, chapter) => {
         if(err) res.status(400).json('Error: ' + err)
 
@@ -182,6 +188,27 @@ Router.route('/upvoteCount').get((req, res) =>
 
 });
 
+// checks to see if chapter is upvoted by user
+Router.route('/isUpvoted').get((req, res) =>
+{
+    const chapterTarget = req.query.chapterId;
+    const user = req.query.userId;
 
+    let query = User.findOne({"_id": user});
+    query.exec((err, theUser) =>
+    {
+        if (theUser.upvotes.includes(chapterTarget))
+        {
+            return res.status(200).json({message: "True"});
+        }
+
+        else
+        {
+            return res.status(200).json({message: "False"});
+        }
+
+    });
+
+});
 
 module.exports = Router;
