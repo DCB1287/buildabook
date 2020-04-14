@@ -2,6 +2,8 @@ const Router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 let User = require('../models/user.model');
+const nodemailer = require('nodemailer');
+const randomStr = require('@supercharge/strings')
 
 
 //Get user data based on id, leaving out the hashed password.
@@ -72,6 +74,8 @@ Router.route('/add').post((req, res) => {
     .then(user => {
       if(user) return res.status(400).json({ msg: 'User already exists' });
 
+      const randomVerificationString = randomStr.random(50)
+
       const newUser = new User({
         username,
         email,
@@ -118,8 +122,31 @@ Router.route('/add').post((req, res) => {
       })
     })
     
-});
+    let transport = nodemailer.createTransport({
+    service: 'gmail',
+    auth:{
+      user: 'blakep@dataflowsys.com',
+      pass: 'Whitecbr600rr$$'
+    }
+  });
 
+  const message = {
+    from: 'User_Verification@Buildabook.com',
+    to: email,
+    subject: 'Verification',
+    text: 'Thank you for registering with Buildabook, your verifcation code is: '+randomVerificationString
+  };
+
+  transport.sendMail(message,function(err, info){
+    if(err){
+      console.log(err)
+    }
+    else{
+      console.log(info);
+    }
+  });
+
+});
 
 
 module.exports = Router;

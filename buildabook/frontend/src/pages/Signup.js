@@ -11,9 +11,8 @@ const INITIAL_USER = {
   
 }
 //This will give the user a token we can track and navigate to the contacts page
-function handleLogin(token) {
-  cookie.set("token", token);
-  window.location.href = '/contacts'
+function handleVerification() {
+  window.location.href = '/verify'
 }
 
 
@@ -54,7 +53,7 @@ function Signup() {
         const payload = { ...user} 
         console.log(payload)
         const response = await axios.post(url, payload)          //Call the API to post the user data from the form.
-        handleLogin(response.data)
+        handleVerification(response.data)
         }
 
         catch (error) {
