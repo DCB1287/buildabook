@@ -32,7 +32,7 @@ describe('BookAPI', function() {
         })
     })
     //Get all Books 
-    describe('GetAllBooks', function() {
+    describe('/api/book/getAll', function() {
         it('should return an empty array of books', (done) => {
             chai.request(server)
                 //May have to change name because we haven't named it yet
@@ -84,7 +84,7 @@ describe('BookAPI', function() {
     })
 
     // Get all Books in DB
-    describe('GetAllBooks', function() {
+    describe('/api/book/getAll', function() {
         it('should return an array of books', (done) => {
             testBookArray.save((err, book) => {
                 chai.request(server)
@@ -100,14 +100,14 @@ describe('BookAPI', function() {
         })
     })
     // Get one Book
-    describe('GetOneBook', function() {
+    describe('GetBooks', function() {
         it('should return a single book', (done) => {
             // We'll need to be a known id here
             let book = new Book(testBook)
             book.save((err, book) => {
                 chai.request(server)
                     // May have to change name because we haven't named it yet
-                    .get(`/api/book/get=?${book._id}`)
+                    .get(`/api/book/getById=?${book._id}`)
                     .end((err, res) => {
                         res.should.have.status(200)
                         res.body.should.be.a('object')

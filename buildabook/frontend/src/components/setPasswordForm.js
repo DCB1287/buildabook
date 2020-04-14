@@ -24,7 +24,8 @@ function SetPasswordForm() {
             setDisabled(true)
             setError(false)
             setSuccess(false)
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/`)
+            const payload = {...user}
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/changePassword`, payload)
             setMessage(response.message)
             setUser(INITIAL_USER)
         } catch (error){
