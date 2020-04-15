@@ -122,6 +122,7 @@ function CreateNewBook() {
             setBook(INITIAL_BOOK)
         } catch(error) {
             setError(error)
+            console.log(error)
         } finally {
             setLoading(false)
             setDisabled(false)
