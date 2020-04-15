@@ -43,9 +43,9 @@ module.exports =
             var query22 = Chapter.find({"_id": {$in: [chapter.contenders]}});
             query22.exec((err, contenders) => 
             {
-              console.log("found " + contenders.id)
+              
               contenders.forEach((contender) => {
-                
+                console.log("found " + contender.id)
                 var max = 0;
                 if (contender.upvotes > max)
                 {
