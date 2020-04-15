@@ -8,6 +8,7 @@ import { Modal,
 } from 'semantic-ui-react'
 import cookie from 'js-cookie'
 import Login from '../pages/Login'
+import _ from 'lodash'
 
 const isLoggedIn = cookie.get("token")
 const INITIAL_CHAPTER = {
@@ -60,7 +61,8 @@ function CreateNewChapter(props) {
             //set Author to chapter
             const {title, text} = chapter
             const author = JSON.parse(cookie.get('token')).user.id
-            const chapter = props.book.chaptersArray[props.book.chaptersArray.length - 1]._id
+            const index = _.findIndex(props.book.chaptersArray, function(e) {return e.text == ""})
+            const chapter = props.book.chaptersArray[index]._id
             const payload = {title, text, author, chapter}
             console.log(payload)
             //post chapter to database
