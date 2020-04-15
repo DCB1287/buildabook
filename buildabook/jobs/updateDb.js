@@ -47,8 +47,9 @@ module.exports =
               contenders.forEach((contender) => {
                 console.log("found " + contender.id)
                 var max = 0;
-                if (contender.upvotes > max)
+                if (contender.upvoteCount >= max)
                 {
+                  console.log("Adding to the chapter " + chapter.id)
                   let query4324 = Chapter.updateOne({"_id": chapter.id}, 
                   {
                     "title": contender.title,
