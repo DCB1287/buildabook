@@ -121,21 +121,19 @@ Router.route('/add').post((req, res) => {
         })
       })
     })
-
-
     let transport = nodemailer.createTransport({
-    service: 'gmail',
-    auth:{
-      user: 'blakep@dataflowsys.com',
-      pass: 'Whitecbr600rr$$'
-    }
-  });
+      service: 'gmail',
+      auth:{
+        user: 'blakep@dataflowsys.com',
+        pass: 'Whitecbr600rr$$'
+           }
+    });
 
-  const message = {
-    from: 'User_Verification@Buildabook.com',
-    to: email,
-    subject: 'Verification',
-    text: 'Thank you for registering with Buildabook, your verifcation code is: '+ randomVerificationString
+    const message = {
+      from: 'User_Verification@Buildabook.com',
+      to: email,
+      subject: 'Verification',
+      text: 'Thank you for registering with Buildabook, your verifcation code is: '+ randomVerificationString
   };
 
   transport.sendMail(message,function(err, info){
@@ -146,7 +144,12 @@ Router.route('/add').post((req, res) => {
       console.log(info);
     }
   });
-
 });
+
+Router.route('/verifyUser').post((req, res) => {
+  User.updateOne({"verifyString":req.body.verificationCode},{"isVerified":true})
+  .then(user => res.json(user))
+});
+
 
 module.exports = Router;
