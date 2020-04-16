@@ -175,15 +175,16 @@ Router.route('/upvoteDec').post((req, res) =>
 
 
 // give a chapter id, get an upvote count
+// query a JSON field of {"id": target}
 Router.route('/upvoteCount').get((req, res) => 
 {
     const chapterTarget = req.query.id;
 
-    var query = Chapter.find({"id": chapterTarget})
+    var query = Chapter.findOne({"_id": chapterTarget})
     query.exec((err, chapter) => {
         if(err) res.status(400).json('Error: ' + err)
-
-        res.status(200).json({upvotes: chapter.upvotes});
+        var count = chapter.upvoteCount;
+        res.status(200).json({upvoteCount: count});
     });
 
 });
