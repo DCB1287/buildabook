@@ -90,17 +90,19 @@ describe('BookAPI', function() {
     // Get all Books in DB
     describe('/api/book/getAll', function() {
         it('should return an array of books', (done) => {
-            testBookArray.save((err, book) => {
-                chai.request(server)
-                    // May have to change name because we haven't named it yet
-                    .get('/api/book/getAll')
-                    .end((err, res) => {
-                        res.should.have.status(200)
-                        res.body.should.be.a('array')
-                        res.body.length.should.be.eql(testBookArray.length)
-                        done()
-                    })
+            testBookArray.forEach((book2) => {
+                let target = new Book(book2);
+                target.save();
+            })
+
+            chai.request(server)
+                .get('/api/book/getAll')
+                .end((err, res) => {                    
+                    res.should.have.status(200)
+                    res.body.should.be.a('array')
+                    done()
                 })
+                
         })
     })
     // Get one Book
@@ -108,23 +110,27 @@ describe('BookAPI', function() {
         it('should return a single book', (done) => {
             // We'll need to be a known id here
             let book = new Book(testBook)
-            book.save((err, book) => {
-                chai.request(server)
-                    // May have to change name because we haven't named it yet
-                    .get(`/api/book/getById=?${book._id}`)
-                    .end((err, res) => {
-                        res.should.have.status(200)
-                        res.body.should.be.a('object')
-                        res.body.should.have.property('title')
-                        res.body.should.have.property('writingPrompt')
-                        res.body.should.have.property('image')
-                        res.body.should.have.property('numberOfChapters')
-                        res.body.should.have.property('duration')
-                        res.body.should.have.property('authorArray')
-                        res.body.should.have.property('inProgressFlag')
-                        res.body.should.have.property('expriationDate')
-                        done()
-                    })
+            let objectId = new mongoose.Types.ObjectId();
+
+            book.id = objectId;
+            book.save()
+            chai.request(server)
+            // May have to change name because we haven't named it yet
+            .get('/api/book/getById?id=' + book.id)
+            .end((err, res) => {
+                console.log(res.body)
+                console.log(res.status)
+                res.should.have.status(200)
+                res.body.should.be.a('array')
+                res.body.should.have.property('title')
+                res.body.should.have.property('writingPrompt')
+                res.body.should.have.property('image')
+                res.body.should.have.property('numberOfChapters')
+                res.body.should.have.property('duration')
+                res.body.should.have.property('authorArray')
+                res.body.should.have.property('inProgressFlag')
+                res.body.should.have.property('expriationDate')
+                done()
             })
         })
 
