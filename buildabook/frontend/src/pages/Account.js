@@ -7,35 +7,18 @@ import bookData from '../placeholder data/book'
 import userData from '../placeholder data/user'
 import { Icon, Header, Modal, Button, Segment, Table, Form } from 'semantic-ui-react'
 import ContributionsTable from '../components/ContributionsTable'
+import UpdateBio from '../components/updateBio'
 import cookie from 'js-cookie'
 var loggedIn = cookie.get('token')
 
 
 
-
-const INITIAL_BIO = {       
-    bio: ""
-}
-
 function Account(props) {
     const match = useRouteMatch()
-    const [bio, setBio] = React.useState(INITIAL_BIO)
     const [books, setBooks] = React.useState([]);
     const [user, setUsers] = useState([])
     const [loading, setLoading] = React.useState(true)
-    const [modalOpen, handleOpen] = React.useState(false)
-    const [error, setError] = React.useState('')
 
-
-    //handles change in the form to populate bio fields
-    function handleChange (event) {
-        const {bio, value} = event.target
-        setBio(prevstate => ({ ...prevstate, [bio]: value }))
-    }
-
-    function closeModal(){
-        handleOpen(!modalOpen)
-      }
    
 
     useEffect(() => {
@@ -58,59 +41,19 @@ if (loading) {
 if(loggedIn){
     return (
         <>  
-        
+         
 <h4 class="ui horizontal divider header">
         <i class="address card icon"></i>
  Account Information
+
  
         </h4>
+        
        
         <img class="ui centered medium circular image"  src={user.profilePic}></img>
 <td>
-        <Modal 
-                trigger={<Button color='green'  floated="left" onClick={closeModal} >Update Bio </Button>}  
-                className="updateBioForm"  
-                open={modalOpen}        
-            >
-               
-                <Segment>
-                    <Header content={"Update Bio"} /> 
-                    <Form error ={Boolean(error)} loading={loading} onSubmit={closeModal}> 
-                    
-                        <Form.Input 
-                            fluid    
-                            icon="edit Outline"
-                            iconPosition="left"
-                            label="bio"
-                            placeholder="bio"
-                            name="bio"
-                            value = {user.bio}
-                            onChange={handleChange}
-                            
-                        />
-                                     
-                        <Button
-                            disabled={loading}
-                            loading = {loading}
-                            icon="cancel"
-                            type="submit"
-                            color="green"
-                            content="Save Changes"
-                        />
-                        <Button
-                            disabled={loading}
-                            loading = {loading}
-                            icon="upload"
-                            type="button"
-                            color="red"
-                            content="Cancel"
-                            onClick={closeModal}
-                        />
-                    
-                    </Form>
-                </Segment>
-                </Modal>
-
+<UpdateBio />
+                
 </td>
 
      <Table celled striped>
@@ -152,6 +95,19 @@ if(loggedIn){
       </Table.Row>     
       <Table.Row>
       </Table.Row> 
+
+      <Table.Row>
+        <Table.Cell>
+          <Icon name='thumbs up' /> Total Upvotes
+        </Table.Cell>
+        <Table.Cell>{user.upvoteTotal}</Table.Cell>
+      </Table.Row>
+
+      
+
+
+
+      
          
     </Table.Body>  
     

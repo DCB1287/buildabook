@@ -100,12 +100,19 @@ if (loading) {
           <Icon name='dollar sign' /> Account Type
         </Table.Cell>
         <Table.Cell>Free (Premium Coming Soon!)</Table.Cell>
-     
       </Table.Row>
       <Table.Row>
-       
-
       </Table.Row>
+
+      <Table.Row>
+        <Table.Cell>
+          <Icon name='thumbs up' /> Total Upvotes
+        </Table.Cell>
+        <Table.Cell>{user.upvoteTotal}</Table.Cell>
+      </Table.Row>
+
+
+
     </Table.Body>
   </Table>
 
