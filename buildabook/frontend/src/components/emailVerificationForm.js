@@ -16,7 +16,6 @@ function EmailVerificationForm() {
     const [error, setError] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
 
-
     async function handleSubmit(event) {
         event.preventDefault()
         try {
@@ -26,7 +25,7 @@ function EmailVerificationForm() {
             setSuccess(false)
             const payload = {...user}
             console.log(payload)
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/`, payload)
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/verifyUser`, payload)
             setMessage(response.message)
             setUser(INITIAL_USER)
         } catch (error){
