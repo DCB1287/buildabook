@@ -95,6 +95,19 @@ if(loggedIn){
       </Table.Row>     
       <Table.Row>
       </Table.Row> 
+
+      <Table.Row>
+        <Table.Cell>
+          <Icon name='thumbs up' /> Total Upvotes
+        </Table.Cell>
+        <Table.Cell>{user.upvoteTotal}</Table.Cell>
+      </Table.Row>
+
+      
+
+
+
+      
          
     </Table.Body>  
     
