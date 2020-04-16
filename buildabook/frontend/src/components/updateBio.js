@@ -37,7 +37,7 @@ function UpdateBio(props) {
             setUsers(userData[0])     
         }
         fetchUser();
-    },[user])
+    },[])
 
         return (
             <>          
