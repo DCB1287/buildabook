@@ -1,24 +1,37 @@
+const theDate = new Date();
+
 module.exports = {
     testChapterCorrect: {
-        _id: 1,
+        _id: "5e97f48f97a32a1e68dfa6f2",
         title: 'test',
         text: 'test text',
         author: '1',
-        expirationDate: new Date() + 10 * 1000,
-        startDate: new Date(),
+        expirationDate: theDate,
+        startDate: theDate,
         comments: [],
-        dateCreated: new Date(),
+        dateCreated: theDate,
+        contenders: []
+    },
+    testChapterCorrect2: {
+        _id: "5e97f48f97a32a1e68dfa6f3",
+        title: 'test2',
+        text: 'test text2',
+        author: '2',
+        expirationDate: theDate,
+        startDate: theDate,
+        comments: [],
+        dateCreated: theDate,
         contenders: []
     },
     testChapterWrong: {
-        _id: "",
+        _id: "5e97f48f97a32a1e68dfa6f4",
         title: '',
         text: '',
         author: '',
-        expirationDate: new Date() + 10 * 1000,
-        startDate: new Date(),
+        expirationDate: theDate,
+        startDate: theDate,
         comments: [],
-        dateCreated: new Date(),
+        dateCreated: theDate,
         contenders: []
     },
 }

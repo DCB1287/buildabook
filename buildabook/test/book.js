@@ -4,6 +4,7 @@ process.env.NODE_ENV = 'test'
 console.log(process.env.NODE_ENV)
 let mongoose = require('mongoose')
 let Book = require('../models/book.model')
+let Chapter = require('../models/chapter.model')
 
 let chai = require('chai')
 let chaiHttp = require('chai-http')
@@ -33,8 +34,11 @@ describe('BookAPI', function() {
     // Remove each Book before each test
     beforeEach((done) => {
         Book.remove({}, (err) => {
-            done()
         })
+
+        Chapter.remove({}, (err) => {
+        })
+        done()
     })
     //Get all Books 
     describe('/api/book/getAll', function() {
@@ -95,12 +99,16 @@ describe('BookAPI', function() {
     // Get all Books in DB
     describe('/api/book/getAll',  function test () {
         it('should return an array of books', (done) => {
-          
-          async function test2 () 
-          {
-            await Book.insertMany(testBookArray);
-                
 
+            // Ok, here's the funny business:
+            // function calls to mongoDB return a promise that it will eventually execute
+            // to use threading commands like await, we can only call it in async functions, which chai appears not to be
+            // to overcome this, create a nested asynchronous function that contains what you want to do
+            // make sure to name it, and cal it in the test field.
+            // this will allow Node.js to wait for mongodb to complete the operation and not return IOUs
+            async function test2 () 
+            {
+                await Book.insertMany(testBookArray);
                 chai.request(server)
                     // May have to change name because we haven't named it yet
                     .get('/api/book/getAll')
@@ -111,10 +119,10 @@ describe('BookAPI', function() {
                         res.body.length.should.be.eql(testBookArray.length)
                         done()
                     })
-          }
-
-          test2();
+            }
             
+            // execute test2
+            test2();
         })
     })
 
@@ -123,108 +131,169 @@ describe('BookAPI', function() {
     describe('GetBooks', function() {
         it('should return a single book', (done) => {
             // We'll need to be a known id here
-            const book = new Book({
-                title:"test",
-                writingPrompt:"test",
-                image:"test",
-                numberOfChapters:"1",
-                duration:"1",
-                authorArray:[],
-                genre: "test"
-            })
             
-            var targetId;
-            
-            Book.insertOne(book);
-            let query = Book.findOne({});
-            query.exec((err, bookT) => {
-                targetId = bookT.id;
-            })
-            
-            setTimeout(it, 1000)
+            async function test2 () 
+            {
+                const book = new Book({
+                    title:"test",
+                    writingPrompt:"test",
+                    image:"test",
+                    numberOfChapters:"1",
+                    duration:"1",
+                    authorArray:[],
+                    genre: "test"
+                })
+                
+                
+                
+                await Book.create(book);
 
-            chai.request(server)
-            // May have to change name because we haven't named it yet
-            .get('/api/book/getById?id=' + targetId)
-            .end((err, res) => {
-                console.log(res.body)
-                console.log(res.status)
-                res.should.have.status(200)
-                res.body.should.be.a('array')
-                done()
-            })
+                let query = Book.findOne({});
+                 query.exec((err, bookT) => {
+                    var targetId = typeof String;
+                    targetId = bookT._id;
+                    //console.log(targetId)
+
+                    chai.request(server)
+                    // May have to change name because we haven't named it yet
+                    .get('/api/book/getById?books=' + targetId)
+                    .end((err, res) => {
+                        //console.log(res.body)
+                        //console.log(res.status)
+                        res.should.have.status(200)
+                        res.body.should.be.a('array')
+                        res.body.length.should.be.eql(1);
+                        done()
+                    })
+                })
+            }
+
+            test2();
         })
 
-        it('should not get a book if it does not exist', (done) => {
+        it('should return empty array if it does not exist', (done) => {
             // We'll need to be a known id here that isn't there
-            const id = 0
+            const id = "5e97f48f97a32a1e68dfa699";
             chai.request(server)
-                .get(`/api/book/get=?${id}`)
+                .get(`/api/book/getById?books=${id}`)
                 .end((err, res) => {
-                    res.should.have.status(404)
-                    res.body.should.be.a('string')
+                    //console.log(res.body)
+                    res.should.have.status(200)
+                    res.body.should.be.a('array')
+                    res.body.should.be.empty;
                     done()
                 })
         })
     })
-    // Edit a Book
-    describe('EditBook', function() {
-        it('should update a book', (done) => {
-            let book = new Book(testBook)
-            book.save((err, book) => {
+
+    // Get one Book
+    describe('Get Books By Author', function() {
+        it('should return a single book', (done) => {
+            // We'll need to be a known id here
+            
+            async function test2 () 
+            {
+                const book = new Book({
+                    title:"test",
+                    writingPrompt:"test",
+                    image:"test",
+                    numberOfChapters:"1",
+                    duration:"1",
+                    authorArray:["author1"],
+                    genre: "test"
+                })
+                
+                const book2 = new Book({
+                    title:"test",
+                    writingPrompt:"test",
+                    image:"test",
+                    numberOfChapters:"1",
+                    duration:"1",
+                    authorArray:["author2"],
+                    genre: "test"
+                })
+                
+                
+                
+                await Book.create(book);
+
+
                 chai.request(server)
                 // May have to change name because we haven't named it yet
-                .post(`/api/book/edit?=${book._id}`)
-                .send(testBookArray[1])
+                .get('/api/book/getByAuthor?authors=' + "author1")
                 .end((err, res) => {
+                    //console.log(res.body)
+                    //console.log(res.status)
                     res.should.have.status(200)
-                    res.body.should.be.a('string')
+                    res.body.should.be.a('array')
+                    res.body.length.should.be.eql(1);
                     done()
                 })
-            })
+            }
+
+            test2();
         })
-        it('should not update a book with an id that does not exist', (done) => {
+
+        it('should return empty array if it does not exist', (done) => {
+            // We'll need to be a known id here that isn't there
+            const id = "5e97f48f97a32a1e68dfa699";
             chai.request(server)
-                // May have to change name because we haven't named it yet
-                .post(`/api/book/edit?=${0}`)
-                .send(testBookArray[1])
+                .get(`/api/book/getByAuthor?authors=tim`)
                 .end((err, res) => {
-                    res.should.have.status(404)
-                    res.body.should.be.a('string')
+                    //console.log(res.body)
+                    res.should.have.status(200)
+                    res.body.should.be.a('array')
+                    res.body.should.be.empty;
                     done()
                 })
         })
     })
-    
+
     // Delete a Book
     describe('DeleteBook', function() {
         it('DeleteBook should delete a book', (done) => {
-            let book = new Book(testBook)
-            book.save((err, book) => {
+            
+            async function test2 () 
+            {
+                await Book.create(testBook)
+
                 chai.request(server)
                     // May have to change name because we haven't named it yet
-                    .delete(`/api/book/delete=?${book._id}`)
+                    .delete(`/api/book/delete`)
+                    .send({_id: testBook._id})
                     .end((err, res) => {
+                        //console.log(res.body)
                         res.should.have.status(200)
-                        res.body.should.be.a('string')
+                        res.body.should.be.a('Object')
+                        res.body.should.have.property('message')
+                        .eql('Book 5e97f48f97a32a1e68dfa6f2 deleted! ')
                         done()
                     })
-                })
+            }
+
+            test2();
         })
 
-        it('DeleteBook should not delete a book that does not exist', (done) => {
-            //Should be a known id that does not exist
-            let book = new Book(testBook)
-            book.save((err, book) => {
+        it('DeleteBook should show message as above but tagged with undefined', (done) => {
+            async function test3 () 
+            {
+                await Book.create(testBook)
+
                 chai.request(server)
                     // May have to change name because we haven't named it yet
-                    .delete(`/api/book/delete=?${book._id}`)
+                    .delete(`/api/book/delete`)
+                    .send({_id: "5e97f48f97a32a1e68dfa6f9"})
                     .end((err, res) => {
-                        res.should.have.status(404)
-                        res.body.should.be.a('string')
+                        //console.log(res.body)
+                        res.should.have.status(200)
+                        res.body.should.be.a('Object')
+                        res.body.should.have.property('message')
+                        .eql('Book 5e97f48f97a32a1e68dfa6f9 deleted! undefined')
                         done()
                     })
-                })
+            }
+
+            test3();
         })
     })
 })
