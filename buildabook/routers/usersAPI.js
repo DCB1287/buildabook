@@ -124,8 +124,8 @@ Router.route('/add').post((req, res) => {
     let transport = nodemailer.createTransport({
       service: 'gmail',
       auth:{
-        user: 'blakep@dataflowsys.com',
-        pass: 'Whitecbr600rr$$'
+        user: 'buildabookserviceteam@gmail.com',
+        pass: 'PooP1212'
            }
     });
 
@@ -146,9 +146,57 @@ Router.route('/add').post((req, res) => {
   });
 });
 
-Router.route('/verifyUser').post((req, res) => {
-  User.updateOne({"verifyString":req.body.verificationCode},{"isVerified":true})
-  .then(user => res.json(user))
+Router.route('/resend').post((req, res,next) => {
+  const email = req.body.email;
+  const randomVerificationString = randomStr.random(50)
+
+  query.exec((err,target) => {
+    if(target == null)
+      next(err) 
+    else{
+      User.updateOne({"verifyString":req.body.verificationCode},{"verifyString":randomVerificationString})
+      .then(user => res.json(user))
+    }
+  })
+
+   let transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth:{
+        user: 'buildabookserviceteam@gmail.com',
+        pass: 'PooP1212'
+           }
+    });
+
+    const message = {
+      from: 'User_Verification@Buildabook.com',
+      to: email,
+      subject: 'Verification',
+      text: 'Thank you for registering with Buildabook, your verifcation code is: '+ randomVerificationString
+  };
+
+  transport.sendMail(message,function(err, info){
+    if(err){
+      console.log(err)
+    }
+    else{
+      console.log(info);
+    }
+  });
+});
+
+Router.route('/verifyUser').post((req, res,next) => {
+
+  let query = User.findOne({verifyString:req.body.verificationCode})
+
+  query.exec((err,target) => {
+    if(target == null)
+      next(err) 
+    else{
+      User.updateOne({"verifyString":req.body.verificationCode},{"isVerified":true})
+      .then(user => res.json(user))
+    }
+  })
+
 });
 
 

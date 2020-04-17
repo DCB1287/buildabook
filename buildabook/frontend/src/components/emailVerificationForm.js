@@ -7,6 +7,38 @@ const INITIAL_USER = {
     verificationCode: ""
 }
 
+function handleVerificationComplete() {
+  window.location.href = '/login'
+}
+
+
+function catchErrors(error, displayError) {
+  let errorMsg;
+  if (error.response) {
+    // The request was made and the server responsed with a status code that is not in the range of 2XX
+    errorMsg = error.response.data;
+    console.error("Error response", errorMsg);
+
+    // For Cloudinary image uploads
+    if (error.response.data.error) {
+      errorMsg = error.response.data.error.message;
+    }
+  } else if (error.request) {
+    // The request was made, but no response was received
+    errorMsg = error.request;
+    console.error("Error request", errorMsg);
+  } else if(errorMsg == null)
+    console.log("booty")
+
+  else {
+    // Something else happened in making the request that triggered an error
+    errorMsg = error.message;
+    console.error("Error message", errorMsg);
+  }
+  displayError(errorMsg);
+
+}
+
 function EmailVerificationForm() {
 
     const [user, setUser] = React.useState(INITIAL_USER)
@@ -26,11 +58,32 @@ function EmailVerificationForm() {
             const payload = {...user}
             console.log(payload)
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/verifyUser`, payload)
+            handleVerificationComplete()
             setMessage(response.message)
             setUser(INITIAL_USER)
         } catch (error){
             setError(true)
-            setMessage(error)
+            catchErrors(error,setError)
+        } finally {
+            setLoading(false)
+            setDisabled(false)
+        }
+    }
+
+    async function handleResend(event){
+        event.preventDefault()
+        try{
+
+            setLoading(true)
+            setDisabled(true)
+            setError(false)
+            setSuccess(false)
+            const payload = {...user}
+            console.log(payload)
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/resend`, payload)
+        } catch (error){
+            setError(true)
+            catchErrors(error,setError)
         } finally {
             setLoading(false)
             setDisabled(false)
@@ -55,13 +108,13 @@ function EmailVerificationForm() {
                 <Form 
                     padded='true'
                     fluid='true' 
-                    onSubmit={handleSubmit} 
+                    onSubmit={handleSubmit}
                     disabled={Boolean(disabled)} 
                     loading={Boolean(loading)} 
                     success={Boolean(success)} 
                     error={Boolean(error)}
                 >
-                <Message error content={"bad"} />
+                <Message error content={"Incorrect Email and Verification combination"} />
                 <Message success content={"good"} />
                     <Form.Input 
                         icon="mail"
@@ -89,6 +142,13 @@ function EmailVerificationForm() {
                         iconposition='left'
                         type='submit'
                         content="Submit"
+                    />
+                       <Button 
+                        disabled={disabled || loading}
+                        color='green' 
+                        icon='send'
+                        iconposition='left'
+                        content="Resend Verification Code"
                     />
                 </Form>  
             </Segment>
