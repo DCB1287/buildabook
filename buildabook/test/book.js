@@ -10,6 +10,8 @@ let chaiHttp = require('chai-http')
 let should = chai.should()
 let server = require('../server')
 
+
+
 //Test data
 const data = require('./testDataBook')
 const testBook = data.testBook
@@ -19,6 +21,9 @@ const testBookArray = data.testBookArray
 chai.use(chaiHttp)
 //address of local host server
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 //Book Tests
 
@@ -88,48 +93,64 @@ describe('BookAPI', function() {
     })
 
     // Get all Books in DB
-    describe('/api/book/getAll', function() {
+    describe('/api/book/getAll',  function test () {
         it('should return an array of books', (done) => {
-            testBookArray.forEach((book2) => {
-                let target = new Book(book2);
-                target.save();
-            })
-
-            chai.request(server)
-                .get('/api/book/getAll')
-                .end((err, res) => {                    
-                    res.should.have.status(200)
-                    res.body.should.be.a('array')
-                    done()
-                })
+          
+          async function test2 () 
+          {
+            await Book.insertMany(testBookArray);
                 
+
+                chai.request(server)
+                    // May have to change name because we haven't named it yet
+                    .get('/api/book/getAll')
+                    .end((err, res) => {
+                        res.should.have.status(200)
+                        //console.log(res.body)
+                        res.body.should.be.a('array')
+                        res.body.length.should.be.eql(testBookArray.length)
+                        done()
+                    })
+          }
+
+          test2();
+            
         })
     })
+
+    
     // Get one Book
     describe('GetBooks', function() {
         it('should return a single book', (done) => {
             // We'll need to be a known id here
-            let book = new Book(testBook)
-            let objectId = new mongoose.Types.ObjectId();
+            const book = new Book({
+                title:"test",
+                writingPrompt:"test",
+                image:"test",
+                numberOfChapters:"1",
+                duration:"1",
+                authorArray:[],
+                genre: "test"
+            })
+            
+            var targetId;
+            
+            Book.insertOne(book);
+            let query = Book.findOne({});
+            query.exec((err, bookT) => {
+                targetId = bookT.id;
+            })
+            
+            setTimeout(it, 1000)
 
-            book.id = objectId;
-            book.save()
             chai.request(server)
             // May have to change name because we haven't named it yet
-            .get('/api/book/getById?id=' + book.id)
+            .get('/api/book/getById?id=' + targetId)
             .end((err, res) => {
                 console.log(res.body)
                 console.log(res.status)
                 res.should.have.status(200)
                 res.body.should.be.a('array')
-                res.body.should.have.property('title')
-                res.body.should.have.property('writingPrompt')
-                res.body.should.have.property('image')
-                res.body.should.have.property('numberOfChapters')
-                res.body.should.have.property('duration')
-                res.body.should.have.property('authorArray')
-                res.body.should.have.property('inProgressFlag')
-                res.body.should.have.property('expriationDate')
                 done()
             })
         })
