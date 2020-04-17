@@ -62,8 +62,8 @@ function CreateNewChapter(props) {
             //set Author to chapter
             const {title, text} = chapter
             const author = JSON.parse(cookie.get('token')).user.username
-            const index = _.findIndex(props.chapters, function(e) {return e.text == ""})
-            if (index == -1) {
+            const index = _.findIndex(props.chapters, function(e) {return e.text === ""})
+            if (index === -1) {
                 console.log("error")
             }
             const chapterId = props.chapters[index]._id

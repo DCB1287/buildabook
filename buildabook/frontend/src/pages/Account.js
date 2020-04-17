@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useRouteMatch } from 'react-router-dom'
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Redirect} from 'react-router-dom';
 import axios from 'axios'
 import _ from 'lodash'
 import bookData from '../placeholder data/book'
 import userData from '../placeholder data/user'
-import { Icon, Header, Modal, Button, Segment, Table, Form } from 'semantic-ui-react'
+import { Icon, Segment, Table } from 'semantic-ui-react'
 import ContributionsTable from '../components/ContributionsTable'
 import UpdateBio from '../components/updateBio'
 import cookie from 'js-cookie'

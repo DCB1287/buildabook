@@ -1,6 +1,5 @@
 import React from 'react'
 import _ from 'lodash'
-import Chapter from '../components/chapter'
 import { Divider, Tab } from 'semantic-ui-react'
 
 function PastContenderTabs(props) {

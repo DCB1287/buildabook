@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, Form, Icon, Message, Segment, Container } from 'semantic-ui-react'
 import axios from 'axios'
-import cookie from "js-cookie"
 
 const INITIAL_USER = {
   username: "",

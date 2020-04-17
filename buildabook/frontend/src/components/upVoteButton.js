@@ -1,7 +1,6 @@
 import React from 'react'
 import {Button, Label, Icon} from 'semantic-ui-react'
 import axios from 'axios'
-import _ from 'lodash'
 import cookies from 'js-cookie'
 
 var id = cookies.get('token')
@@ -10,8 +9,9 @@ function UpVoteButton(props) {
     const [active, setActive] = React.useState(true)
     const [disabled, setDisabled] = React.useState(false)
     const [upvoteCount, setUpvoteCount] = React.useState(props.chapter.upvoteCount)
-    const [userId, setUserId] = React.useState(JSON.parse(id).user.id)
-    const [upvoteList, setUpvoteList] = React.useState([])
+    const [userId] = React.useState(JSON.parse(id).user.id)
+
+
     React.useEffect(() => {
            //if the user is logged in, get upVoteList
           if (userId) {

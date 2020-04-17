@@ -4,10 +4,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import Chapter from '../components/chapter'
 import CreateNewChapter from '../components/createNewChapter'
-
-import bookData from '../placeholder data/book'
-import chapterData from '../placeholder data/chapter'
-import { Divider, Icon, Image, Card, Label, Tab, Header, Modal, Button, Segment } from 'semantic-ui-react'
+import { Divider, Icon, Image, Card, Label, Tab, Header, Segment } from 'semantic-ui-react'
 import PastContenderTabs from '../components/pastContendersTabs'
 
 
@@ -19,8 +16,6 @@ function Book() {
     const [chapterPane, setChapterPane] = useState([])
     const [contenders, setContenders] = useState([])
     const [contendersPane, setContendersPane] = useState([])
-    const [contendersArrayLength, setContendersArrayLength] = useState(0)
-    const [pastContenders, setPastContenders] = useState([])
     const [indexOfLatestChapter, setIndexOfLatestChapter] = useState(0)
 
     useEffect(() => {
@@ -37,9 +32,7 @@ function Book() {
 
 
             
-            if (Object.keys(book).length) {
-                setContendersArrayLength(chapterData[0].length)
-            }
+            
         }
         fetchBook();
     },[])
@@ -64,7 +57,7 @@ function Book() {
 
     //Using the chapters data, get the contender chapters.
     React.useEffect(()  => {
-        setIndexOfLatestChapter(_.findIndex(chapters, function(e) {return e.text == ""}))
+        setIndexOfLatestChapter(_.findIndex(chapters, function(e) {return e.text === ""}))
         
         const getContenders = async () => {
             let i = 0;

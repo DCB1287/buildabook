@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Divider, Table, Image, Pagination, Statistic } from 'semantic-ui-react'
+import { Table, Image, Statistic } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 function BooksTable(props) {

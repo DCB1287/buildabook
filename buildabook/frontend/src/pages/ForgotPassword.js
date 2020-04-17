@@ -1,6 +1,5 @@
 import React from 'react'
-import { Form, Button, Segment, Grid, Message, Divider } from 'semantic-ui-react'
-import axios from 'axios'
+import { Segment, Grid, Divider } from 'semantic-ui-react'
 import SetPasswordForm from '../components/setPasswordForm'
 import PasswordValidationForm from '../components/passwordValidationForm'
 

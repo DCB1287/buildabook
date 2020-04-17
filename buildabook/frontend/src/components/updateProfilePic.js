@@ -5,7 +5,6 @@ import { Modal,
     Form, 
     Message,
     Segment,
-    Select, 
     Input,
     Image } from 'semantic-ui-react'
 import cookie from 'js-cookie'

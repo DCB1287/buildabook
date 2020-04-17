@@ -3,7 +3,7 @@ import { Label, Header, Icon, Container, Segment } from 'semantic-ui-react'
 import UpVoteButton from './upVoteButton'
 
 function Chapter(props) {
-    const [chapter, setChapter] = React.useState(props.chapter)
+    const [chapter] = React.useState(props.chapter)
 
     return (
         <>

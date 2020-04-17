@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import userData from '../placeholder data/user'
-import { Header, Image, Form, Button, Modal, Segment, Icon } from 'semantic-ui-react'
+import { Header, Image, Form, Button, Modal, Segment } from 'semantic-ui-react'
 
 function UpdateBio(props) {
 

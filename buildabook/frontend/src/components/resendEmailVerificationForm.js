@@ -7,10 +7,6 @@ const INITIAL_USER = {
     verificationCode: ""
 }
 
-function handleVerificationComplete() {
-  window.location.href = '/login'
-}
-
 
 function catchErrors(error, displayError) {
   let errorMsg;
@@ -39,7 +35,7 @@ function catchErrors(error, displayError) {
 
 }
 
-function EmailVerificationForm() {
+function ResendEmailVerificationForm() {
 
     const [user, setUser] = React.useState(INITIAL_USER)
     const [disabled, setDisabled] = React.useState(false)
@@ -48,20 +44,19 @@ function EmailVerificationForm() {
     const [error, setError] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
 
-    async function handleSubmit(event) {
+    async function handleResend(event){
         event.preventDefault()
-        try {
+        try{
+
             setLoading(true)
             setDisabled(true)
             setError(false)
             setSuccess(false)
             const payload = {...user}
             console.log(payload)
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/verifyUser`, payload)
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/resend`, payload)
             setSuccess(true)
             setMessage(response.data.message)
-            handleVerificationComplete()
-            setUser(INITIAL_USER)
         } catch (error){
             setError(true)
             catchErrors(error,setError)
@@ -78,17 +73,17 @@ function EmailVerificationForm() {
 
     return (
         <>
-        
             <Segment>
                 <Message    
                     attached
                     icon="book"
-                    header="Verify Your Email"
+                    header="Didn't Get Your Email?"
                     color='green'  
                 />
                 <Form 
                     padded='true'
-                    onSubmit={handleSubmit}
+                    fluid='true' 
+                    onSubmit={handleResend}
                     disabled={Boolean(disabled)} 
                     loading={Boolean(loading)} 
                     success={Boolean(success)} 
@@ -106,29 +101,20 @@ function EmailVerificationForm() {
                         value={user.email}
                         onChange={handleFormChange}
                     />
-                    <Form.Input 
-                        icon="lock"
-                        iconposition='left'
-                        label='Verification Code'
-                        placeholder="Verification Code"
-                        name='verificationCode'
-                        value={user.verificationCode}
-                        onChange={handleFormChange}
-                    />
                     <Button 
                         disabled={disabled || loading}
                         color='green' 
                         icon='send'
                         iconposition='left'
                         type='submit'
-                        content="Submit"
+                        content="Resend"
                     />
                 </Form> 
-            </Segment>        
+            </Segment>     
         </>
     )
 
 
 }
 
-export default EmailVerificationForm
+export default ResendEmailVerificationForm
