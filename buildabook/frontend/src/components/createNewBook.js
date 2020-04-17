@@ -31,6 +31,7 @@ function CreateNewBook() {
     const [disabled, setDisabled] = React.useState(false)
     const [mediaPreview, setMediaPreview] = React.useState("");
     const [book, setBook] = React.useState(INITIAL_BOOK)
+    const [message, setMessage] = React.useState("")
 
     React.useEffect(() => {
         if (Boolean(success)) {
@@ -40,9 +41,9 @@ function CreateNewBook() {
       }, [success]);
 
     const durationOptions = [
-        {key: 's', text: "30 Seconds", value: 30 },
-        {key: 'm', text: "5 minutes", value: 300 },
-        {key: 'h', text: "1 hour", value: 3600 },
+        {key: 's', text: "1 minute", value: 2 },
+        {key: 'm', text: "5 minutes", value: 3 },
+        {key: 'h', text: "1 hour", value: 4 },
     ]
     const chapterOptions = [
         {key: '1', text: "1", value: 1},
@@ -102,6 +103,9 @@ function CreateNewBook() {
         try {
             event.preventDefault()
             setLoading(true)
+            setDisabled(true)
+            setError(false)
+            setSuccess(false)
             //Upload the image to cloudinary or if one does not exist, use default book picture
             let image;
             if (book.image) {
@@ -117,11 +121,12 @@ function CreateNewBook() {
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/book/add`, payload)
 
             //Set Messages and reset the book state
-            setSuccess(response.message)
-            setError("")
+            setSuccess(true)
+            setMessage(response.data.message)
             setBook(INITIAL_BOOK)
         } catch(error) {
-            setError(error)
+            setError(true)
+            setMessage(error)
             console.log(error)
         } finally {
             setLoading(false)
@@ -136,8 +141,8 @@ function CreateNewBook() {
                     {
                         setModalOpen(true); 
                         setBook(INITIAL_BOOK);
-                        setSuccess("")
-                        setError("")
+                        setSuccess(false)
+                        setError(false)
                     }}>+BuildABook</Button>} 
                 open={modalOpen}
             >
@@ -152,7 +157,8 @@ function CreateNewBook() {
                     />
                     <br />
                         <Form error={Boolean(error)} success={Boolean(success)} loading={loading} onSubmit={handleSubmit} disabled={loading}>
-                            <Message success header="Success" content={success} />
+                            <Message success header="Success:" content={message} />
+                            <Message error header="Oops!" content={message} />
                             
                             <Form.Group>
                                 <Form.Field

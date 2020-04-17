@@ -14,7 +14,11 @@ function Chapter(props) {
                     <Icon name='user' />
                     Author: {chapter.author}
                 </Label>
-                <UpVoteButton chapter={chapter} latest={props.latest} />
+                {props.inactive ? 
+                    <p></p>
+                    :
+                    <UpVoteButton chapter={chapter} latest={props.latest} />
+                }
                 <Header as='h2' content={chapter.title} />    
                 {chapter.text}
                 </>

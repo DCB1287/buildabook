@@ -21,7 +21,7 @@ function Book() {
     const [contendersPane, setContendersPane] = useState([])
     const [contendersArrayLength, setContendersArrayLength] = useState(0)
     const [pastContenders, setPastContenders] = useState([])
-    
+    const [indexOfLatestChapter, setIndexOfLatestChapter] = useState(0)
 
     useEffect(() => {
         
@@ -34,9 +34,7 @@ function Book() {
             } catch (e) {
                 console.log(e)
             }
-            //On first load, React renders undefined objects.
-            //This sets the length of the chapter array to show
-            //console.log(book)
+
 
             
             if (Object.keys(book).length) {
@@ -61,10 +59,13 @@ function Book() {
             
         }
         getChapters()
+        
     },[book])
 
     //Using the chapters data, get the contender chapters.
     React.useEffect(()  => {
+        setIndexOfLatestChapter(_.findIndex(chapters, function(e) {return e.text == ""}))
+        
         const getContenders = async () => {
             let i = 0;
             let pastChapters = []
@@ -75,7 +76,7 @@ function Book() {
                     if (!Boolean(chapters[i].contenders[0])) {
 
                     } else {
-                        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/chapters/getById`, {
+                        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/chapter/getById`, {
                             params: {
                                 chapters: chapters[i].contenders
                             }
@@ -95,7 +96,7 @@ function Book() {
                 const pane = _.map(chapters, (chapter, i) => (
                     {
                         menuItem: `Chapter ${i+1}`,
-                        render: () => <Tab.Pane key={chapter._id}><Chapter chapter={chapter}/></Tab.Pane>
+                        render: () => <Tab.Pane key={chapter._id}><Chapter chapter={chapter} inactive={true}/></Tab.Pane>
                     }
                 ))
                 return pane
@@ -120,7 +121,6 @@ function Book() {
         }
         getContenders()
     },[chapters])
-
     return (
         <>
         <h1>This is {book.title}'s Book Page</h1>
@@ -132,7 +132,7 @@ function Book() {
                     </Card.Header>
                     <Icon name='users' />
                         Authors: {_.map(book.authorArray, (author) => (
-                                <Label key={author} as='a' href={`/user/${author}`} >
+                                <Label key={author} as='a' href={`/user/${author}`} color='blue' >
                                     <Image avatar spaced='right' src={author.profilePic} />
                                     {author}
                                 </Label>
@@ -166,7 +166,7 @@ function Book() {
             {contenders.length ?
                 <>
                 <Header as='h3' content='Conte'>Contenders </Header>
-                <Tab menu={{fluid: true, vertical: true }} panes={contendersPane[contendersPane.length - 1]} />
+                <Tab menu={{fluid: true, vertical: true }} panes={contendersPane[indexOfLatestChapter]} />
                 <br />
                 </>
                 :
@@ -175,9 +175,9 @@ function Book() {
                 </Segment>
             }
 
-            <CreateNewChapter />
+            <CreateNewChapter chapters={chapters}/>
             <br /><br /><br />
-            {Boolean(chapters.length > 1) ?
+            {Boolean(chapters.length > 0) ?
                 <PastContenderTabs pastContendersPanes={contendersPane}/>
                 :
                 <p></p>

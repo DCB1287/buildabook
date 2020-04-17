@@ -25,6 +25,7 @@ function CreateNewChapter(props) {
     const [loading, setLoading] = React.useState(false)
     const [disabled, setDisabled] = React.useState(false)
     const [chapter, setChapter] = React.useState(INITIAL_CHAPTER)
+    const [message, setMessage] = React.useState("")
 
     //If modal is opened or closed, it resets the state of the form
     React.useEffect(() => { 
@@ -60,17 +61,23 @@ function CreateNewChapter(props) {
             setError(false)
             //set Author to chapter
             const {title, text} = chapter
-            const author = JSON.parse(cookie.get('token')).user.id
-            const index = _.findIndex(props.book.chaptersArray, function(e) {return e.text == ""})
-            const chapter = props.book.chaptersArray[index]._id
-            const payload = {title, text, author, chapter}
+            const author = JSON.parse(cookie.get('token')).user.username
+            const index = _.findIndex(props.chapters, function(e) {return e.text == ""})
+            if (index == -1) {
+                console.log("error")
+            }
+            const chapterId = props.chapters[index]._id
+            const payload = {title, text, author, chapterId}
             console.log(payload)
             //post chapter to database
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chapter/addContender`, payload)
-            setSuccess(response.message)
+            setSuccess(true)
+            setMessage(response.data.message)
             setChapter(INITIAL_CHAPTER)
         } catch (error) {
-            setError(error)
+            setError(true)
+            console.log(error)
+            setMessage(error)
         } finally {
             setDisabled(false)
             setLoading(false)
@@ -88,8 +95,8 @@ function CreateNewChapter(props) {
                                     floated='right'
                                     onClick={ () => {
                                         setModalOpen(true)
-                                        setError("")
-                                        setSuccess("")
+                                        setError(false)
+                                        setSuccess(false)
                                     }}
                                 />
                             }
@@ -110,8 +117,8 @@ function CreateNewChapter(props) {
                             />
                             <br />
                             <Form error={Boolean(error)} success={Boolean(success)} loading={loading} onSubmit={handleSubmit} disabled={loading}>
-                                <Message success header="Success: " content={success} />
-                                <Message error header="Oops! " content={error} />
+                                <Message success header="Success: " content={message} />
+                                <Message error header="Oops! " content={message} />
                                 <Form.Input 
                                     required
                                     label='Title'
