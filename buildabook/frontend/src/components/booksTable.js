@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Container, Table, Image, Pagination, Statistic } from 'semantic-ui-react'
+import { Label, Table, Image, Pagination, Statistic, Form, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 import bookData from '../placeholder data/book'
@@ -9,11 +9,18 @@ function BooksTable(props) {
     const [direction, setDirection] = React.useState(null)
     const [column, setColumn] = React.useState("")
     const [data, setData] = React.useState(bookData)
-    const [booksPerPage, setBooksPerPage] = React.useState(3)
+    const [booksPerPage, setBooksPerPage] = React.useState(5)
     const [paginationPages, setPaginationPages] = React.useState(Math.ceil(data.length / booksPerPage))
     const [activePage, setActivePage] = React.useState(1)
 
     const now = new Date()
+
+    const booksPerPageOptions = [
+        {key: '5', text: '5', value: 5},
+        {key: '10', text: '10', value: 10},
+        {key: '15', text: '15', value: 15},
+        {key: '20', text: '20', value: 20},
+    ]
 
     //When there's a change in props.books, setData to props.books
     React.useEffect(() => {
@@ -41,7 +48,10 @@ function BooksTable(props) {
     function handlePageChange(e, { activePage }) {
         setActivePage(activePage)
     }
-    
+
+    function handleBooksPerPageChange(e, {value}) {
+        setBooksPerPage(value)
+    }
     function handleTimeLeft(date) {
         const now = new Date();
         const distance = date - now;
@@ -95,6 +105,15 @@ function BooksTable(props) {
 
     return (
         <>
+        <Form size='mini'>
+            <Form.Select
+                label="Books Per Page"
+                options={booksPerPageOptions}
+                placeholder='5' 
+                onChange={handleBooksPerPageChange}
+                width={1}
+            />
+        </Form>
         <Table sortable fixed celled padded striped selectable stacking='true'>
             <Table.Header>
                 <Table.Row>
@@ -155,7 +174,16 @@ function BooksTable(props) {
                         <Table.Cell>
                             <Link to={`/books/${_id}`}>{title}</Link>
                         </Table.Cell>
-                        <Table.Cell>{authorArray}</Table.Cell>
+                        <Table.Cell>
+                        {_.map(authorArray, (author) => (
+                            <>
+                            <Label key={author} as='a' href={`/user/${author}`} color='blue' >
+                                <Icon name='user' /> {author }
+                            </Label>
+                            
+                            </>
+                            ))}
+                        </Table.Cell>
                         <Table.Cell>{genre}</Table.Cell>
                         <Table.Cell>{writingPrompt}</Table.Cell>
                         <Table.Cell textAlign='right'>{inProgress ? 'Yes' : 'No'}</Table.Cell>

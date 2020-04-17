@@ -4,14 +4,10 @@ import BooksTable from '../components/booksTable'
 import CreateNewBook from '../components/createNewBook'
 import axios from 'axios'
 
-import booksData from '../placeholder data/book'
-import bookData from '../placeholder data/book';
-
 
 function Books() {
     const [books, setBooks] = React.useState([]);
     const [loading, setLoading] = React.useState(true)
-    const [done, setDone] = React.useState(true)
 
     
     // Get all the books from database

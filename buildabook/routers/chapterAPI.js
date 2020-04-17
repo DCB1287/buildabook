@@ -50,7 +50,7 @@ Router.route('/getByAuthor').get((req, res) =>
     // id of author of contender
 Router.route('/addContender').post((req, res) =>
 {
-    const targetChapter = req.body.chapter;
+    const targetChapter = req.body.chapterId;
     const title = req.body.title;
     const text = req.body.text;
     const author = req.body.author;
@@ -200,12 +200,12 @@ Router.route('/isUpvoted').get((req, res) =>
     {
         if (theUser.upvotes.includes(chapterTarget))
         {
-            return res.status(200).json({message: "True"});
+            return res.status(200).json({message: true});
         }
 
         else
         {
-            return res.status(200).json({message: "False"});
+            return res.status(200).json({message: false});
         }
 
     });
