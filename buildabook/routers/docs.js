@@ -13,14 +13,10 @@ const options = {
     swaggerDefinition: {
       openapi: "3.0.0",
       info: {
-        title: "Time to document that Express API you built",
+        title: "BuildaBook.Swagger",
         version: "1.0.0",
         description:
-          "A test project to understand how easy it is to document and Express API",
-        license: {
-          name: "MIT",
-          url: "https://choosealicense.com/licenses/mit/"
-        },
+          "Documentation of APIs through swagger tools",
         contact: {
           name: "Swagger",
           url: "https://swagger.io",
@@ -29,7 +25,7 @@ const options = {
       },
       servers: [
         {
-          url: "http://localhost:3000/api/"
+          url: "https://buildabook.herokuapp.com/api/"
         }
       ]
     },
