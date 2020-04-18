@@ -5,6 +5,11 @@ let User = require('../models/user.model');
 const nodemailer = require('nodemailer');
 const randomStr = require('@supercharge/strings')
 
+// Swagger
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+
 
 //Get user data based on id, leaving out the hashed password.
 Router.route('/').get((req, res) => {

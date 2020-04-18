@@ -4,6 +4,10 @@ const ObjectID = require('mongodb').ObjectID
 let Chapter = require('../models/chapter.model');
 let User = require('../models/user.model');
 
+// Swagger
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 // get all chapters
 Router.route('/getAll').get((req, res) =>
 {

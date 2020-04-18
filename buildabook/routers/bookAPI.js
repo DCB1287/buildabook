@@ -1,6 +1,5 @@
 const Router = require('express').Router();
 const mongoose = require('mongoose');
-var schedule = require('node-schedule');
 let Book = require('../models/book.model');
 let Chapter = require('../models/chapter.model')
 
@@ -192,7 +191,34 @@ Router.route('/deleteAll').delete((req, res) => {
 // Timed Events when Chapter Date is changed
 
 
+/**
+ * @swagger
+ * tags:
+ *   name: book
+ *   description: book management
+ */
 
+/**
+ * @swagger
+ * path:
+ *  /book/:
+ *    post:
+ *      summary: Create a new user
+ *      tags: [book]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Book'
+ *      responses:
+ *        "200":
+ *          description: A user schema
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Book'
+ */
 
 
 module.exports = Router;

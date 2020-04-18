@@ -46,6 +46,11 @@ app.use('/api/chapter', chapterConnection);
 const commentConnection = require('./routers/commentAPI.js');
 app.use('/api/comment', commentConnection);
 
+const docConnection = require('./routers/docs.js');
+app.use('/api/docs', docConnection);
+
+
+
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('frontend/build'));
