@@ -27,9 +27,7 @@ function catchErrors(error, displayError) {
     // The request was made, but no response was received
     errorMsg = error.request;
     console.error("Error request", errorMsg);
-  } else if(errorMsg == null)
-    console.log("booty")
-
+  } 
   else {
     // Something else happened in making the request that triggered an error
     errorMsg = error.message;
@@ -94,8 +92,8 @@ function EmailVerificationForm() {
                     success={Boolean(success)} 
                     error={Boolean(error)}
                 >
-                <Message error content={'Success! ' + message} />
-                <Message success content={'Error: ' + message} />
+                <Message error content={'Error: ' + 'Incorrect Email and or Verification code'} />
+                <Message success content={'Success'} />
                     <Form.Input 
                         icon="mail"
                         iconposition='left'

@@ -23,15 +23,13 @@ function catchErrors(error, displayError) {
     // The request was made, but no response was received
     errorMsg = error.request;
     console.error("Error request", errorMsg);
-  } else if(errorMsg == null)
-    console.log("booty")
-
+  } 
   else {
     // Something else happened in making the request that triggered an error
     errorMsg = error.message;
     console.error("Error message", errorMsg);
   }
-  displayError(errorMsg);
+ // displayError(errorMsg);
 
 }
 
@@ -53,12 +51,12 @@ function ResendEmailVerificationForm() {
             setError(false)
             setSuccess(false)
             const payload = {...user}
-            console.log(payload)
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/resend`, payload)
             setSuccess(true)
-            setMessage(response.data.message)
+            setMessage("Verification Code Resent")
         } catch (error){
             setError(true)
+            setSuccess(false)
             catchErrors(error,setError)
         } finally {
             setLoading(false)
@@ -89,8 +87,8 @@ function ResendEmailVerificationForm() {
                     success={Boolean(success)} 
                     error={Boolean(error)}
                 >
-                <Message error content={'Success! ' + message} />
-                <Message success content={'Error: ' + message} />
+                <Message error content={'Error: ' + message} />
+                <Message success content={'Success: ' + message} />
                     <Form.Input 
                         icon="mail"
                         iconposition='left'

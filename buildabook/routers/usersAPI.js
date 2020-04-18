@@ -159,14 +159,16 @@ Router.route('/add').post((req, res) => {
 });
 
 Router.route('/resend').post((req, res,next) => {
-  const email = req.body.email;
+  const userEmail = req.body.email;
   const randomVerificationString = randomStr.random(50)
+
+  let query = User.findOne({"email":userEmail})
 
   query.exec((err,target) => {
     if(target == null)
       next(err) 
     else{
-      User.updateOne({"verifyString":req.body.verificationCode},{"verifyString":randomVerificationString})
+      User.updateOne({"email":userEmail},{"verifyString":randomVerificationString})
       .then(user => res.json(user))
     }
   })
@@ -176,12 +178,12 @@ Router.route('/resend').post((req, res,next) => {
       auth:{
         user: 'buildabookserviceteam@gmail.com',
         pass: 'PooP1212'
-           }
+        }
     });
 
     const message = {
       from: 'User_Verification@Buildabook.com',
-      to: email,
+      to: userEmail,
       subject: 'Verification',
       text: 'Thank you for registering with Buildabook, your verifcation code is: '+ randomVerificationString
   };
