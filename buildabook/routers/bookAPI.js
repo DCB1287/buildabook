@@ -51,6 +51,9 @@ Router.route('/getByAuthor').get((req, res) =>
         // Duration (coming soon) 
     Router.route('/add').post((req, res) => {
         var msg2 = "";
+        
+        
+
         const title = req.body.title;
         const writingPrompt = req.body.writingPrompt;
         const image = req.body.image;
@@ -114,7 +117,7 @@ Router.route('/delete').delete((req, res) => {
     var query = Book.findOne({_id: id});
     query.exec((err, book) => {
         
-        if(err) return res.send(err);
+        if(err) return res.status(500).send(err);
 
         //delete contenders then chapters
         if(book != null && book.chaptersArray != null)
@@ -157,7 +160,7 @@ Router.route('/delete').delete((req, res) => {
     // delete the book
     Book.deleteOne({_id: id}, (err, book) =>
         {
-            if(err) return res.send(err);
+            if(err) return res.status(500).send(err);
             
             return res.status(200).json({message: "Book " + id + " deleted! " + temp});
         }
@@ -194,30 +197,146 @@ Router.route('/deleteAll').delete((req, res) => {
 /**
  * @swagger
  * tags:
- *   name: book
- *   description: book management
+ *   name: Book
+ *   description: All APIs relating to book management
  */
 
 /**
  * @swagger
  * path:
- *  /book/:
- *    post:
- *      summary: Create a new user
- *      tags: [book]
+ *  /book/getAll:
+ *    get:
+ *      summary: Get all books
+ *      tags: [Book]
  *      requestBody:
- *        required: true
+ *        required: false
+ *                         
+ * 
+ *      responses:
+ *        "200":
+ *          description: May god have mercy on your soul if this doesn't return status 200
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /book/getById:
+ *    get:
+ *      summary: Given an array of objectIds, return the documents tied to them.
+ *      tags: [Book]
+ *      parameters:
+ *       - in: query 
+ *         name: books
+ *         type: array
+ *         items:
+ *           type: string
+ *         description: book Ids to look for     
+ * 
+ *      responses:
+ *          "200":
+ *              description: normal
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /book/getByAuthor:
+ *    get:
+ *      summary: Given an author, return the books in which their name appears.
+ *      tags: [Book]
+ *      parameters:
+ *       - in: query 
+ *         name: authors
+ *         type: array
+ *         items:
+ *           type: string
+ *         description: author field goes here    
+ * 
+ *      responses:
+ *          "200":
+ *              description: normal
+ */
+
+ /**
+ * @swagger
+ * path:
+ *  /book/add:
+ *    post:
+ *      summary: add a book.
+ *      tags: [Book]
+ *      requestBody:
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Book'
+ *              type: object
+ *              required:
+ *                - title
+ *                - writingPrompt
+ *                - numberOfChapters
+ *              properties:
+ *                title:
+ *                  type: string
+ *                writingPrompt:
+ *                  type: string
+ *                numberOfChapters:
+ *                  type: integer
+ *                image:
+ *                  type: string
+ *                author:
+ *                  type: string
+ *                duration:
+ *                  type: integer
+ *                genre:
+ *                  type: string
+ *              
  *      responses:
- *        "200":
- *          description: A user schema
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/components/schemas/Book'
+ *          "200":
+ *              description: normal
+ */
+
+  
+/**
+ * @swagger
+ * path:
+ *  /book/delete:
+ *    delete:
+ *      summary: Given an ObjectId of a book, delete it and all objects associated with it.
+ *      tags: [Book]
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - _id
+ *              properties:
+ *                _id:
+ *                   type: string
+ * 
+ *      responses:
+ *          "200":
+ *              description: book is deleted
+ *          "500":
+ *              description: book isn't deleted, most likely because string couldn't be converted into objectId
+ */
+
+ /**
+ * @swagger
+ * path:
+ *  /book/deleteAll:
+ *    delete:
+ *      summary: The self destruct button from every T.v trope you've ever seen. (Deletes all books and chapters from database)
+ *      tags: [Book]
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ * 
+ *      responses:
+ *          "200":
+ *              description: all books are deleted
+ *         
  */
 
 

@@ -217,3 +217,222 @@ Router.route('/isUpvoted').get((req, res) =>
 });
 
 module.exports = Router;
+
+/**
+ * @swagger
+ * tags:
+ *   name: Chapter
+ *   description: All APIs relating to chapter management
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /chapter/getAll:
+ *    get:
+ *      summary: Get all chapters
+ *      tags: [Chapter]
+ *      requestBody:
+ *        required: false
+ *                         
+ * 
+ *      responses:
+ *        "200":
+ *          description: May god have mercy on your soul (again) if this doesn't return status 200
+ */
+
+ 
+/**
+ * @swagger
+ * path:
+ *  /chapter/getById:
+ *    get:
+ *      summary: Given an array of objectIds, return the documents tied to them.
+ *      tags: [Chapter]
+ *      parameters:
+ *       - in: query 
+ *         name: chapters
+ *         type: array
+ *         items:
+ *           type: string
+ *         description: chapter Ids to look for     
+ * 
+ *      responses:
+ *          "200":
+ *              description: normal
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /chapter/getByAuthor:
+ *    get:
+ *      summary: Given an author (can be multiple authors), return the chapters in which their name appears.
+ *      tags: [Chapter]
+ *      parameters:
+ *       - in: query 
+ *         name: author
+ *         type: array
+ *         items:
+ *           type: string
+ *         description: author field goes here    
+ * 
+ *      responses:
+ *          "200":
+ *              description: normal
+ */
+
+ 
+ /**
+ * @swagger
+ * path:
+ *  /chapter/addContender:
+ *    post:
+ *      summary: add a contender.
+ *      tags: [Chapter]
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - title
+ *                - text
+ *                - numberOfChapters
+ *                - chapterId
+ *              properties:
+ *                title:
+ *                  type: string
+ *                text:
+ *                  type: string
+ *                numberOfChapters:
+ *                  type: integer
+ *                chapterId:
+ *                  type: string
+ *              
+ *      responses:
+ *          "200":
+ *              description: normal
+ */
+
+ 
+/**
+ * @swagger
+ * path:
+ *  /chapter/delete:
+ *    delete:
+ *      summary: Given an ObjectId of a chapter/contender, delete it and all contenders associated with it.
+ *      tags: [Chapter]
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - chapter
+ *              properties:
+ *                chapter:
+ *                   type: string
+ * 
+ *      responses:
+ *          "200":
+ *              description: chapter/contender is deleted
+ *          "500":
+ *              description: chapter isn't deleted, most likely because string couldn't be converted into objectId
+ */
+
+ 
+/**
+ * @swagger
+ * path:
+ *  /chapter/upvoteInc:
+ *    post:
+ *      summary: Given an ObjectId of a chapter/contender, upvote it (warning, doesn't check to see if user has upvoted it already)
+ *      tags: [Chapter]
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - chapter
+ *                - userId
+ *              properties:
+ *                chapter:
+ *                   type: string
+ *                userId:
+ *                   type: string
+ * 
+ *      responses:
+ *          "200":
+ *              description: Contender is upvoted
+ */
+
+ 
+ 
+/**
+ * @swagger
+ * path:
+ *  /chapter/upvoteDec:
+ *    post:
+ *      summary: Given an ObjectId of a chapter/contender, decrement the upvote count by 1 (warning, doesn't check to see if user has taken upvote back from it already)
+ *      tags: [Chapter]
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - chapter
+ *                - userId
+ *              properties:
+ *                chapter:
+ *                   type: string
+ *                userId:
+ *                   type: string
+ * 
+ *      responses:
+ *          "200":
+ *              description: user has taken back their upvoted
+ */
+
+ /**
+ * @swagger
+ * path:
+ *  /chapter/upvoteCount:
+ *    get:
+ *      summary: Given an ObjectId of a chapter/contender, return the upvote count
+ *      tags: [Chapter]
+ *      parameters:
+ *        - in: query 
+ *          name: id
+ *          schema:
+ *             type: string
+ *          description: objectId of chapter goes here 
+ * 
+ *      responses:
+ *          "200":
+ */
+
+ /**
+ * @swagger
+ * path:
+ *  /chapter/isUpvoted:
+ *    get:
+ *      summary: Given an ObjectId of a chapter/contender and a user, see if that user has already upvoted it.
+ *      tags: [Chapter]
+ *      parameters:
+ *        - in: query 
+ *          name: chapterId
+ *          schema:
+ *           type: string
+ *           description: objectId of chapter goes here 
+ *        - in: query
+ *          name: userId
+ *          schema:
+ *           type: string
+ *           description: objectId of user goes here
+ * 
+ *      responses:
+ *          "200":
+ */

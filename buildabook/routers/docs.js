@@ -33,7 +33,7 @@ const options = {
         }
       ]
     },
-    apis: ["./models/book.model.js", "./models/chapter.model.js", "./routers/bookAPI.js"]
+    apis: ["./models/book.model.js", "./models/chapter.model.js", "./routers/bookAPI.js", "./routers/chapterAPI.js"]
   };
   const specs = swaggerJsdoc(options);
   Router.use("/", swaggerUi.serve);

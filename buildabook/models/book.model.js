@@ -117,7 +117,7 @@ const bookSchema = new Schema({
  *            type: integer
  *            description: Duration that chapter contests are opened and closed. Any value other than 2 will make duration 24 hours
  *        example:
- *           title: Plot twist No. 44 - The 
+ *           title: Plot twist No. 44 - Garden Syntax 
  *           writingPrompt: After a long day of phone calls, segmentation faults, and conferences that should've been emails, Tim unlocks the door to his home only to discover...
  *           image: https://vignette.wikia.nocookie.net/surrealmemes/images/f/ff/Noggin.png/revision/latest/scale-to-width-down/340?cb=20190114192842
  *           genre: Horror
