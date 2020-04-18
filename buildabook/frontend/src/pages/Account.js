@@ -8,6 +8,7 @@ import userData from '../placeholder data/user'
 import { Icon, Segment, Table } from 'semantic-ui-react'
 import ContributionsTable from '../components/ContributionsTable'
 import UpdateBio from '../components/updateBio'
+import ChangePassword from '../components/changePassword'
 import cookie from 'js-cookie'
 var loggedIn = cookie.get('token')
 
@@ -53,6 +54,7 @@ if(loggedIn){
         <img class="ui centered medium circular image"  src={user.profilePic}></img>
 <td>
 <UpdateBio />
+<ChangePassword />
                 
 </td>
 
