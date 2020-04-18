@@ -70,7 +70,8 @@ Router.route('/getByAuthor').get((req, res) =>
             numberOfChapters,
             duration,
             authorArray,
-            genre
+            genre,
+            expirationDate: null
         })
 
         if(title == ""|| writingPrompt  == "" || numberOfChapters  == "") {
