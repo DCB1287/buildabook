@@ -1,10 +1,10 @@
 import React from 'react'
 import { Form, Button, Message } from 'semantic-ui-react'
 import axios from 'axios'
+import userData from '../placeholder data/user'
 
 const INITIAL_FORM_VALUES = {
-    email: "",
-    code: "",
+    verificationCode: "",
 }
 
 function PasswordValidationForm() {
@@ -23,8 +23,9 @@ function PasswordValidationForm() {
             setDisabled(true)
             setError(false)
             setSuccess(false)
-            const payload = {...validate}
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/`, payload)
+            const payload = {...formValues}
+            console.log(payload)
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/verifyUser`, payload)
             setMessage(response.message)
             setSuccess(true)
             setFormValues(INITIAL_FORM_VALUES)
@@ -38,9 +39,9 @@ function PasswordValidationForm() {
     }
 
     function handleValidationFormChange(event) {
-        const { value } = event.target;
-        setValidate(prevState => ({ ...prevState,  value }));
-    }
+        const { name, value } = event.target
+        setFormValues(prevState => ({...prevState, [name]: value }) ) 
+      }
 
     return (
         <>
@@ -64,7 +65,8 @@ function PasswordValidationForm() {
                     iconposition='left'
                     label='Validate'
                     placeholder='Enter code here'
-                    value={validate}
+                    name='verificationCode'
+                    value={formValues.verificationCode}
                     onChange={handleValidationFormChange}
                 />
                 <Button 

@@ -25,8 +25,9 @@ function SetPasswordForm() {
             setError(false)
             setSuccess(false)
             const payload = {...user}
+            console.log(payload)
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/changePassword`, payload)
-            setMessage(response.message)
+            setMessage(response.data.message)
             setUser(INITIAL_USER)
         } catch (error){
             setError(true)
@@ -55,10 +56,10 @@ function SetPasswordForm() {
             padded
             fluid 
             onSubmit={handleSubmit} 
-            disabled={Boolean(disabled)} 
-            loading={Boolean(loading)} 
-            success={Boolean(success)} 
-            error={Boolean(error)}
+            disabled={disabled} 
+            loading={loading} 
+            success={success} 
+            error={error}
             widths={5}
         >
         <Message error content={message} />
@@ -68,6 +69,7 @@ function SetPasswordForm() {
                 iconposition='left'
                 label='Email'
                 placeholder="Email"
+                name='email'
                 value={user.email}
                 onChange={handleFormChange}
             />
@@ -77,15 +79,17 @@ function SetPasswordForm() {
                 label='Password'
                 type="password"
                 placeholder="Password"
+                name='password'
                 value={user.password}
                 onChange={handleFormChange}
             />
             <Form.Input 
                 icon="lock"
                 iconposition='left'
-                label='Password'
+                label='Retype your Password'
                 type="password"
                 placeholder="Retype your password"
+                name='matchPassword'
                 value={user.matchPassword}
                 onChange={handleFormChange}
             />
