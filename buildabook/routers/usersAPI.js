@@ -19,8 +19,10 @@ Router.route('/').get((req, res) => {
 });
 
 //Get user data based on username, leaving out the hashed password.
-Router.route('/getByUsername').get((req, res) => {
-  User.findOne({"username" : req.query.username})
+Router.route('/getByUserEmail').post((req, res) => {
+  console.log("in get by user email")
+  console.log("inside user email api"+req.body.email)
+  User.findOne({"email" : req.body.email})
       .select('-password')
       .then(user => res.json(user))
 });

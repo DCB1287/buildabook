@@ -12,21 +12,35 @@ import ChangePassword from '../components/changePassword'
 import cookie from 'js-cookie'
 var loggedIn = cookie.get('token')
 
+const INITIAL_USER = {
+    username: "",
+    email: JSON.parse(loggedIn).user.email
+}
+
 
 
 function Account(props) {
     const match = useRouteMatch()
     const [books, setBooks] = React.useState([]);
-    const [user, setUsers] = useState([])
+    const [user, setUser] = useState(INITIAL_USER)
     const [loading, setLoading] = React.useState(true)
-
-   
 
     useEffect(() => {
        
         //Get Book data
         const fetchUser = async () => {
-            setUsers(userData[0])
+        try {
+            setLoading(true)
+            const payload = {...user}
+            console.log(payload)
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/getByUserEmail`, payload)
+            console.log(response.data)
+            setUser(response.data)
+        } catch (error){
+            console.log("bad")
+        } finally {
+            console.log("finally")
+        }
          
         }
         fetchUser();
