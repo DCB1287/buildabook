@@ -11,7 +11,7 @@ const INITIAL_USER = {
 //This will give the user a token we can track and navigate to the contacts page
 function handleLogin(token) {
   cookie.set("token", token);
-  window.location.href = '/contacts'
+  window.location.href = '/books'
 }
 
 

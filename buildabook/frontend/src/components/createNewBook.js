@@ -69,8 +69,8 @@ function CreateNewBook() {
     //Handles the change for the input fields
     function handleInputChange(event) {
         const { name, value, files } = event.target;
-        if (name === "media") {
-            setBook(prevState => ({ ...prevState, media: files[0] }));
+        if (name === "image") {
+            setBook(prevState => ({ ...prevState, image: files[0] }));
             setMediaPreview(window.URL.createObjectURL(files[0]));
         } else {
             setBook(prevState => ({ ...prevState, [name]: value }));
@@ -85,23 +85,24 @@ function CreateNewBook() {
 
 
     //Get Cloudinary Url
-    async function handleImageUpload(media) {
-        setLoading(true)
+    async function handleImageUpload() {
+        console.log(book.image)
         const data = new FormData();
-        data.append("file", media);
+        data.append("file", book.image);
         data.append("upload_preset", "buildabook");
-        data.append("api_key", "915379326722133");
-        console.log(book.media)
+        data.append("cloud_name", "ddspck9tx")
+        
         const response = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, data);
         const mediaUrl = response.data.url;
+        console.log(response.data.url)
         return mediaUrl;
       }
 
     async function handleSubmit(event) {
+        event.preventDefault()
         const author = JSON.parse(cookie.get('token')).user.username
-        console.log(author)
-        try {
-            event.preventDefault()
+        console.log(book)
+        try {    
             setLoading(true)
             setDisabled(true)
             setError(false)
@@ -109,7 +110,7 @@ function CreateNewBook() {
             //Upload the image to cloudinary or if one does not exist, use default book picture
             let image;
             if (book.image) {
-                image = await handleImageUpload(book.image)
+                image = await handleImageUpload()
             } else {
                 image = "https://png.pngtree.com/png-vector/20190307/ourlarge/pngtree-vector-open-book-icon-png-image_782619.jpg"
             }
@@ -122,7 +123,7 @@ function CreateNewBook() {
 
             //Set Messages and reset the book state
             setSuccess(true)
-            setMessage(response.data.message)
+            //setMessage(response.data.message)
             setBook(INITIAL_BOOK)
         } catch(error) {
             setError(true)
@@ -157,8 +158,8 @@ function CreateNewBook() {
                     />
                     <br />
                         <Form error={Boolean(error)} success={Boolean(success)} loading={loading} onSubmit={handleSubmit} disabled={loading}>
-                            <Message success header="Success:" content={message} />
-                            <Message error header="Oops!" content={message} />
+                            <Message success header="Success:" content="Your Book Has Been Posted" />
+                            <Message error header="Oops!" content="Your Book Has Not Been Posted.  Please try again later." />
                             
                             <Form.Group>
                                 <Form.Field

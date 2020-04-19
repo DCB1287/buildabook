@@ -24,11 +24,12 @@ function Books() {
 
     return (
         <>
-        <p>This is the Books page.</p>
-        <Segment raised loading={loading}>
-            <CreateNewBook />
+        
+        <Segment raised padded loading={loading}>
+            
             <BooksTable books = {books}/>
         </Segment>
+        <CreateNewBook />
         </>
     )
 }
