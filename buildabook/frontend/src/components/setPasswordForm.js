@@ -4,15 +4,13 @@ import axios from 'axios'
 
 const INITIAL_USER = {
     email: "",
-    password: "",
-    matchPassword: ""
 }
 
 function SetPasswordForm() {
     const [user, setUser] = React.useState(INITIAL_USER)
     const [disabled, setDisabled] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
-    const [message, setMessage] = React.useState(false)
+    const [message, setMessage] = React.useState("")
     const [error, setError] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
 
@@ -27,11 +25,10 @@ function SetPasswordForm() {
             const payload = {...user}
             console.log(payload)
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/changePassword`, payload)
-            setMessage(response.data.message)
-            setUser(INITIAL_USER)
+            setMessage("Success: Check your email!")
         } catch (error){
             setError(true)
-            setMessage(error)
+            setMessage("Something went wrong. Try again Later")
         } finally {
             setLoading(false)
             setDisabled(false)
@@ -49,7 +46,7 @@ function SetPasswordForm() {
         <Message    
             attached
             icon="book"
-            header="Set Your Password"
+            header="Forgot Your Password?  We'll Send You an Email"
             color='green'  
         />
         <Form 
@@ -71,26 +68,6 @@ function SetPasswordForm() {
                 placeholder="Email"
                 name='email'
                 value={user.email}
-                onChange={handleFormChange}
-            />
-            <Form.Input 
-                icon="lock"
-                iconposition='left'
-                label='Password'
-                type="password"
-                placeholder="Password"
-                name='password'
-                value={user.password}
-                onChange={handleFormChange}
-            />
-            <Form.Input 
-                icon="lock"
-                iconposition='left'
-                label='Retype your Password'
-                type="password"
-                placeholder="Retype your password"
-                name='matchPassword'
-                value={user.matchPassword}
                 onChange={handleFormChange}
             />
             <Button 

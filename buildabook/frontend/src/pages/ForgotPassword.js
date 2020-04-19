@@ -1,7 +1,6 @@
 import React from 'react'
-import { Segment, Grid, Divider } from 'semantic-ui-react'
+import { Segment, Grid, Container } from 'semantic-ui-react'
 import SetPasswordForm from '../components/setPasswordForm'
-import PasswordValidationForm from '../components/passwordValidationForm'
 
 
 function ForgotPassword() {
@@ -14,17 +13,15 @@ function ForgotPassword() {
 
     return (
         <>
-            <Segment placeholder padding>
-                <Grid columns={2} >
+        <Container>
+            <Segment padding>
                     <Grid.Column floated='right'>
                         <SetPasswordForm />
                     </Grid.Column>
-                    <Grid.Column >
-                        <PasswordValidationForm />
-                    </Grid.Column>
-                </Grid>
-                <Divider vertical>Or</Divider>
+                
+                
             </Segment>
+        </Container>
         </>
     )
 }
