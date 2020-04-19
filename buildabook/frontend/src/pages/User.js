@@ -11,31 +11,29 @@ import ContributionsTable from '../components/ContributionsTable'
 
 
 function User() {
-    const match = useRouteMatch()
+    const match = useRouteMatch().params._id
     const [books, setBooks] = React.useState([]);
     const [user, setUsers] = useState([])
     const [loading, setLoading] = React.useState(true)
    
    
-   
-
+   console.log(useRouteMatch().params._id)
 
     useEffect(() => {
        
         //Get Book data
         const fetchUser = async () => {
-            setUsers(userData[0])
-         
+          try{
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/getByUsername?username=${match}`)
+            console.log(response.data)
+            setUsers(response.data)
+          } catch (e) {
+            console.error(e)
+          }
         }
         fetchUser();
-    },[user])
+    },[])
 
-
-//Placeholder get data
-if (loading) {
-  setBooks(bookData)
-  setLoading(false)
-}
 
 
    
@@ -50,7 +48,7 @@ if (loading) {
 
         </h4>
        
-        <img class="ui centered medium circular image"  src={user.profilePic}></img>
+        <img class="ui centered medium circular image"  ></img>
 
         <Segment>
         <Grid>
