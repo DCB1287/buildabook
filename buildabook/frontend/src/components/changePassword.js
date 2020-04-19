@@ -47,13 +47,13 @@ function ChangePassword(props) {
                 const payload = { password, newPassword, userId}
                 console.log(payload)
                 const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/changePassword`, payload)
-                
                 setMessage(response.data.message)
                 setUser(INITIAL_USER)
             }
             } catch (error){
             setError(true)
         } finally {
+            closeModal()
             setLoading(false)
             setDisabled(false)
         }

@@ -213,5 +213,37 @@ Router.route('/verifyUser').post((req, res,next) => {
 
 });
 
+Router.route('/changePassword').post((req, res,next) => {
+
+  console.log("User id is "+req.body.userId)
+
+  console.log("User password"+req.body.newPassword)
+
+  let newUserPassword = req.body.newPassword
+
+  let newHashedPassword
+
+  let query = User.findOne({"_id":req.body.userId})
+
+  query.exec((err,target) => {
+    if(target == null)
+      next(err) 
+  
+    else{
+
+       bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUserPassword, salt, (err, hash) => {
+          if(err) throw err;
+            newUserPassword = hash;
+             User.updateOne({"_id":req.body.userId},{"password":hash})
+              .then(user => res.json(user))
+
+            });
+        })
+    }
+  })
+
+});
+
 
 module.exports = Router;
