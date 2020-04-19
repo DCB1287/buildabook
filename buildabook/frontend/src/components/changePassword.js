@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import userData from '../placeholder data/user'
-import { Header, Form, Button, Modal, Segment } from 'semantic-ui-react'
+import { Header, Form, Button, Modal, Segment, Message } from 'semantic-ui-react'
 import axios from 'axios'
+import cookie from 'js-cookie'
 
 function ChangePassword(props) {
 
     const INITIAL_USER = {
+        email: "",
         password: "",
+        newPassword: "",
         matchPassword: ""
     }
 
@@ -17,22 +20,39 @@ function ChangePassword(props) {
     const [message, setMessage] = React.useState(false)
     const [error, setError] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
-    const [modalOpen, handleOpen] = React.useState(false)
+    const [modalOpen, setModalOpen] = React.useState(false)
+
+    React.useEffect(() => {
+        if (Boolean(success)) {
+            const timer = setTimeout(() => { setModalOpen(false) }, 2000);
+            return () => clearTimeout(timer);
+        }
+      }, [success]);
 
     async function handleSubmit(event) {
         event.preventDefault()
+        console.log(user)
         try {
-            setLoading(true)
-            setDisabled(true)
-            setError(false)
-            setSuccess(false)
-            const payload = {...user}
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/changePassword`, payload)
-            setMessage(response.message)
-            setUser(INITIAL_USER)
-        } catch (error){
+            if (user.newPassword != user.matchPassword) {
+                setMessage("Your passwords do not match")
+                console.log("@#$@#")
+            } else {
+                setLoading(true)
+                setDisabled(true)
+                setError(false)
+                setSuccess(false)
+                let token = cookie.get('token')
+                const userId = JSON.parse(token).user.id
+                const { password, newPassword } = user
+                const payload = { password, newPassword, userId}
+                console.log(payload)
+                const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/changePassword`, payload)
+                
+                setMessage(response.data.message)
+                setUser(INITIAL_USER)
+            }
+            } catch (error){
             setError(true)
-            setMessage(error)
         } finally {
             setLoading(false)
             setDisabled(false)
@@ -47,48 +67,51 @@ function ChangePassword(props) {
     //Handles opening and closing the modal.  
     //When the form is canceled, the state of contact is reset
     function closeModal() {
-        handleOpen(!modalOpen)
+        setModalOpen(!modalOpen)
         setUser(INITIAL_USER)
      }
 
         return (
-            <>          
-            <td>
+            <>     
+            <td>     
                 <Modal     
                 trigger={<Button color='green'  floated="left" onClick={closeModal} >Change Password </Button>}    
-                open={modalOpen}  
-                         
-            >
+                open={modalOpen}           
+                >
                 <Segment>
                     <Header>Change Password</Header>
-                     <Form error={Boolean(error)} loading={loading} onSubmit={closeModal}>
+                    <Form error={Boolean(error)} success={Boolean(success)} loading={loading} onSubmit={handleSubmit} disabled={loading}>
+                        <Message success content="Your password has been changed" />
+                        <Message error content={message} />
+                        <Form.Input 
+                            icon="lock"
+                            iconposition='left'
+                            label='Enter Your Existing Password'
+                            type="password"
+                            name='password'
+                            placeholder="Enter Your Existing Password"
+                            onChange={handleFormChange}
+                        />
 
-                     <Form.Input 
-                icon="lock"
-                iconposition='left'
-                label='Enter Your Existing Password'
-                type="password"
-                placeholder="Enter Your Existing Password"
-                onChange={handleFormChange}
-            />
 
-
-                <Form.Input 
-                icon="lock"
-                iconposition='left'
-                label='Enter New Password'
-                type="password"
-                placeholder="Enter New Password"
-                onChange={handleFormChange}
-            />
-            <Form.Input 
-                icon="lock"
-                iconposition='left'
-                label='Re-type New Password'
-                type="password"
-                placeholder="Re-type New Password"  
-                onChange={handleFormChange}
-            />
+                        <Form.Input 
+                            icon="lock"
+                            iconposition='left'
+                            label='Enter New Password'
+                            type="password"
+                            name='newPassword'
+                            placeholder="Enter New Password"
+                            onChange={handleFormChange}
+                        />
+                        <Form.Input 
+                            icon="lock"
+                            iconposition='left'
+                            label='Re-type New Password'
+                            type="password"
+                            name='matchPassword'
+                            placeholder="Re-type New Password"  
+                            onChange={handleFormChange}
+                        />
 
                         <Button
                             disabled={loading}
@@ -108,11 +131,11 @@ function ChangePassword(props) {
                             onClick={closeModal}
                         />
                     </Form>
-                </Segment>
-                </Modal>
-                </td>
+                    </Segment>
+                    </Modal>
+                
 
-               
+            </td>
             </>
 
         )
