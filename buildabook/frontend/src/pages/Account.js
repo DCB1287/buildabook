@@ -24,7 +24,7 @@ function Account(props) {
     const [books, setBooks] = React.useState([]);
     const [user, setUser] = useState(INITIAL_USER)
     const [loading, setLoading] = React.useState(true)
-    const [email] = React.useState(JSON.parse(loggedIn).user.email)
+    const [email] = React.useState({email: JSON.parse(loggedIn).user.email})
 
     useEffect(() => {
        
@@ -32,8 +32,8 @@ function Account(props) {
         const fetchUser = async () => {
         try {
             setLoading(true)
-            const payload = {...user}
-            console.log(payload)
+            const payload = email
+            console.log(email)
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/getByUserEmail`, payload)
             console.log(response.data)
             setUser(response.data)
@@ -45,7 +45,7 @@ function Account(props) {
          
         }
         fetchUser();
-    },[user])
+    },[])
 
 
 //Placeholder get data
