@@ -152,7 +152,7 @@ function Book() {
             <Divider horizontal>
                 <Header as='h3'>
                     <Icon name='pencil' />
-                    Contenders for Chapter {chapters.length}
+                    Contenders for the Current Chapter 
                 </Header>
             </Divider>
 

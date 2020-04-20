@@ -125,6 +125,14 @@ function CreateNewBook() {
             setSuccess(true)
             //setMessage(response.data.message)
             setBook(INITIAL_BOOK)
+            //Move to appropriate book page
+            try {
+                const response2 = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/book/getByTitle?title=${title}`)
+                console.log(response2.data._id)
+                window.location.href = `/books/${response2.data._id}`
+            } catch (e) {
+                console.error(e)
+            }
         } catch(error) {
             setError(true)
             setMessage(error)

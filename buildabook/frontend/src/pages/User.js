@@ -29,6 +29,7 @@ function User() {
             setUsers(response.data)
           } catch (e) {
             console.error(e)
+            window.location.href = "/"
           }
         }
         fetchUser();

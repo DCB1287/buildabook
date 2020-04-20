@@ -25,6 +25,18 @@ Router.route('/getById').get((req, res) =>
     });
 });
 
+// Get by title
+Router.route('/getByTitle').get((req, res) => 
+{
+    const title = req.query.title;
+    if (!title) {
+        return res.status(404).json("Title missing")
+    }
+    Book.findOne({ title })
+        .then(book => { res.status(200).json(book)})
+        .catch(err => { res.status(400).json("Book not found:" + err) })
+})
+
 // Get books by Author
 Router.route('/getByAuthor').get((req, res) =>
 {
