@@ -171,7 +171,7 @@ function Book() {
             <CreateNewChapter chapters={chapters}/>
             <br /><br /><br />
             {Boolean(chapters.length > 0) ?
-                <PastContenderTabs pastContendersPanes={contendersPane}/>
+                <PastContenderTabs pastContendersPanes={contendersPane} inactive={true}/>
                 :
                 <p></p>
             }
