@@ -49,17 +49,9 @@ function User() {
 
         </h4>
        
-        <img class="ui centered medium circular image"  ></img>
+        <img class="ui centered medium circular image" src = {user.profilePic} ></img>
 
-        <Segment>
-        <Grid>
-        <Grid.Column textAlign="center">
-        <button class="ui primary button">
-        Follow
-        </button>
-        </Grid.Column>
-        </Grid>
-        </Segment>
+        
 
      <Table celled striped>
        
@@ -74,7 +66,7 @@ function User() {
         <Table.Cell collapsing>
           <Icon name='calendar icon' /> Member Since
         </Table.Cell>
-        <Table.Cell></Table.Cell>
+        <Table.Cell>{user.dateCreated}</Table.Cell>
        
       </Table.Row>
       <Table.Row>
@@ -134,10 +126,7 @@ function User() {
       </>
 
       <p></p>
-      <h4 class="ui horizontal divider header">
-        <i class="comments icon"></i>
- Comments
-</h4>
+      
            
         </>
     )  
