@@ -14,7 +14,7 @@ var loggedIn = cookie.get('token')
 
 const INITIAL_USER = {
     username: "",
-    email: JSON.parse(loggedIn).user.email
+    email: ""
 }
 
 
@@ -24,6 +24,7 @@ function Account(props) {
     const [books, setBooks] = React.useState([]);
     const [user, setUser] = useState(INITIAL_USER)
     const [loading, setLoading] = React.useState(true)
+    const [email] = React.useState(JSON.parse(loggedIn).user.email)
 
     useEffect(() => {
        
