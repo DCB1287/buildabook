@@ -50,7 +50,7 @@ function Account(props) {
 
 //Placeholder get data
 if (loading) {
-  setBooks(bookData)
+  
   setLoading(false)
 }
 

@@ -14,7 +14,7 @@ function User() {
     const match = useRouteMatch().params._id
     const [books, setBooks] = React.useState([]);
     const [user, setUsers] = useState([])
-    const [loading, setLoading] = React.useState(true)
+    const [loading, setLoading] = React.useState(false)
    
    
    console.log(useRouteMatch().params._id)
