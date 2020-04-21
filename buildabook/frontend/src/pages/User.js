@@ -117,7 +117,6 @@ function User() {
   Contributions
  
 </h4>
-<h4>This is currently just pulling every book, need to edit to make it display particular users contributions</h4>
       <>
         <Segment raised loading={loading}>
 
