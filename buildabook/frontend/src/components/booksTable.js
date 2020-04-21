@@ -51,6 +51,7 @@ function BooksTable(props) {
 
     function handleBooksPerPageChange(e, {value}) {
         setBooksPerPage(value)
+        setActivePage(1)
     }
     function handleTimeLeft(date) {
         const now = new Date();
@@ -149,8 +150,8 @@ function BooksTable(props) {
                         Writing Prompt
                     </Table.HeaderCell>
                     <Table.HeaderCell
-                        sorted={column === 'inProgress' ? direction : null}
-                        onClick={() => handleSort('inProgress')}
+                        sorted={column === 'inProgressFlag' ? direction : null}
+                        onClick={() => handleSort('inProgressFlag')}
                         textAlign='right'
                         width={1}
                     >
@@ -158,15 +159,15 @@ function BooksTable(props) {
                     </Table.HeaderCell>
                     <Table.HeaderCell 
                         width={1}
-                        sorted={column === 'experationDate' ? direction : null}
-                        onClick={() => handleSort('experationDate')}
+                        sorted={column === 'expirationDate' ? direction : null}
+                        onClick={() => handleSort('expirationDate')}
                     >
                         Time Left
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ _id, image, title, authorArray, genre, writingPrompt, inProgress, experationDate }) => (
+                {_.map(data.slice(indexOfFirstBook, indexOfLastBook), ({ _id, image, title, authorArray, genre, writingPrompt, inProgressFlag, expirationDate }) => (
                     <Table.Row key={title}>
                         <Table.Cell>
                             <Image src={image} size='tiny' centered />
@@ -186,9 +187,9 @@ function BooksTable(props) {
                         </Table.Cell>
                         <Table.Cell>{genre}</Table.Cell>
                         <Table.Cell>{writingPrompt}</Table.Cell>
-                        <Table.Cell textAlign='right'>{inProgress ? 'Yes' : 'No'}</Table.Cell>
+                        <Table.Cell textAlign='right'>{inProgressFlag ? 'Yes' : 'No'}</Table.Cell>
                         <Table.Cell textAlign='center'>
-                            {((experationDate - now) < 0) ? '-' :  handleTimeLeft(experationDate)}
+                            {((expirationDate - now) < 0) ? '-' :  handleTimeLeft(expirationDate)}
                         </Table.Cell>
                     </Table.Row>
                 ))}
