@@ -24,7 +24,7 @@ function SetPasswordForm() {
             setSuccess(false)
             const payload = {...user}
             console.log(payload)
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/changePassword`, payload)
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/forgotPassword`, payload)
             setMessage("Success: Check your email!")
         } catch (error){
             setError(true)

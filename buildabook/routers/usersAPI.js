@@ -224,11 +224,65 @@ Router.route('/verifyUser').post((req, res,next) => {
 
 });
 
+Router.route('/forgotPassword').post((req, res,next) => {
+
+  let query = User.findOne({email:req.body.email})
+
+  let userEmail = req.body.email
+
+  let tempPassword = ''
+
+  const randomVerificationString = randomStr.random(20)
+
+  console.log('in random password')
+
+  console.log(randomVerificationString)
+
+     bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(randomVerificationString, salt, (err, hash) => {
+          if(err) throw err;
+            tempPassword = hash
+  
+  query.exec((err,target) => {
+    if(target == null)
+      next(err) 
+    else{
+      User.updateOne({"email":req.body.email},{"password":tempPassword})
+      .then(user => res.json(user))
+    }
+  })
+
+    let transport = nodemailer.createTransport({
+      service: 'gmail',
+      auth:{
+        user: 'buildabookserviceteam@gmail.com',
+        pass: 'PooP1212'
+        }
+    });
+
+    const message = {
+      from: 'User_Verification@Buildabook.com',
+      to: userEmail,
+      subject: 'Verification',
+      text: 'Your temporary password is: '+ randomVerificationString
+  };
+
+  transport.sendMail(message,function(err, info){
+    if(err){
+      console.log(err)
+    }
+    else{
+      console.log(info);
+    }
+  });
+
+       })
+      })
+
+
+});
+
 Router.route('/changePassword').post((req, res,next) => {
-
-  console.log("User id is "+req.body.userId)
-
-  console.log("User password"+req.body.newPassword)
 
   let newUserPassword = req.body.newPassword
 
