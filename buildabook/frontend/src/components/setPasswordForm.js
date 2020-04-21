@@ -6,6 +6,11 @@ const INITIAL_USER = {
     email: "",
 }
 
+function handleLogin() {
+  window.location.href = '/Login'
+}
+
+
 function SetPasswordForm() {
     const [user, setUser] = React.useState(INITIAL_USER)
     const [disabled, setDisabled] = React.useState(false)
@@ -26,6 +31,7 @@ function SetPasswordForm() {
             console.log(payload)
             const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/forgotPassword`, payload)
             setMessage("Success: Check your email!")
+            handleLogin()
         } catch (error){
             setError(true)
             setMessage("Something went wrong. Try again Later")
