@@ -86,7 +86,7 @@ if(loggedIn){
         <Table.Cell collapsing>
           <Icon name='calendar icon' /> Member Since
         </Table.Cell>
-        <Table.Cell></Table.Cell>
+        <Table.Cell>{user.dateCreated}</Table.Cell>
        
       </Table.Row>
       <Table.Row>
