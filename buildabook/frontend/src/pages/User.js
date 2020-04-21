@@ -49,7 +49,7 @@ function User() {
 
         </h4>
        
-        <img class="ui centered medium circular image" src = {user.profilePic} ></img>
+        <img class="ui centered small circular image"  src= "https://www.pngkey.com/png/detail/115-1150152_default-profile-picture-avatar-png-green.png"></img>
 
         
 
