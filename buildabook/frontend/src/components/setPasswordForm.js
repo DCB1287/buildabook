@@ -34,7 +34,7 @@ function SetPasswordForm() {
             handleLogin()
         } catch (error){
             setError(true)
-            setMessage("Something went wrong. Try again Later")
+            setMessage("Invalid Email Address")
         } finally {
             setLoading(false)
             setDisabled(false)
