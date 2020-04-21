@@ -252,8 +252,9 @@ module.exports = Router;
  *      parameters:
  *       - in: query 
  *         name: chapters
- *         type: array
- *         items:
+ *         schema:
+ *          type: array
+ *          items:
  *           type: string
  *         description: chapter Ids to look for     
  * 
@@ -272,8 +273,9 @@ module.exports = Router;
  *      parameters:
  *       - in: query 
  *         name: author
- *         type: array
- *         items:
+ *         schema:
+ *          type: array
+ *          items:
  *           type: string
  *         description: author field goes here    
  * 
@@ -298,15 +300,15 @@ module.exports = Router;
  *              required:
  *                - title
  *                - text
- *                - numberOfChapters
+ *                - author
  *                - chapterId
  *              properties:
  *                title:
  *                  type: string
  *                text:
  *                  type: string
- *                numberOfChapters:
- *                  type: integer
+ *                author:
+ *                  type: string
  *                chapterId:
  *                  type: string
  *              

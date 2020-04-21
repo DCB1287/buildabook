@@ -239,8 +239,9 @@ Router.route('/deleteAll').delete((req, res) => {
  *      parameters:
  *       - in: query 
  *         name: books
- *         type: array
- *         items:
+ *         schema:
+ *          type: array
+ *          items:
  *           type: string
  *         description: book Ids to look for     
  * 
@@ -259,8 +260,7 @@ Router.route('/deleteAll').delete((req, res) => {
  *      parameters:
  *       - in: query 
  *         name: authors
- *         type: array
- *         items:
+ *         schema:
  *           type: string
  *         description: author field goes here    
  * 

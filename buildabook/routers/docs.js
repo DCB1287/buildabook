@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var schedule = require('node-schedule');
 let Book = require('../models/book.model');
 let Chapter = require('../models/chapter.model')
+let User = require('../models/user.model')
 
 // Swagger
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -29,7 +30,7 @@ const options = {
         }
       ]
     },
-    apis: ["./models/book.model.js", "./models/chapter.model.js", "./routers/bookAPI.js", "./routers/chapterAPI.js"]
+    apis: ["./models/book.model.js", "./models/chapter.model.js", "./routers/bookAPI.js", "./routers/chapterAPI.js", "./routers/usersAPI.js", "./models/user.model.js"]
   };
   const specs = swaggerJsdoc(options);
   Router.use("/", swaggerUi.serve);

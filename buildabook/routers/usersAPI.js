@@ -257,4 +257,185 @@ Router.route('/changePassword').post((req, res,next) => {
 });
 
 
+/**
+ * @swagger
+ * tags:
+ *   name: User
+ *   description: All APIs relating to User management
+ */
+
+ 
+/**
+ * @swagger
+ * path:
+ *  /user/getByUserEmail:
+ *    post:
+ *      summary: Get user based on Email address
+ *      tags: [User]
+ *      requestBody:
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *              properties:
+ *                email:
+ *                  type: string
+ *                         
+ * 
+ *      responses:
+ *        "200":
+ *          description: May god have mercy on your soul if this doesn't return status 200
+ */
+
+
+/**
+ * @swagger
+ * path:
+ *  /user/getByUsername:
+ *    post:
+ *      summary: Get user based on Username
+ *      tags: [User]
+ *      parameters:
+ *       - in: query 
+ *         name: username
+ * 
+ *      responses:
+ *        "200":
+ *          description: Should return a JSON containing a user
+ */
+
+
+/**
+ * @swagger
+ * path:
+ *  /user/login:
+ *    post:
+ *      summary: Get user based on Username
+ *      tags: [User]
+ *      requestBody:
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *                - password
+ *              properties:
+ *                email:
+ *                  type: string
+ *                password:
+ *                  type: string
+ * 
+ *      responses:
+ *        "200":
+ *          description: Should return message and a cookie
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /user/add:
+ *    post:
+ *      summary: Add a user
+ *      tags: [User]
+ *      requestBody:
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *                - password
+ *                - username
+ *              properties:
+ *                email:
+ *                  type: string
+ *                password:
+ *                  type: string
+ *                username:
+ *                  type: string
+ * 
+ *      responses:
+ *        "200":
+ *          description: Should return message and a cookie
+ */
+
+
+/**
+ * @swagger
+ * path:
+ *  /user/resend:
+ *    post:
+ *      summary: Resend an email
+ *      tags: [User]
+ *      requestBody:
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *              properties:
+ *                email:
+ *                  type: string
+ * 
+ *      responses:
+ *        "200":
+ *          description: Rsends a verification link
+ */
+
+
+/**
+ * @swagger
+ * path:
+ *  /user/verifyUser:
+ *    post:
+ *      summary: Given a verification string sent in an email, make a user verified.
+ *      tags: [User]
+ *      requestBody:
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - verificationCode
+ *              properties:
+ *                verificationCode:
+ *                  type: string
+ *      responses:
+ *        "200":
+ *          description: Verifies user
+ */
+
+
+/**
+ * @swagger
+ * path:
+ *  /user/changePassword:
+ *    post:
+ *      summary: Change a password
+ *      tags: [User]
+ *      requestBody:
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - userId
+ *                - newPassword
+ *              properties:
+ *                userId:
+ *                  type: string
+ *                newPassword:
+ *                  type: string
+ *      responses:
+ *        "200":
+ *          description: new password should now be set.
+ */
+
+
+
+
 module.exports = Router;
