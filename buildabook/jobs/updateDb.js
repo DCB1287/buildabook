@@ -45,11 +45,12 @@ module.exports =
             query22.exec((err, contenders) => 
             {
               // this technically doens't execute if there are no contenders.
+              
+              var max = 0;
               contenders.forEach((contender) => {
                 console.log("found contender " + contender.id + " determining if pushed to chapter")
                 // for each contender, we compare it to max. If upvotes of contender is larger than max, it becomes the new winner of chapter.
                 // (kinda like bubble sort)
-                var max = 0;
                 if (contender.upvoteCount >= max)
                 {
                   // query to add contender's contents to main chapter. 
